@@ -1,6 +1,6 @@
 # 🧮 Calculator
 
-Android calculator app built with Kotlin & Jetpack Compose.
+Android calculator app built with Kotlin & XML.
 
 ## ✅ What's Working
 | Feature | Status |
