@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 
 class KalkulatorScreen : AppCompatActivity() {
 
@@ -39,9 +40,27 @@ class KalkulatorScreen : AppCompatActivity() {
         }
 
 //        for kurs, weight and settings
-
+        view.findViewById<Button>(R.id.btn_settings).setOnClickListener {
+            // Tukar tampilan MainActivity menjadi SettingsScreen
+            val screen = SettingsScreen(this). render()
+            this.setContentView(screen)
+        }
+        view.findViewById<Button>(R.id.btn_kurs).setOnClickListener {
+            Snackbar.make(
+                view,
+                "This Feature Will Avaible Soon",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+        view.findViewById<Button>(R.id.btn_weight).setOnClickListener {
+            Snackbar.make(
+                view,
+                "This Feature Will Avaible Soon",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
         view.findViewById<Button>(R.id.btn_back).setOnClickListener {
-            val intent = Intent(this, LoginScreen::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         view.findViewById<Button>(R.id.btn_c).setOnClickListener {
