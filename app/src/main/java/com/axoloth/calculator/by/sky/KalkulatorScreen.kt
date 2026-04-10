@@ -28,7 +28,7 @@ class KalkulatorScreen : AppCompatActivity() {
         val numericButtons = listOf(
             R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4,
             R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
-            R.id.btn_nolnol, R.id.btn_koma, R.id.btn_back
+            R.id.btn_nolnol, R.id.btn_koma, R.id.btn_back, R.id.btn_kurs, R.id.btn_weight, R.id.btn_settings
         )
 
         numericButtons.forEach { id ->
@@ -37,6 +37,9 @@ class KalkulatorScreen : AppCompatActivity() {
                 tvInput.append(text)
             }
         }
+
+//        for kurs, weight and settings
+
         view.findViewById<Button>(R.id.btn_back).setOnClickListener {
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)

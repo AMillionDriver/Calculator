@@ -14,7 +14,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.5"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <TextView
             android:id="@+id/titletxt"
@@ -24,7 +25,7 @@
             android:layout_column="0"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="150dp"
+            android:layout_marginBottom="70dp"
             android:fontFamily="sans-serif-medium"
             android:text="Calculator"
             android:textAlignment="center"
