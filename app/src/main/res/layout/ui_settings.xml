@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="225dp"
         android:columnCount="4"
-        android:padding="16dp"
         android:orientation="vertical"
-        android:gravity="center">
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
             android:layout_gravity="center_horizontal"
+            android:text="@string/settings"
             android:textAlignment="center"
-            android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnAccount"
@@ -38,22 +41,24 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:background="@drawable/transparent_background"
             android:gravity="center"
             android:text="@string/privacy"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"/>
+            android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/btnPolicy"
-            android:layout_width="320dp"
+            android:id="@+id/btnBacks"
+            android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="0"
             android:background="@drawable/transparent_background"
-            android:gravity="center"
-            android:text="@string/policy"
+            android:text="@string/BackButton"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:layout_marginBottom="490dp"/>
+            android:textSize="25sp"
+            android:textStyle="bold" />
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

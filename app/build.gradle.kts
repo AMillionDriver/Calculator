@@ -14,8 +14,8 @@ android {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "26.01.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,5 +48,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("net.objecthunter:exp4j:0.4.8")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.13.0")
 }
