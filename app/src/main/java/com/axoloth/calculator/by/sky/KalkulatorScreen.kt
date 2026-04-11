@@ -3,6 +3,7 @@ package com.axoloth.calculator.by.sky
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,9 +20,9 @@ class KalkulatorScreen : AppCompatActivity() {
         setContentView(render())
     }
 
-    fun render(): View {
+    fun render(parent: ViewGroup? = null): View {
         // Gunakan layoutInflater milik Activity (bukan LayoutInflater.from(AppCompatActivity))
-        val view = layoutInflater.inflate(R.layout.ui_kalkulator, null)
+        val view = layoutInflater.inflate(R.layout.ui_kalkulator, parent)
 
         tvInput = view.findViewById(R.id.tv_input)
         tvResult = view.findViewById(R.id.tv_result)
@@ -99,7 +100,7 @@ class KalkulatorScreen : AppCompatActivity() {
         view.findViewById<Button>(R.id.btn_equal).setOnClickListener {
             val input = tvInput.text.toString()
             val result = evaluateExpression(input)
-            tvResult.text = result.toString()
+            tvResult.text = result
         }
     }
 
@@ -118,7 +119,7 @@ class KalkulatorScreen : AppCompatActivity() {
             } else {
                 result.toString()
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             "Error"
         }
     }

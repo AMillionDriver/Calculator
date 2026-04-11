@@ -7,50 +7,53 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="5"
+        android:columnCount="4"
         android:padding="16dp"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Settings"
+            android:text="@string/settings"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            ></TextView>
+            android:textColor="@color/white" />
+
         <Button
+            android:id="@+id/btnAccount"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="25dp"
-            android:id="@+id/btn_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/transparent_background"
-            android:text="Account Setting"
-            android:textColor="@color/white"
-            ></Button>
+            android:gravity="center"
+            android:text="@string/account_setting"
+            android:textColor="@color/white" />
+
         <Button
-            android:id="@+id/btn_privacy"
-            android:layout_width="match_parent"
+            android:id="@+id/btnPrivacy"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:background="@drawable/transparent_background"
-            android:text="Privacy"
+            android:gravity="center"
+            android:text="@string/privacy"
             android:textColor="@color/white"
-            ></Button>
+            android:layout_marginTop="10dp"/>
+
         <Button
-            android:id="@+id/btn_policy"
-            android:layout_width="match_parent"
+            android:id="@+id/btnPolicy"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:background="@drawable/transparent_background"
-            android:text="Policy"
+            android:gravity="center"
+            android:text="@string/policy"
             android:textColor="@color/white"
-            ></Button>
+            android:layout_marginBottom="490dp"/>
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -21,30 +22,27 @@
             android:id="@+id/titletxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="70dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Calculator"
+            android:text="@string/calculator"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="40dp"
+            android:textSize="40sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/emailform"
             android:layout_width="222dp"
             android:layout_height="48dp"
-            android:layout_row="0"
-            android:layout_column="0"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
+            android:autofillHints=""
             android:backgroundTint="#F8F3F3"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textColorHint="#999191" />
 
@@ -52,13 +50,12 @@
             android:id="@+id/passwordform"
             android:layout_width="224dp"
             android:layout_height="48dp"
-            android:layout_row="0"
-            android:layout_column="0"
             android:layout_gravity="center|center_horizontal"
             android:layout_marginBottom="25dp"
+            android:autofillHints=""
             android:backgroundTint="#F8F3F3"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textColor="#FFFFFF"
             android:textColorHighlight="#FFFFFF"
@@ -68,35 +65,31 @@
             android:id="@+id/loginbutton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/white"
             android:fontFamily="sans-serif"
-            android:text="Login"
+            android:text="@string/login"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
         <GridLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <Button
                 android:id="@+id/google"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:backgroundTint="#FFFFFF"
+                android:minHeight="48dp"
                 android:scrollbarSize="5dp"
-                android:text="Google"
+                android:text="@string/google"
                 android:textColor="#000000"
                 android:textColorLink="#000000"
                 android:textSize="16sp" />
@@ -104,14 +97,14 @@
             <Button
                 android:id="@+id/guest"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_row="0"
                 android:layout_column="2"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:backgroundTint="#FFFFFF"
                 android:scrollbarSize="5dp"
-                android:text="Guest"
+                android:text="@string/guest"
                 android:textColor="#000000"
                 android:textColorLink="#000000"
                 android:textSize="16sp" />
@@ -119,17 +112,18 @@
             <Button
                 android:id="@+id/apple"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_row="0"
                 android:layout_column="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="5dp"
                 android:backgroundTint="#FFFFFF"
                 android:scrollbarSize="5dp"
-                android:text="Apple"
+                android:text="@string/apple"
                 android:textColor="#000000"
                 android:textColorLink="#000000"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="VisualLintBounds" />
 
 
         </GridLayout>

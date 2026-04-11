@@ -3,45 +3,46 @@ package com.axoloth.calculator.by.sky
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.snackbar.Snackbar
 
 class SettingsScreen (val context: Context) {
-    private lateinit var btn_account: Button
-    private lateinit var btn_privacy: Button
-    private lateinit var btn_policy: Button
+    private lateinit var btnAccount: Button
+    private lateinit var btnPrivacy: Button
+    private lateinit var btnPolicy: Button
 
-    fun render(): View {
-        val view = LayoutInflater.from(context).inflate(R.layout.ui_settings, null, false)
+    fun render(parent: ViewGroup? = null): View {
+        val view = LayoutInflater.from(context).inflate(R.layout.ui_settings, parent, false)
 
-        btn_account =view.findViewById(R.id.btn_account)
-        btn_policy =view.findViewById(R.id.btn_policy)
-        btn_privacy =view.findViewById(R.id.btn_privacy)
+        btnAccount =view.findViewById(R.id.btnAccount)
+        btnPrivacy =view.findViewById(R.id.btnPrivacy)
+        btnPolicy =view.findViewById(R.id.btnPolicy)
 
         setupLogic(view)
         return view
     }
     fun setupLogic(rootView: View) {
-        btn_account.setOnClickListener {
+        btnAccount.setOnClickListener {
             Snackbar.make(
                 rootView,
-                "This Feature Will Avaible Soon",
+                "This Feature Will Available Soon",
                 Snackbar.LENGTH_SHORT
             ).show(
             )
         }
-        btn_policy.setOnClickListener {
+        btnPrivacy.setOnClickListener {
             Snackbar.make(
                 rootView,
-                "This Feature Will Avaible Soon",
+                "This Feature Will Available Soon",
                 Snackbar.LENGTH_SHORT
             ).show(
             )
         }
-        btn_privacy.setOnClickListener {
+        btnPolicy.setOnClickListener {
             Snackbar.make(
                 rootView,
-                "This Feature Will Avaible Soon",
+                "This Feature Will Available Soon",
                 Snackbar.LENGTH_SHORT
             ).show(
             )
