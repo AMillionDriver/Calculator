@@ -27,10 +27,14 @@ class SettingsScreen (val context: Context) {
     }
     fun setupLogic(rootView: View) {
         btnBacks.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            btnBacks.startAnimation(anim)
             val intent = Intent(context, KalkulatorScreen::class.java)
             context.startActivity(intent)
         }
         btnAccount.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            btnAccount.startAnimation(anim)
             Snackbar.make(
                 rootView,
                 "This Feature Will Available Soon",
@@ -39,6 +43,8 @@ class SettingsScreen (val context: Context) {
             )
         }
         btnPrivacy.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            btnPrivacy.startAnimation(anim)
             val url = "https://docs.google.com/document/d/1VmUtMaq-CMV-T8Q0-fsqaC4Zyb-Ryh39qMB3i_ng938/edit?usp=sharing"
             val builder = CustomTabsIntent.Builder()
             val customTabsIntent = builder.build()

@@ -37,6 +37,8 @@ class LoginScreen(val context: Context) {
     }
     fun setupLogic(rootView: View) {
         loginbutton.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            loginbutton.startAnimation(anim)
             val email = emailform.text.toString()
             val password = passwordform.text.toString()
 
@@ -50,10 +52,14 @@ class LoginScreen(val context: Context) {
 
         }
         guest.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            guest.startAnimation(anim)
             val intent = Intent(context, KalkulatorScreen::class.java)
             context.startActivity(intent)
         }
         google.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            google.startAnimation(anim)
             Snackbar.make(
                 rootView,
                 "This Feature Will Avaible Soon",
@@ -62,6 +68,8 @@ class LoginScreen(val context: Context) {
             )
         }
         apple.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.button_click)
+            apple.startAnimation(anim)
             Snackbar.make(
                 rootView,
                 "This Feature Will Avaible Soon",

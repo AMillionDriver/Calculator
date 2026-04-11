@@ -36,6 +36,8 @@ class KalkulatorScreen : AppCompatActivity() {
         numericButtons.forEach { id ->
             view.findViewById<Button>(id).setOnClickListener { btn ->
                 val text = (btn as Button).text.toString()
+                val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+                btn.startAnimation(anim)
                 tvInput.append(text)
             }
         }
@@ -43,10 +45,14 @@ class KalkulatorScreen : AppCompatActivity() {
 //        for kurs, weight and settings
         view.findViewById<Button>(R.id.btn_settings).setOnClickListener {
             // Tukar tampilan MainActivity menjadi SettingsScreen
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_settings).startAnimation(anim)
             val screen = SettingsScreen(this). render()
             this.setContentView(screen)
         }
         view.findViewById<Button>(R.id.btn_kurs).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_kurs).startAnimation(anim)
             Snackbar.make(
                 view,
                 "This Feature Will Avaible Soon",
@@ -54,6 +60,8 @@ class KalkulatorScreen : AppCompatActivity() {
             ).show()
         }
         view.findViewById<Button>(R.id.btn_weight).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_weight).startAnimation(anim)
             Snackbar.make(
                 view,
                 "This Feature Will Avaible Soon",
@@ -61,15 +69,21 @@ class KalkulatorScreen : AppCompatActivity() {
             ).show()
         }
         view.findViewById<Button>(R.id.btn_back).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_back).startAnimation(anim)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         view.findViewById<Button>(R.id.btn_c).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_c).startAnimation(anim)
             tvInput.text = ""
             tvResult.text = "0"
         }
 
         view.findViewById<Button>(R.id.btn_backspace).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_backspace).startAnimation(anim)
             val currentText = tvInput.text.toString()
             if (currentText.isNotEmpty()) {
                 tvInput.text = currentText.dropLast(1)
@@ -83,21 +97,33 @@ class KalkulatorScreen : AppCompatActivity() {
 
     private fun setupOperator(view: View) {
         view.findViewById<Button>(R.id.btn_tambah).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_tambah).startAnimation(anim)
             tvInput.append("+")
         }
         view.findViewById<Button>(R.id.btn_kurang).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_kurang).startAnimation(anim)
             tvInput.append("-")
         }
         view.findViewById<Button>(R.id.btn_kali).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_kali).startAnimation(anim)
             tvInput.append("*")
         }
         view.findViewById<Button>(R.id.btn_bagi).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_bagi).startAnimation(anim)
             tvInput.append("/")
         }
         view.findViewById<Button>(R.id.btn_persen).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_persen).startAnimation(anim)
             tvInput.append("%")
         }
         view.findViewById<Button>(R.id.btn_equal).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.button_click)
+            view.findViewById<Button>(R.id.btn_equal).startAnimation(anim)
             val input = tvInput.text.toString()
             val result = evaluateExpression(input)
             tvResult.text = result
