@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+        app:layout_constraintVertical_bias="0.5">
 
         <TextView
             android:id="@+id/titletxt"
@@ -74,18 +74,17 @@
             android:textStyle="bold" />
 
         <GridLayout
-            android:layout_width="wrap_content"
+            android:layout_width="356dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="bottom|top|end"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/google"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:layout_row="0"
                 android:layout_column="0"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
                 android:backgroundTint="#FFFFFF"
                 android:minHeight="48dp"
                 android:scrollbarSize="5dp"
@@ -96,14 +95,11 @@
 
             <Button
                 android:id="@+id/guest"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:layout_row="0"
-                android:layout_column="2"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
+                android:layout_column="1"
                 android:backgroundTint="#FFFFFF"
-                android:scrollbarSize="5dp"
                 android:text="@string/guest"
                 android:textColor="#000000"
                 android:textColorLink="#000000"
@@ -112,18 +108,14 @@
             <Button
                 android:id="@+id/apple"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_row="0"
-                android:layout_column="1"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
+                android:layout_column="2"
                 android:backgroundTint="#FFFFFF"
-                android:scrollbarSize="5dp"
                 android:text="@string/apple"
                 android:textColor="#000000"
                 android:textColorLink="#000000"
-                android:textSize="16sp"
-                tools:ignore="VisualLintBounds" />
+                android:textSize="16sp" />
 
 
         </GridLayout>
