@@ -25,7 +25,7 @@ class KalkulatorScreen(private val activity: AppCompatActivity) {
         val numericButtons = listOf(
             R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4,
             R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
-            R.id.btn_nolnol, R.id.btn_koma, R.id.btn_back, R.id.btn_kurs, R.id.btn_weight, R.id.btn_settings
+            R.id.btn_nolnol, R.id.btn_koma, R.id.btn_kurs, R.id.btn_weight, R.id.btn_settings
         )
 
         numericButtons.forEach { id ->
@@ -46,17 +46,6 @@ class KalkulatorScreen(private val activity: AppCompatActivity) {
             activity.setContentView(screen)
         }
 
-        view.findViewById<Button>(R.id.btn_back).setOnClickListener {
-            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            it.startAnimation(anim)
-            // Karena kita sudah di MainActivity, mungkin cukup panggil render ulang atau finish jika ini flow tertentu
-            Snackbar.make(
-                view,
-                "This Feature Will Available Soon",
-                Snackbar.LENGTH_SHORT
-            ).show(
-            )
-        }
         view.findViewById<Button>(R.id.btn_kurs).setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             it.startAnimation(anim)

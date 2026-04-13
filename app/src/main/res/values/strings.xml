@@ -36,4 +36,6 @@
     <string name="password">Password</string>
     <string name="calculator">Calculator</string>
     <string name="BackButton"><![CDATA[<]]></string>
+    <string name="apkpure">APKPure</string>
+    <string name="github">Github</string>
 </resources>

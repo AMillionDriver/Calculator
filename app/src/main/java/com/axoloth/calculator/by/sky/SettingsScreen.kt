@@ -7,19 +7,22 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import com.google.android.material.snackbar.Snackbar
 
 class SettingsScreen (val activity: AppCompatActivity) {
-    private lateinit var btnAccount: Button
     private lateinit var btnPrivacy: Button
     private lateinit var btnBacks: Button
+
+    private lateinit var btnGithub: Button
+    private lateinit var btnApkPure: Button
+
 
     fun render(parent: ViewGroup? = null): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.ui_settings, parent, false)
 
-        btnAccount = view.findViewById(R.id.btnAccount)
         btnPrivacy = view.findViewById(R.id.btnPrivacy)
         btnBacks = view.findViewById(R.id.btnBacks)
+        btnGithub = view.findViewById(R.id.btnGithub)
+        btnApkPure = view.findViewById(R.id.btnApkPure)
 
         setupLogic(view)
         return view
@@ -35,20 +38,27 @@ class SettingsScreen (val activity: AppCompatActivity) {
             activity.setContentView(kalkulatorView)
         }
         
-        btnAccount.setOnClickListener {
-            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            btnAccount.startAnimation(anim)
-            Snackbar.make(
-                rootView,
-                "This Feature Will Available Soon",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
-        
         btnPrivacy.setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             btnPrivacy.startAnimation(anim)
             val url = "https://docs.google.com/document/d/1VmUtMaq-CMV-T8Q0-fsqaC4Zyb-Ryh39qMB3i_ng938/edit?usp=sharing"
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(activity, url.toUri())
+        }
+
+        btnGithub.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
+            btnGithub.startAnimation(anim)
+            val url = "https://github.com/AMillionDriver"
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(activity, url.toUri())
+        }
+        btnApkPure.setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
+            btnApkPure.startAnimation(anim)
+            val url = "https://apkpure.com/developer?id=30778344"
             val builder = CustomTabsIntent.Builder()
             val customTabsIntent = builder.build()
             customTabsIntent.launchUrl(activity, url.toUri())
