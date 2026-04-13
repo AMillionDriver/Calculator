@@ -174,22 +174,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.052">
-
-        <Button
-            android:id="@+id/btn_back"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@android:color/transparent"
-            android:text="@string/Back"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_kurs"
