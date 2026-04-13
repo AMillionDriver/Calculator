@@ -19,6 +19,6 @@ Android calculator app built with Kotlin & XML.
 ## 🚧 Roadmap
 - [-] Google Sign-In integration
 - [-] Apple Sign-In integration
-- [x] Scientific calculator functions
+- [ ] Scientific calculator functions
 - [ ] UI/UX modernization
 - [ ] Theme switcher (Light/Dark/System)
