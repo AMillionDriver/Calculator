@@ -57,7 +57,24 @@ class KalkulatorScreen(private val activity: AppCompatActivity) {
             ).show(
             )
         }
-
+        view.findViewById<Button>(R.id.btn_kurs).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
+            it.startAnimation(anim)
+            Snackbar.make(
+                view,
+                "This Feature Will Available Soon",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+        view.findViewById<Button>(R.id.btn_weight).setOnClickListener {
+            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
+            it.startAnimation(anim)
+            Snackbar.make(
+                view,
+                "This Feature Will Available Soon",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
         view.findViewById<Button>(R.id.btn_c).setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             it.startAnimation(anim)
