@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.play.services.ads)
     implementation(libs.androidx.gridlayout)
+    implementation("com.airbnb.android:lottie:6.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

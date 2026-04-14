@@ -38,11 +38,24 @@ class WeightScreen (val activity: AppCompatActivity){
         return view
     }
     fun setupLogic(rootView: View) {
-        btnBack.setOnClickListener{
+        btnBack.setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             btnBack.startAnimation(anim)
-            // Render ulang KalkulatorScreen ke MainActivity
+
+            // 1. Siapkan view tujuan
             val kalkulatorView = KalkulatorScreen(activity).render()
+
+            // 2. Ambil root container dari Activity (induk dari semua layout)
+            val root = activity.findViewById<android.view.ViewGroup>(android.R.id.content)
+
+            // 3. Gunakan TransitionManager (bukan TransitionSet)
+            // Gravity.START membuat layar baru seolah muncul dari kiri (efek "Back")
+            android.transition.TransitionManager.beginDelayedTransition(
+                root,
+                android.transition.Slide(android.view.Gravity.START)
+            )
+
+            // 4. Ganti kontennya
             activity.setContentView(kalkulatorView)
         }
         btnPanjang.setOnClickListener{

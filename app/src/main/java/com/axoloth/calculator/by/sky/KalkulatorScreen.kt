@@ -41,8 +41,15 @@ class KalkulatorScreen(private val activity: AppCompatActivity) {
         view.findViewById<Button>(R.id.btn_settings).setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             it.startAnimation(anim)
-            // Pastikan SettingsScreen juga diperbaiki polanya jika ia juga Activity
+
+            // 1. Siapkan screen baru
             val screen = SettingsScreen(activity).render()
+
+            // 2. Mulai animasi transisi (opsional tapi bagus untuk single activity)
+            val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
+            android.transition.TransitionManager.beginDelayedTransition(rootLayout, android.transition.Slide(android.view.Gravity.END))
+
+            // 3. Ganti kontennya
             activity.setContentView(screen)
         }
 
@@ -58,7 +65,15 @@ class KalkulatorScreen(private val activity: AppCompatActivity) {
         view.findViewById<Button>(R.id.btn_weight).setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             it.startAnimation(anim)
+
+            // 1. Siapkan screen baru
             val screen = WeightScreen(activity).render()
+
+            // 2. Mulai animasi transisi (opsional tapi bagus untuk single activity)
+            val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
+            android.transition.TransitionManager.beginDelayedTransition(rootLayout, android.transition.Slide(android.view.Gravity.END))
+
+            // 3. Ganti kontennya
             activity.setContentView(screen)
         }
         view.findViewById<Button>(R.id.btn_c).setOnClickListener {
