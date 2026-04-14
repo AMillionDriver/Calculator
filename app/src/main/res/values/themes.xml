@@ -6,4 +6,9 @@
         <item name="colorPrimaryVariant">@android:color/transparent</item>
         <item name="colorOnPrimary">@android:color/transparent</item>
     </style>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_icon_calculator</item>
+        <item name="postSplashScreenTheme">@style/Theme.Kalkulator</item>
+    </style>
 </resources>
