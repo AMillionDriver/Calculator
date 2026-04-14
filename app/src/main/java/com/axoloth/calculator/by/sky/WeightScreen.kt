@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -17,10 +18,12 @@ class WeightScreen (val activity: AppCompatActivity){
     private lateinit var btnSuhu: Button
     private lateinit var btnDaya: Button
     private lateinit var btnTekanan: Button
+    private lateinit var txtTitle : TextView
 
     fun render(parent: ViewGroup? = null): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.ui_weight, parent, false)
 
+        txtTitle = view.findViewById(R.id.txtTitle)
         btnBack = view.findViewById(R.id.btnBack)
         btnPanjang = view.findViewById(R.id.btnPanjang)
         btnArea = view.findViewById(R.id.btnArea)

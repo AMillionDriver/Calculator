@@ -16,6 +16,7 @@ class SettingsScreen (val activity: AppCompatActivity) {
     private lateinit var btnApkPure: Button
 
 
+
     fun render(parent: ViewGroup? = null): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.ui_settings, parent, false)
 
