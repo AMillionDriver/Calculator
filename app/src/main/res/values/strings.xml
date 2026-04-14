@@ -38,4 +38,12 @@
     <string name="BackButton"><![CDATA[<]]></string>
     <string name="apkpure">APKPure</string>
     <string name="github">Github</string>
+    <string name="panjang">Panjang</string>
+    <string name="area">Area</string>
+    <string name="volume">Volume</string>
+    <string name="kecepatan">Kecepatan</string>
+    <string name="berat">Berat</string>
+    <string name="suhu">Suhu</string>
+    <string name="daya">Daya</string>
+    <string name="tekanan">Tekanan</string>
 </resources>

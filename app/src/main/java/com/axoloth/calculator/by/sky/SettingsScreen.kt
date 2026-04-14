@@ -32,7 +32,6 @@ class SettingsScreen (val activity: AppCompatActivity) {
         btnBacks.setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             btnBacks.startAnimation(anim)
-            
             // Render ulang KalkulatorScreen ke MainActivity
             val kalkulatorView = KalkulatorScreen(activity).render()
             activity.setContentView(kalkulatorView)

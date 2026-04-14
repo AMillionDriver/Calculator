@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_gravity="start"
+            android:text="@string/BackButton"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.291">
+
+        <Button
+            android:id="@+id/btnPanjang"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/panjang"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnArea"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/area"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnVolume"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/volume"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnKecepatan"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/kecepatan"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnBerat"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/berat"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnSuhu"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/suhu"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnDaya"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/daya"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnTekanan"
+            android:backgroundTint="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/tekanan"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
