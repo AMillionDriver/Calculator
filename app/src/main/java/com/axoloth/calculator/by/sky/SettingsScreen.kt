@@ -7,6 +7,8 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.snackbar.Snackbar
 
 class SettingsScreen (val activity: AppCompatActivity) {
     private lateinit var btnPrivacy: Button
@@ -46,7 +48,6 @@ class SettingsScreen (val activity: AppCompatActivity) {
                 root,
                 android.transition.Slide(android.view.Gravity.START)
             )
-
             // 4. Ganti kontennya
             activity.setContentView(kalkulatorView)
         }
