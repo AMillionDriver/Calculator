@@ -11,10 +11,12 @@
         android:id="@+id/gridLayout2"
         android:layout_width="match_parent"
         android:layout_height="225dp"
+        android:layout_marginTop="16dp"
         android:columnCount="4"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -48,10 +50,10 @@
             android:backgroundTint="@android:color/holo_orange_dark"
             android:text="@string/BackButton"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="#455A64"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:cornerRadius="100dp"/>
+            app:cornerRadius="100dp" />
     </GridLayout>
 
     <GridLayout
