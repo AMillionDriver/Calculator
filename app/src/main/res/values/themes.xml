@@ -8,7 +8,7 @@
     </style>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_icon_calculator</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_icon_calculator_new</item>
         <item name="postSplashScreenTheme">@style/Theme.Kalkulator</item>
     </style>
 </resources>

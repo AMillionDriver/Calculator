@@ -7,8 +7,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import com.airbnb.lottie.LottieAnimationView
-import com.google.android.material.snackbar.Snackbar
 
 class SettingsScreen (val activity: AppCompatActivity) {
     private lateinit var btnPrivacy: Button
@@ -27,11 +25,11 @@ class SettingsScreen (val activity: AppCompatActivity) {
         btnGithub = view.findViewById(R.id.btnGithub)
         btnApkPure = view.findViewById(R.id.btnApkPure)
 
-        setupLogic(view)
+        setupLogic()
         return view
     }
     
-    fun setupLogic(rootView: View) {
+    fun setupLogic() {
         btnBacks.setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             btnBacks.startAnimation(anim)
@@ -40,7 +38,7 @@ class SettingsScreen (val activity: AppCompatActivity) {
             val kalkulatorView = KalkulatorScreen(activity).render()
 
             // 2. Ambil root container dari Activity (induk dari semua layout)
-            val root = activity.findViewById<android.view.ViewGroup>(android.R.id.content)
+            val root = activity.findViewById<ViewGroup>(android.R.id.content)
 
             // 3. Gunakan TransitionManager (bukan TransitionSet)
             // Gravity.START membuat layar baru seolah muncul dari kiri (efek "Back")
