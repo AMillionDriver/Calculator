@@ -160,7 +160,7 @@
             android:id="@+id/btn_equal"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:text="@string/Equal"
-            android:textColor="#4DB6AC"
+            android:textColor="@android:color/holo_orange_dark"
             android:textSize="35sp" />
     </GridLayout>
 
@@ -206,11 +206,12 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="110dp"
             android:layout_height="48dp"
-            android:backgroundTint="@android:color/transparent"
+            android:backgroundTint="@android:color/holo_blue_bright"
             android:text="@string/settings"
             android:textColor="@color/black"
             android:textSize="11sp"
-            android:textStyle="bold" />
+            app:cornerRadius="100dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <LinearLayout

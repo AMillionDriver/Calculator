@@ -21,11 +21,12 @@
             android:layout_row="0"
             android:layout_column="0"
             android:layout_gravity="start"
-            android:backgroundTint="@android:color/transparent"
+            android:backgroundTint="@android:color/holo_blue_bright"
             android:text="@string/BackButton"
             android:textColor="@color/white"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:cornerRadius="100dp"/>
 
         <TextView
             android:id="@+id/txtTitle"
