@@ -59,6 +59,7 @@ dependencies {
     implementation("com.google.firebase:firebase-perf")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-config")
+    implementation("com.google.firebase:firebase-inappmessaging-display")
 
     implementation("net.objecthunter:exp4j:0.4.8")
     implementation("com.google.android.material:material:1.13.0")
