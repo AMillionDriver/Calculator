@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.axoloth.calculator.by.sky">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
     <application
         android:allowBackup="true"
@@ -10,6 +15,9 @@
         android:roundIcon="@mipmap/ic_icon_calculator_new"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kalkulator">
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,10 +28,21 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/>
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
 
     </application>
 </manifest>

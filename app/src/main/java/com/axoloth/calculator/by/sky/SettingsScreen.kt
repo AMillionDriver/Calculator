@@ -25,11 +25,11 @@ class SettingsScreen (val activity: AppCompatActivity) {
         btnGithub = view.findViewById(R.id.btnGithub)
         btnApkPure = view.findViewById(R.id.btnApkPure)
 
-        setupLogic()
+        setupLogic(view)
         return view
     }
     
-    fun setupLogic() {
+    fun setupLogic(view: View) {
         btnBacks.setOnClickListener {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
             btnBacks.startAnimation(anim)

@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -46,9 +49,21 @@ dependencies {
     implementation(libs.androidx.gridlayout)
     implementation("com.airbnb.android:lottie:6.1.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    
+    // Firebase BOM (Bill of Materials) - Menjaga semua versi Firebase tetap sinkron
+    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
+    
+    // Library Firebase
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-config")
+
+    implementation("net.objecthunter:exp4j:0.4.8")
+    implementation("com.google.android.material:material:1.13.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("net.objecthunter:exp4j:0.4.8")
-    implementation("com.google.android.material:material:1.13.0")
 }

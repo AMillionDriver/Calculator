@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "207437685884",
+    "project_id": "studio-3744861515-befd0",
+    "storage_bucket": "studio-3744861515-befd0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207437685884:android:96138aa760a9479bfd55f9",
+        "android_client_info": {
+          "package_name": "com.axoloth.bmicalculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207437685884-jveevtlg4i0tvhnu3c9kb1tjbvvflqfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.axoloth.bmicalculator",
+            "certificate_hash": "63f968268e8a171bdca57d3eebc1111f379ba5e8"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8uDbH3Kp8q_oTSkU8qkVZopQR_47h6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207437685884-luj1c29vlk6fv4tm1s1o1bpus4ogudib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207437685884:android:f94403399e60a6fefd55f9",
+        "android_client_info": {
+          "package_name": "com.axoloth.calculator.by.sky"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8uDbH3Kp8q_oTSkU8qkVZopQR_47h6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207437685884-luj1c29vlk6fv4tm1s1o1bpus4ogudib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207437685884:android:83555d25683ae8a2fd55f9",
+        "android_client_info": {
+          "package_name": "com.biscuit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8uDbH3Kp8q_oTSkU8qkVZopQR_47h6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207437685884-luj1c29vlk6fv4tm1s1o1bpus4ogudib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
