@@ -1,5 +1,6 @@
 package com.axoloth.calculator.by.sky
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,12 @@ import androidx.core.net.toUri
 class SettingsScreen (val activity: AppCompatActivity) {
     private lateinit var btnPrivacy: Button
     private lateinit var btnBacks: Button
-
     private lateinit var btnGithub: Button
     private lateinit var btnApkPure: Button
 
-
+    companion object {
+        private const val TAG = "SettingsScreen"
+    }
 
     fun render(parent: ViewGroup? = null): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.ui_settings, parent, false)
@@ -25,55 +27,54 @@ class SettingsScreen (val activity: AppCompatActivity) {
         btnGithub = view.findViewById(R.id.btnGithub)
         btnApkPure = view.findViewById(R.id.btnApkPure)
 
-        setupLogic(view)
+        setupLogic()
         return view
     }
     
-    fun setupLogic(view: View) {
+    fun setupLogic() {
+        // Logika Tombol Kembali
         btnBacks.setOnClickListener {
-            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            btnBacks.startAnimation(anim)
+            try {
+                val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
+                btnBacks.startAnimation(anim)
 
-            // 1. Siapkan view tujuan
-            val kalkulatorView = KalkulatorScreen(activity).render()
+                val kalkulatorView = KalkulatorScreen(activity).render()
+                val root = activity.findViewById<ViewGroup>(android.R.id.content)
 
-            // 2. Ambil root container dari Activity (induk dari semua layout)
-            val root = activity.findViewById<ViewGroup>(android.R.id.content)
-
-            // 3. Gunakan TransitionManager (bukan TransitionSet)
-            // Gravity.START membuat layar baru seolah muncul dari kiri (efek "Back")
-            android.transition.TransitionManager.beginDelayedTransition(
-                root,
-                android.transition.Slide(android.view.Gravity.START)
-            )
-            // 4. Ganti kontennya
-            activity.setContentView(kalkulatorView)
+                if (root != null) {
+                    android.transition.TransitionManager.beginDelayedTransition(
+                        root,
+                        android.transition.Slide(android.view.Gravity.START)
+                    )
+                    activity.setContentView(kalkulatorView)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during navigation back: ${e.message}")
+                // Fallback jika transisi gagal
+                activity.setContentView(KalkulatorScreen(activity).render())
+            }
         }
         
-        btnPrivacy.setOnClickListener {
-            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            btnPrivacy.startAnimation(anim)
-            val url = "https://docs.google.com/document/d/1VmUtMaq-CMV-T8Q0-fsqaC4Zyb-Ryh39qMB3i_ng938/edit?usp=sharing"
-            val builder = CustomTabsIntent.Builder()
-            val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(activity, url.toUri())
-        }
+        // Logika Buka URL (Privacy, Github, ApkPure)
+        btnPrivacy.setOnClickListener { openUrl("https://docs.google.com/document/d/1VmUtMaq-CMV-T8Q0-fsqaC4Zyb-Ryh39qMB3i_ng938/edit?usp=sharing", btnPrivacy) }
+        btnGithub.setOnClickListener { openUrl("https://github.com/AMillionDriver", btnGithub) }
+        btnApkPure.setOnClickListener { openUrl("https://apkpure.com/developer?id=30778344", btnApkPure) }
+    }
 
-        btnGithub.setOnClickListener {
+    /**
+     * Membuka URL dengan Custom Tabs secara aman
+     */
+    private fun openUrl(url: String, button: Button) {
+        try {
             val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            btnGithub.startAnimation(anim)
-            val url = "https://github.com/AMillionDriver"
+            button.startAnimation(anim)
+            
             val builder = CustomTabsIntent.Builder()
             val customTabsIntent = builder.build()
             customTabsIntent.launchUrl(activity, url.toUri())
-        }
-        btnApkPure.setOnClickListener {
-            val anim = android.view.animation.AnimationUtils.loadAnimation(activity, R.anim.button_click)
-            btnApkPure.startAnimation(anim)
-            val url = "https://apkpure.com/developer?id=30778344"
-            val builder = CustomTabsIntent.Builder()
-            val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(activity, url.toUri())
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to open URL: $url", e)
+            // Fallback: Bisa tampilkan Toast atau gunakan Intent biasa jika browser tidak mendukung Custom Tabs
         }
     }
 }
