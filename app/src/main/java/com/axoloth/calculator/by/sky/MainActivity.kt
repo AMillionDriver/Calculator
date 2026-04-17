@@ -37,24 +37,27 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         
-        // Inisialisasi Tampilan
+        // 1. Tampilkan UI Seketika (Prioritas Utama)
         setupUI()
         
-        // Inisialisasi Layanan Background & Firebase dengan proteksi
-        try {
-            Firebase.initialize(context = this)
-            Firebase.appCheck.installAppCheckProviderFactory(
-                PlayIntegrityAppCheckProviderFactory.getInstance(),
-            )
-            
-            checkNotificationPermission()
-            fetchFCMToken()
-            setupBackNavigation()
-        } catch (e: Exception) {
-            Log.e(TAG, "Gagal menginisialisasi layanan background", e)
-            // Tetap jalankan navigasi back meskipun firebase gagal
-            setupBackNavigation()
-        }
+        // 2. Jalankan proses berat di background agar tidak membekukan UI
+        Thread {
+            try {
+                Firebase.initialize(context = this)
+                Firebase.appCheck.installAppCheckProviderFactory(
+                    PlayIntegrityAppCheckProviderFactory.getInstance(),
+                )
+                
+                // Proses lainnya yang tidak butuh UI segera
+                fetchFCMToken()
+            } catch (e: Exception) {
+                Log.e(TAG, "Background init error", e)
+            }
+        }.start()
+
+        // 3. Navigasi back & Izin (Ringan, bisa di main thread)
+        setupBackNavigation()
+        checkNotificationPermission()
     }
 
     private fun setupUI() {

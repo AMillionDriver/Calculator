@@ -6,7 +6,7 @@
     android:background="@color/black"
     android:fitsSystemWindows="true">
 
-    <!-- Header Section -->
+    <!-- Header -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="48dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/txtConverterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Weight"
@@ -39,94 +39,143 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-    <!-- Categories Area using Flow (Sangat Ringan & Efisien) -->
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flowCategories"
-        android:layout_width="0dp"
+    <!-- Tab Category Selector (Horizontal Scroll) -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack">
+
+        <LinearLayout
+            android:id="@+id/categoryContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+            <!-- Tombol-tombol kategori akan di-style sebagai Tab di Logic -->
+            <Button android:id="@+id/btnBerat" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/berat" android:textColor="@color/white" />
+            <Button android:id="@+id/btnPanjang" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/panjang" android:textColor="#66FFFFFF" />
+            <Button android:id="@+id/btnArea" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/area" android:textColor="#66FFFFFF" />
+            <Button android:id="@+id/btnVolume" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/volume" android:textColor="#66FFFFFF" />
+            <Button android:id="@+id/btnSuhu" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/suhu" android:textColor="#66FFFFFF" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Display Area (Dua Input Utama) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDisplay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:padding="8dp"
-        app:constraint_referenced_ids="btnPanjang,btnArea,btnVolume,btnKecepatan,btnBerat,btnSuhu,btnDaya,btnTekanan"
+        app:cardBackgroundColor="#1A1A1A"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Input Atas -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvUnitFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kilogram (kg)"
+                    android:textColor="#BB86FC"
+                    android:textSize="14sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@android:drawable/arrow_down_float"
+                    android:paddingEnd="8dp"/>
+                <EditText
+                    android:id="@+id/etValueFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvUnitFrom"
+                    android:layout_marginTop="4dp"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="numberDecimal"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="#33FFFFFF" />
+
+            <!-- Input Bawah -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvUnitTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gram (g)"
+                    android:textColor="#BB86FC"
+                    android:textSize="14sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@android:drawable/arrow_down_float"
+                    android:paddingEnd="8dp"/>
+                <TextView
+                    android:id="@+id/tvValueTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvUnitTo"
+                    android:layout_marginTop="4dp"
+                    android:text="1000"
+                    android:textColor="@android:color/holo_blue_bright"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Keypad Converter (Angka saja, tanpa operator berat) -->
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flowKeypad"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:constraint_referenced_ids="btn7,btn8,btn9,btn4,btn5,btn6,btn1,btn2,btn3,btnKoma,btn0,btnDel"
         app:flow_horizontalGap="8dp"
         app:flow_maxElementsWrap="3"
         app:flow_verticalGap="8dp"
         app:flow_wrapMode="aligned"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/cardDisplay" />
 
-    <Button
-        android:id="@+id/btnPanjang"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/panjang"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnArea"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/area"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnVolume"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/volume"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnKecepatan"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/kecepatan"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnBerat"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/berat"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnSuhu"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/suhu"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnDaya"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/daya"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/btnTekanan"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tekanan"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+    <!-- Button Definitions (Implicitly used by Flow) -->
+    <Button android:id="@+id/btn7" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="7" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn8" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="8" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn9" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="9" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn4" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="4" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn5" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="5" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn6" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="6" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn1" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="1" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn2" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="2" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn3" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="3" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btnKoma" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="." android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btn0" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="0" android:textColor="@color/white" android:textSize="24sp" />
+    <Button android:id="@+id/btnDel" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="⌫" android:textColor="@android:color/holo_red_light" android:textSize="24sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

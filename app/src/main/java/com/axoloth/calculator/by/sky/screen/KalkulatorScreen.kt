@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.axoloth.calculator.by.sky.R
@@ -18,7 +19,7 @@ import com.axoloth.calculator.by.sky.R
 fun renderKalkulatorScreen(activity: AppCompatActivity, parent: ViewGroup? = null): View {
     val view = activity.layoutInflater.inflate(R.layout.ui_kalkulator, parent, false)
 
-    val tvInput: TextView = view.findViewById(R.id.tv_input)
+    val tvInput: EditText = view.findViewById(R.id.tv_input)
     val tvResult: TextView = view.findViewById(R.id.tv_result)
 
     // Pindahkan logika ke file Logic

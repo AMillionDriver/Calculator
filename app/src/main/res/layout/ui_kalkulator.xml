@@ -108,18 +108,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <TextView
+        <EditText
             android:id="@+id/tv_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoSizeMaxTextSize="30sp"
-            android:autoSizeMinTextSize="15sp"
-            android:autoSizeTextType="uniform"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="end"
-            android:maxLines="2"
+            android:inputType="textNoSuggestions"
             android:text=""
             android:textColor="#B3FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="normal" />
 
         <TextView
             android:id="@+id/tv_result"

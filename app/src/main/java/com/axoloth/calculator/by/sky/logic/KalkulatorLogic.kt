@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridLayout
+import android.content.Context
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.axoloth.calculator.by.sky.MainActivity
@@ -19,9 +21,36 @@ import com.google.android.material.snackbar.Snackbar
 import net.objecthunter.exp4j.ExpressionBuilder
 
 /**
- * Mengatur semua logika tombol untuk KalkulatorScreen.
+ * Mengatur semua logika tombol untuk KalkulatorScreen dengan Cursor Editing.
  */
-fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextView, tvResult: TextView) {
+fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditText, tvResult: TextView) {
+    val pref = activity.getSharedPreferences("kalkulator_prefs", Context.MODE_PRIVATE)
+
+    // Matikan keyboard sistem tapi tetap aktifkan kursor
+    tvInput.showSoftInputOnFocus = false
+    tvInput.requestFocus()
+
+    // Load state terakhir
+    val lastInput = pref.getString("last_input", "") ?: ""
+    if (lastInput.isNotEmpty()) {
+        tvInput.setText(lastInput)
+        tvInput.setSelection(tvInput.text.length)
+        updatePreview(tvInput, tvResult)
+    }
+
+    // Fungsi simpan otomatis
+    val saveInput = { text: String ->
+        pref.edit().putString("last_input", text).apply()
+    }
+
+    // Helper untuk Cursor Input
+    val insertText = { text: String ->
+        val start = tvInput.selectionStart
+        val end = tvInput.selectionEnd
+        tvInput.text.replace(start, end, text)
+        updatePreview(tvInput, tvResult)
+        saveInput(tvInput.text.toString())
+    }
 
     // Tombol Settings
     view.findViewById<Button>(R.id.btn_settings).setOnClickListener {
@@ -52,29 +81,38 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextV
     // Tombol Clear (AC/C)
     view.findViewById<Button>(R.id.btn_c).setOnClickListener {
         playAnim(activity, it)
-        tvInput.text = ""
+        tvInput.setText("")
         tvResult.text = "0"
         tvResult.alpha = 1.0f
+        saveInput("")
     }
 
     // Tombol Backspace
     view.findViewById<Button>(R.id.btn_backspace).setOnClickListener {
         playAnim(activity, it)
-        val currentText = tvInput.text.toString()
-        if (currentText.isNotEmpty()) {
-            tvInput.text = currentText.dropLast(1)
+        val start = tvInput.selectionStart
+        val end = tvInput.selectionEnd
+        if (start > 0 || start != end) {
+            if (start == end) {
+                tvInput.text.delete(start - 1, start)
+            } else {
+                tvInput.text.delete(start, end)
+            }
             updatePreview(tvInput, tvResult)
+            saveInput(tvInput.text.toString())
         }
     }
 
     // Tombol Klik Hasil (Untuk Apply Sugest/Koreksi)
     tvResult.setOnClickListener {
         val currentRes = tvResult.text.toString()
-        if (currentRes.contains("?")) { // Jika itu adalah saran
-            val suggestion = currentRes.split("\"").getOrNull(1) // Ambil teks di dalam tanda kutip
+        if (currentRes.contains("?")) {
+            val suggestion = currentRes.split("\"").getOrNull(1)
             if (suggestion != null) {
-                tvInput.text = suggestion
+                tvInput.setText(suggestion)
+                tvInput.setSelection(tvInput.text.length)
                 updatePreview(tvInput, tvResult)
+                saveInput(suggestion)
             }
         }
     }
@@ -92,7 +130,6 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextV
     val scientificGrid = view.findViewById<GridLayout>(R.id.scientificGridLayout)
     view.findViewById<Button>(R.id.btn_mode_switcher).setOnClickListener {
         playAnim(activity, it)
-        
         val rootLayout = view as ViewGroup
         TransitionManager.beginDelayedTransition(rootLayout, Fade().setDuration(200))
 
@@ -106,16 +143,16 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextV
     }
 
     // Daftarkan Tombol Scientific
-    setupScientificLogic(activity, view, tvInput, tvResult)
+    setupScientificLogic(activity, view, tvInput, tvResult, insertText)
 
     // Tombol Operator & Hitung
-    setupOperatorLogic(activity, view, tvInput, tvResult)
+    setupOperatorLogic(activity, view, tvInput, tvResult, insertText)
     
     // Tombol Angka (0-9, 00, Koma)
-    setupNumericLogic(activity, view, tvInput, tvResult)
+    setupNumericLogic(activity, view, tvInput, tvResult, insertText)
 }
 
-private fun setupNumericLogic(activity: AppCompatActivity, view: View, tvInput: TextView, tvResult: TextView) {
+private fun setupNumericLogic(activity: AppCompatActivity, view: View, tvInput: EditText, tvResult: TextView, insertText: (String) -> Unit) {
     val numericButtons = listOf(
         R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4,
         R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
@@ -126,118 +163,87 @@ private fun setupNumericLogic(activity: AppCompatActivity, view: View, tvInput: 
         view.findViewById<Button>(id).setOnClickListener { btn ->
             playAnim(activity, btn)
             val text = (btn as Button).text.toString()
-            val currentInput = tvInput.text.toString()
-
+            
             if (id == R.id.btn_koma) {
-                // Cari angka terakhir yang sedang diketik (setelah operator terakhir)
-                val lastNumber = currentInput.split(Regex("[+\\-*/%]")).last()
-                // Jika angka terakhir belum ada koma, baru boleh tambah koma
+                val currentInput = tvInput.text.toString()
+                val cursorIdx = tvInput.selectionStart
+                val beforeCursor = currentInput.substring(0, cursorIdx)
+                val lastNumber = beforeCursor.split(Regex("[+\\-*/%^()]")).last()
+                
                 if (!lastNumber.contains(",")) {
-                    if (lastNumber.isEmpty()) tvInput.append("0")
-                    tvInput.append(",")
+                    if (lastNumber.isEmpty()) insertText("0,") else insertText(",")
                 }
             } else if (id == R.id.btn_nolnol) {
-                // Cegah input "00" di awal
-                if (currentInput.isNotEmpty() && currentInput != "0") {
-                    tvInput.append("00")
-                }
+                insertText("00")
             } else {
-                // Jika input sekarang cuma "0", ganti dengan angka baru (kecuali koma)
-                if (currentInput == "0") {
-                    tvInput.text = text
-                } else {
-                    tvInput.append(text)
-                }
+                insertText(text)
             }
-            updatePreview(tvInput, tvResult)
         }
     }
 }
 
-private fun setupOperatorLogic(activity: AppCompatActivity, view: View, tvInput: TextView, tvResult: TextView) {
+private fun setupOperatorLogic(activity: AppCompatActivity, view: View, tvInput: EditText, tvResult: TextView, insertText: (String) -> Unit) {
     val operators = mapOf(
-        R.id.btn_tambah to "+",
-        R.id.btn_kurang to "-",
-        R.id.btn_kali to "*",
-        R.id.btn_bagi to "/",
-        R.id.btn_persen to "%"
+        R.id.btn_tambah to "+", R.id.btn_kurang to "-",
+        R.id.btn_kali to "*", R.id.btn_bagi to "/", R.id.btn_persen to "%"
     )
 
     operators.forEach { (id, symbol) ->
         view.findViewById<Button>(id).setOnClickListener {
             playAnim(activity, it)
-            val currentInput = tvInput.text.toString()
-            
-            if (currentInput.isNotEmpty()) {
-                val lastChar = currentInput.last()
-                // Jika karakter terakhir adalah operator, ganti dengan yang baru
-                if (lastChar in "+-*/%") {
-                    tvInput.text = currentInput.dropLast(1) + symbol
-                } else {
-                    tvInput.append(symbol)
-                }
-            }
-            updatePreview(tvInput, tvResult)
+            insertText(symbol)
         }
     }
 
-    // Tombol Sama Dengan (=)
     view.findViewById<Button>(R.id.btn_equal).setOnClickListener {
         playAnim(activity, it)
         val input = tvInput.text.toString()
         if (input.isNotEmpty()) {
             val res = calculate(input)
             if (res != "Error") {
-                tvInput.text = res
+                tvInput.setText(res)
+                tvInput.setSelection(tvInput.text.length)
                 tvResult.text = "0"
                 tvResult.alpha = 0.5f
+                val pref = activity.getSharedPreferences("kalkulator_prefs", Context.MODE_PRIVATE)
+                pref.edit().putString("last_input", res).apply()
             }
         }
     }
 }
 
-private fun setupScientificLogic(activity: AppCompatActivity, view: View, tvInput: TextView, tvResult: TextView) {
+private fun setupScientificLogic(activity: AppCompatActivity, view: View, tvInput: EditText, tvResult: TextView, insertText: (String) -> Unit) {
     val scientificButtons = mapOf(
-        R.id.btn_kurung_buka to "(",
-        R.id.btn_kurung_tutup to ")",
-        R.id.btn_akar to "sqrt(",
-        R.id.btn_pangkat to "^",
-        R.id.btn_sin to "sin(",
-        R.id.btn_cos to "cos(",
-        R.id.btn_tan to "tan(",
-        R.id.btn_log to "log10(",
-        R.id.btn_ln to "log(",
-        R.id.btn_pi to "π",
-        R.id.btn_e to "e"
+        R.id.btn_kurung_buka to "(", R.id.btn_kurung_tutup to ")",
+        R.id.btn_akar to "sqrt(", R.id.btn_pangkat to "^",
+        R.id.btn_sin to "sin(", R.id.btn_cos to "cos(", R.id.btn_tan to "tan(",
+        R.id.btn_log to "log10(", R.id.btn_ln to "log(", R.id.btn_pi to "π", R.id.btn_e to "e"
     )
 
     scientificButtons.forEach { (id, symbol) ->
         view.findViewById<Button>(id).setOnClickListener {
             playAnim(activity, it)
-            tvInput.append(symbol)
-            updatePreview(tvInput, tvResult)
+            insertText(symbol)
         }
     }
 
-    // Tombol Invert (±)
     view.findViewById<Button>(R.id.btn_inv).setOnClickListener {
         playAnim(activity, it)
         val currentText = tvInput.text.toString()
         if (currentText.isNotEmpty()) {
             if (currentText.startsWith("-")) {
-                tvInput.text = currentText.substring(1)
+                tvInput.setText(currentText.substring(1))
             } else {
-                tvInput.text = "-$currentText"
+                tvInput.setText("-$currentText")
             }
+            tvInput.setSelection(tvInput.text.length)
             updatePreview(tvInput, tvResult)
         }
     }
 }
 
-private fun updatePreview(tvInput: TextView, tvResult: TextView) {
+private fun updatePreview(tvInput: EditText, tvResult: TextView) {
     val input = tvInput.text.toString()
-    
-    // 1. Cek Kesalahan Input Populer (Contoh: % di depan angka)
     if (input.startsWith("%")) {
         val numberPart = input.substring(1)
         if (numberPart.isNotEmpty() && numberPart.all { it.isDigit() || it == ',' }) {
@@ -247,69 +253,35 @@ private fun updatePreview(tvInput: TextView, tvResult: TextView) {
             return
         }
     }
-    
-    // Reset warna jika normal
     tvResult.setTextColor(android.graphics.Color.WHITE)
-
-    // 2. Cek apakah input layak di-preview (minimal ada operator atau angka yang lengkap)
     if (input.isEmpty() || !input.any { it.isDigit() }) {
         tvResult.text = "0"
         tvResult.alpha = 0.5f
         return
     }
-
-    // Jangan preview jika input berakhir dengan operator atau kurung buka
     if (input.last() in "+-*/%^(") {
         tvResult.alpha = 0.5f
         return
     }
-
     val res = calculate(input)
     if (res != "Error") {
         tvResult.text = res
         tvResult.alpha = 0.5f
-    } else {
-        // Tetap biarkan hasil sebelumnya atau kosongkan jika error parah
     }
 }
 
 private fun calculate(expression: String): String {
     return try {
-        // 1. Bersihkan expression agar dipahami oleh ExpressionBuilder
-        var cleaned = expression
-            .replace(",", ".")       // Ganti koma ke titik (decimal)
-            .replace("%", "/100")    // Persen
-            .replace("π", "PI")      // Konstanta PI
-            .replace("e", "E")       // Konstanta E
-            .replace("sqrt(", "sqrt(") // Sqrt tetap (sudah benar dari append)
-            .replace("^", "^")         // Pangkat
-        
-        // 2. Jika ada kurung yang belum ditutup, tutup secara otomatis
+        var cleaned = expression.replace(",", ".").replace("%", "/100").replace("π", "PI").replace("e", "E")
         val openBrackets = cleaned.count { it == '(' }
         val closeBrackets = cleaned.count { it == ')' }
-        repeat(openBrackets - closeBrackets) {
-            cleaned += ")"
-        }
-
-        // 3. Jika diakhiri operator dasar, hapus operator terakhirnya dulu
-        if (cleaned.isNotEmpty() && cleaned.last() in "+-*/") {
-            cleaned = cleaned.dropLast(1)
-        }
-
+        repeat(openBrackets - closeBrackets) { cleaned += ")" }
+        if (cleaned.isNotEmpty() && cleaned.last() in "+-*/") cleaned = cleaned.dropLast(1)
         val result = ExpressionBuilder(cleaned).build().evaluate()
-        
-        // 4. Format Hasil
         if (result.isNaN() || result.isInfinite()) return "Error"
-        
         val longResult = result.toLong()
-        if (result == longResult.toDouble()) {
-            longResult.toString()
-        } else {
-            "%.8f".format(java.util.Locale.US, result).trimEnd('0').trimEnd('.')
-        }
-    } catch (e: Exception) {
-        "Error"
-    }
+        if (result == longResult.toDouble()) longResult.toString() else "%.8f".format(java.util.Locale.US, result).trimEnd('0').trimEnd('.')
+    } catch (e: Exception) { "Error" }
 }
 
 private fun playAnim(activity: AppCompatActivity, view: View) {
