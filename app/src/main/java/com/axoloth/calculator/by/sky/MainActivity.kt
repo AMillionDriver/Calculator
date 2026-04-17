@@ -10,35 +10,66 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.axoloth.calculator.by.sky.screen.renderKalkulatorScreen
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.initialize
 import com.google.firebase.messaging.FirebaseMessaging
 
-
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Splash screen harus dipanggil sebelum super.onCreate
+        val splashScreen = installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
-        val kalkulatorScreen = KalkulatorScreen(this)
-        setContentView(kalkulatorScreen.render())
+        
+        // Inisialisasi Tampilan
+        setupUI()
+        
+        // Inisialisasi Layanan Background
+        checkNotificationPermission()
+        fetchFCMToken()
 
-        // Meminta izin notifikasi untuk Android 13+ (API 33+)
+        Firebase.initialize(context = this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
+    }
+
+    private fun setupUI() {
+        setContentView(renderKalkulatorScreen(this))
+    }
+
+    private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
+                ActivityCompat.requestPermissions(
+                    this, 
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS), 
+                    NOTIFICATION_PERMISSION_REQUEST_CODE
+                )
             }
         }
+    }
 
-        // Mengambil FCM Token
+    private fun fetchFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w("FCM_TOKEN", "Fetching FCM registration token failed", task.exception)
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@addOnCompleteListener
             }
 
             // Dapatkan token baru
             val token = task.result
-            Log.d("FCM_TOKEN", "Token Saya: $token")
+            Log.d(TAG, "FCM Token: $token")
         }
     }
 }

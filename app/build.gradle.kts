@@ -17,10 +17,14 @@ android {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 19
-        versionName = "2.06.20"
+        versionCode = 21
+        versionName = "3.07.21"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -63,6 +67,8 @@ dependencies {
 
     implementation("net.objecthunter:exp4j:0.4.8")
     implementation("com.google.android.material:material:1.13.0")
+
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

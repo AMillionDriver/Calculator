@@ -1,14 +1,15 @@
-package com.axoloth.calculator.by.sky
+package com.axoloth.calculator.by.sky.firebase
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.axoloth.calculator.by.sky.MainActivity
+import com.axoloth.calculator.by.sky.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -40,7 +41,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val channelId = "default_notification_channel"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_icon_calculator_new) // Pastikan icon ini ada
             .setContentTitle(title)
@@ -50,7 +51,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         // Untuk Android Oreo ke atas, wajib pakai Notification Channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
