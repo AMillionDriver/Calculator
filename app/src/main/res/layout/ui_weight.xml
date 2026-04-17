@@ -1,120 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     android:fitsSystemWindows="true">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout3"
+    <!-- Header Section -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_blue_bright"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/BackButton"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.243"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="58dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_marginEnd="38sp"
-            android:backgroundTint="@android:color/holo_blue_bright"
-            android:text="@string/BackButton"
-            android:textColor="#FFFFFF"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            app:cornerRadius="100dp" />
-
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_gravity="center"
-            android:layout_marginEnd="90dp"
-            android:text="@string/Weight"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </GridLayout>
-
-    <GridLayout
-        android:id="@+id/gridLayout3"
+    <TextView
+        android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="3"
+        android:text="@string/Weight"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+
+    <!-- Categories Area using Flow (Sangat Ringan & Efisien) -->
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flowCategories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        app:constraint_referenced_ids="btnPanjang,btnArea,btnVolume,btnKecepatan,btnBerat,btnSuhu,btnDaya,btnTekanan"
+        app:flow_horizontalGap="8dp"
+        app:flow_maxElementsWrap="3"
+        app:flow_verticalGap="8dp"
+        app:flow_wrapMode="aligned"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.291">
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
+        app:layout_constraintVertical_bias="0.2" />
 
-        <Button
-            android:id="@+id/btnPanjang"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/panjang"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnPanjang"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/panjang"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnArea"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/area"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnArea"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/area"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnVolume"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/volume"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnVolume"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/volume"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnKecepatan"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/kecepatan"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnKecepatan"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/kecepatan"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnBerat"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/berat"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnBerat"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/berat"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnSuhu"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/suhu"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnSuhu"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/suhu"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnDaya"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/daya"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+    <Button
+        android:id="@+id/btnDaya"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/daya"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btnTekanan"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/tekanan"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-    </GridLayout>
+    <Button
+        android:id="@+id/btnTekanan"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tekanan"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

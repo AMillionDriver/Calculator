@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.axoloth.calculator.by.sky.MainActivity
 import com.axoloth.calculator.by.sky.R
 import com.axoloth.calculator.by.sky.screen.renderSettingsScreen
 import com.axoloth.calculator.by.sky.screen.renderWeightScreen
@@ -27,6 +28,8 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextV
         playAnim(activity, it)
         val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
         TransitionManager.beginDelayedTransition(rootLayout, Slide(Gravity.END))
+        
+        if (activity is MainActivity) activity.updateCurrentScreen("Settings")
         activity.setContentView(renderSettingsScreen(activity))
     }
 
@@ -41,6 +44,8 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: TextV
         playAnim(activity, it)
         val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
         TransitionManager.beginDelayedTransition(rootLayout, Slide(Gravity.END))
+        
+        if (activity is MainActivity) activity.updateCurrentScreen("Weight")
         activity.setContentView(renderWeightScreen(activity))
     }
 

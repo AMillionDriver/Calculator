@@ -6,111 +6,100 @@
     android:background="@color/black"
     android:fitsSystemWindows="true">
 
-    <GridLayout
-        android:id="@+id/gridLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="225dp"
+    <!-- Tombol Kembali - Langsung di root agar ringan -->
+    <Button
+        android:id="@+id/btnBacks"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:columnCount="4"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/BackButton"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/settings"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBacks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBacks" />
 
-        <Button
-            android:id="@+id/btnPrivacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/privacy"
-            android:textColor="@color/white" />
+    <Button
+        android:id="@+id/btnPrivacy"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/privacy"
+        android:textColor="#B0B3B8"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-        <Button
-            android:id="@+id/btnBacks"
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:text="@string/BackButton"
-            android:textAlignment="center"
-            android:textColor="#455A64"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:cornerRadius="100dp" />
-    </GridLayout>
-
-    <GridLayout
+    <!-- Animasi di Tengah -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/catAnimation"
         android:layout_width="250dp"
-        android:layout_height="219dp"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintTop_toBottomOf="@+id/btnPrivacy"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loader_cat" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/catAnimation"
-            android:layout_width="wrap_content"
-            android:layout_height="214dp"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_marginBottom="292dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loader_cat" />
-    </GridLayout>
-
+    <!-- Footer Links -->
     <LinearLayout
         android:id="@+id/linearLayout2"
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
-        app:layout_constraintVertical_bias="0.975">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnGithub"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
             android:text="@string/github"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="#33FFFFFF" />
 
         <Button
             android:id="@+id/btnApkPure"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
             android:text="@string/apkpure"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
