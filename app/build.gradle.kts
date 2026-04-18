@@ -1,24 +1,21 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.perf)
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.axoloth.calculator.by.sky"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 24
-        versionName = "4.10.24"
+        versionCode = 25
+        versionName = "4.15.25"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,8 +35,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -55,10 +52,8 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.1.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
     
-    // Firebase BOM (Bill of Materials) - Menjaga semua versi Firebase tetap sinkron
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
-    
-    // Library Firebase
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-perf")
@@ -68,6 +63,13 @@ dependencies {
 
     implementation("net.objecthunter:exp4j:0.4.8")
     implementation("com.google.android.material:material:1.13.0")
+
+    // Room Database
+    val roomVersion = "2.7.0-alpha13"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+     annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
     // Networking for Currency (Kurs)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

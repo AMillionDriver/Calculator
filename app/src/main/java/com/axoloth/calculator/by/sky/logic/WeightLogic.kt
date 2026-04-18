@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.axoloth.calculator.by.sky.MainActivity
 import com.axoloth.calculator.by.sky.R
-import com.axoloth.calculator.by.sky.screen.renderKalkulatorScreen
 import java.util.Locale
 
 /**
@@ -169,10 +168,7 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
 
     btnBack.setOnClickListener {
         playAnim(activity, it)
-        if (activity is MainActivity) activity.updateCurrentScreen("Kalkulator")
-        val root = activity.findViewById<ViewGroup>(android.R.id.content)
-        TransitionManager.beginDelayedTransition(root, Slide(Gravity.START))
-        activity.setContentView(renderKalkulatorScreen(activity))
+        activity.onBackPressedDispatcher.onBackPressed()
     }
 
     etValueFrom.requestFocus()

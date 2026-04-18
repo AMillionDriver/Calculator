@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import com.axoloth.calculator.by.sky.R
-import com.axoloth.calculator.by.sky.screen.renderKalkulatorScreen
 import com.google.android.datatransport.BuildConfig
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 private const val TAG = "SettingsLogic"
 
@@ -29,15 +30,8 @@ fun setupSettingsLogic(activity: AppCompatActivity, view: View) {
 
     // Logika Tombol Kembali
     btnBacks.setOnClickListener {
-        try {
-            playAnim(activity, it)
-            val root = activity.findViewById<ViewGroup>(android.R.id.content)
-            TransitionManager.beginDelayedTransition(root, Slide(Gravity.START))
-            activity.setContentView(renderKalkulatorScreen(activity))
-        } catch (e: Exception) {
-            Log.e(TAG, "Error navigating back", e)
-            activity.setContentView(renderKalkulatorScreen(activity))
-        }
+        playAnim(activity, it)
+        activity.onBackPressedDispatcher.onBackPressed()
     }
 
     // Logika URL
@@ -49,6 +43,15 @@ fun setupSettingsLogic(activity: AppCompatActivity, view: View) {
     }
     btnApkPure.setOnClickListener { 
         openUrl(activity, it, "https://apkpure.com/developer?id=30778344") 
+    }
+
+    // Inisialisasi Banner Ads
+    try {
+        val adView: AdView = view.findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+    } catch (e: Exception) {
+        Log.e(TAG, "AdView failed to load", e)
     }
 
     // Debug Crash Button

@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.widget.NestedScrollView
 import com.axoloth.calculator.by.sky.MainActivity
 import com.axoloth.calculator.by.sky.R
-import com.axoloth.calculator.by.sky.screen.renderKalkulatorScreen
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -38,6 +38,7 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
     val tvUnitFrom: TextView = view.findViewById(R.id.tvUnitFrom)
     val tvUnitTo: TextView = view.findViewById(R.id.tvUnitTo)
     val tvLastUpdated: TextView = view.findViewById(R.id.tvLastUpdated)
+    val nestedScroll: NestedScrollView? = view.findViewById(R.id.nestedScrollKurs)
 
     val pref = activity.getSharedPreferences("kurs_cache", Context.MODE_PRIVATE)
     val gson = Gson()
@@ -135,10 +136,15 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
 
     // --- Cursor Input ---
     fun insertText(text: String) {
+        val scrollY = nestedScroll?.scrollY ?: 0
         val start = etValueFrom.selectionStart
         val end = etValueFrom.selectionEnd
         etValueFrom.text.replace(start, end, text)
         calculateConversion()
+        
+        nestedScroll?.post {
+            nestedScroll.scrollTo(0, scrollY)
+        }
     }
 
     // --- Bottom Sheet Picker ---
@@ -235,10 +241,7 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
 
     view.findViewById<Button>(R.id.btnBack).setOnClickListener {
         playAnim(activity, it)
-        if (activity is MainActivity) activity.updateCurrentScreen("Kalkulator")
-        val root = activity.findViewById<ViewGroup>(android.R.id.content)
-        TransitionManager.beginDelayedTransition(root, Slide(Gravity.START))
-        activity.setContentView(renderKalkulatorScreen(activity))
+        activity.onBackPressedDispatcher.onBackPressed()
     }
 
     fetchRates()

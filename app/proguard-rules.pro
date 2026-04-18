@@ -1,36 +1,40 @@
-# 1. Optimasi Performa & Bytecode
--optimizationpasses 5
--allowaccessmodification
--mergeinterfacesaggressively
+# --- ProGuard Rules untuk Kalkulator (Galaxy Store Readiness) ---
 
-# 2. Hapus Log Debug (Mempercepat Kinerja CPU & Keamanan)
--assumenosideeffects class android.util.Log {
-    public static *** d(...);
-    public static *** v(...);
-    public static *** i(...);
-    public static *** w(...);
-}
+# --- Retrofit & OkHttp (Penting untuk Kurs) ---
+-keepattributes Signature, InnerClasses, AnnotationDefault
+-keep class retrofit2.** { *; }
+-keep interface retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn retrofit2.**
+-dontwarn javax.annotation.**
 
-# 3. Optimasi Kotlin (Inlining)
--repackageclasses ''
--allowaccessmodification
+# --- Gson (Penting untuk parsing data Kurs) ---
+-keep class com.google.gson.** { *; }
+-keep class com.axoloth.calculator.by.sky.model.** { *; } # Sesuaikan jika Anda punya model data khusus
 
-# 4. Keamanan Dasar
--keepattributes Signature, Exceptions, *Annotation*
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
+# --- Room Database ---
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.**
 
-# 5. Firebase & GSON (PENTING: Jangan di-obfuscate agar tidak error)
+# --- Google Play Services & AdMob ---
+-keep class com.google.android.gms.ads.** { *; }
+-keep interface com.google.android.gms.ads.** { *; }
+-keep class com.google.android.gms.common.** { *; }
+
+# --- Firebase (Analytics, Config, Crashlytics, etc) ---
 -keep class com.google.firebase.** { *; }
--keep class com.axoloth.calculator.by.sky.logic.ExchangeRateResponse { *; }
+-dontwarn com.google.firebase.**
+
+# --- Exp4j (Mesin Kalkulator) ---
+-keep class net.objecthunter.exp4j.** { *; }
+
+# --- Lottie Animation ---
+-keep class com.airbnb.lottie.** { *; }
+
+# --- Umum ---
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
 -keepclassmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
-
-# 6. Retrofit & OkHttp
--keepattributes *Annotation*
--keep class retrofit2.** { *; }
--keep class okhttp3.** { *; }
-
-# 7. Exp4j (Kalkulator Logic)
--keep class net.objecthunter.exp4j.** { *; }

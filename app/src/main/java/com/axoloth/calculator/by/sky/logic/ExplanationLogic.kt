@@ -71,7 +71,7 @@ private fun generateSteps(expression: String, mode: String): List<String> {
         steps.add("Karena perkalian, pembagian, dan persen dikerjakan dulu, maka:")
     }
 
-    // Step 1: Identifikasi "Terms" (Bagian yang dipisah + atau -)
+    // Step 1: Identifikasi "Terms"
     // Gunakan Regex untuk memisahkan tapi tetap menyimpan operatornya
     val tokens = cleaned.split(Regex("(?=[+-])|(?<=[+-])")).filter { it.isNotBlank() }
     val results = mutableListOf<Double>()
@@ -82,17 +82,20 @@ private fun generateSteps(expression: String, mode: String): List<String> {
         if (token == "+" || token == "-") {
             processedTerms.add(token)
         } else {
-            // Hitung setiap blok (Term) misal: 9999*9 atau 396*5%
+            // Hitung setiap blok (Term)
             val termResult = evaluateTerm(token)
             
-            if (token.contains("*") || token.contains("/") || token.contains("%")) {
+            if (token.contains("*") || token.contains("/") || token.contains("%") || token.any { it.isLetter() }) {
                 if (mode == "Complex") {
                     steps.add("${stepCounter++}) Hitung $token")
                     
                     // Detail khusus persen
-                    if (token.contains("%")) {
-                        val num = token.replace("%", "").split("*", "/").last()
-                        steps.add("   $num% = ${num.toDouble()/100}")
+                    if (token.contains("%") && !token.any { it.isLetter() }) {
+                        val numPart = token.replace("%", "")
+                        try {
+                            val num = numPart.split("*", "/").last().toDoubleOrNull() ?: 0.0
+                            steps.add("   $num% = ${num/100}")
+                        } catch(e: Exception) {}
                     }
                     
                     steps.add("   $token = ${formatNum(termResult)}")
@@ -193,9 +196,19 @@ private fun generateSteps(expression: String, mode: String): List<String> {
 
 private fun evaluateTerm(term: String): Double {
     return try {
-        val expr = term.replace("%", "/100")
+        var expr = term.replace("%", "/100")
+            .replace("sin", "sin") // exp4j mendukung sin, cos, dll
+            .replace("×", "*")
+            .replace("÷", "/")
+        
+        // Cek jika term mengandung angka diikuti fungsi tanpa operator (misal 3sin)
+        // Tambahkan perkalian otomatis jika perlu
+        expr = expr.replace(Regex("(\\d)([a-z])"), "$1*$2")
+        
         ExpressionBuilder(expr).build().evaluate()
-    } catch (e: Exception) { 0.0 }
+    } catch (e: Exception) { 
+        0.0 
+    }
 }
 
 private fun formatNum(num: Double): String {

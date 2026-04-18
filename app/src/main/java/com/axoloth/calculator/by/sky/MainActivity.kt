@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.axoloth.calculator.by.sky.screen.renderKalkulatorScreen
 import com.google.firebase.Firebase
 import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -37,14 +36,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Splash screen harus dipanggil sebelum super.onCreate
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         
-        // 1. Tampilkan UI Seketika (Prioritas Utama)
-        setupUI()
-        
-        // 2. Jalankan proses berat di background agar tidak membekukan UI
+        // Jalankan proses berat di background agar tidak membekukan UI
         Thread {
             try {
                 Firebase.initialize(context = this)
@@ -62,13 +59,27 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
 
-        // 3. Navigasi back & Izin (Ringan, bisa di main thread)
+        // Navigasi back & Izin (Ringan, bisa di main thread)
         setupBackNavigation()
         checkNotificationPermission()
     }
 
-    private fun setupUI() {
-        setContentView(renderKalkulatorScreen(this))
+    private fun setupBackNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    supportFragmentManager.popBackStack()
+                } else {
+                    if (backPressedOnce) {
+                        finish()
+                    } else {
+                        backPressedOnce = true
+                        Toast.makeText(this@MainActivity, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 2000)
+                    }
+                }
+            }
+        })
     }
 
     private fun checkNotificationPermission() {
@@ -95,31 +106,6 @@ class MainActivity : AppCompatActivity() {
             val token = task.result
             Log.d(TAG, "FCM Token: $token")
         }
-    }
-
-    private fun setupBackNavigation() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (currentScreen != "Kalkulator") {
-                    // Jika bukan di kalkulator, balik ke kalkulator
-                    currentScreen = "Kalkulator"
-                    setContentView(renderKalkulatorScreen(this@MainActivity))
-                } else {
-                    // Jika di kalkulator, butuh 2x klik
-                    if (backPressedOnce) {
-                        finish()
-                        return
-                    }
-
-                    backPressedOnce = true
-                    Toast.makeText(this@MainActivity, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show()
-
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        backPressedOnce = false
-                    }, 2000)
-                }
-            }
-        })
     }
 
     private fun setupRemoteConfig() {
