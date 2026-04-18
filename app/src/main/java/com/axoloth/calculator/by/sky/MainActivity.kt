@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.Firebase
 import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -54,6 +55,13 @@ class MainActivity : AppCompatActivity() {
                 MobileAds.initialize(this) { status ->
                     Log.d(TAG, "AdMob Initialized: $status")
                 }
+
+                // Tambahkan Test Device ID agar iklan tes muncul lebih stabil
+                val testDeviceIds = listOf("DB5BC68681E7E6BFA8D4001F02B07CEA")
+                val configuration = RequestConfiguration.Builder()
+                    .setTestDeviceIds(testDeviceIds)
+                    .build()
+                MobileAds.setRequestConfiguration(configuration)
                 
                 // Inisialisasi Remote Config (Ambil API_KEY)
                 setupRemoteConfig()
