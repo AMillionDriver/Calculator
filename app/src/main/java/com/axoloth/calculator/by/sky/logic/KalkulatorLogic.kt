@@ -62,10 +62,14 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditT
         activity.setContentView(renderSettingsScreen(activity))
     }
 
-    // Tombol Kurs (Coming Soon)
+    // Tombol Kurs
     view.findViewById<Button>(R.id.btn_kurs).setOnClickListener {
         playAnim(activity, it)
-        Snackbar.make(view, "This Feature Will Available Soon", Snackbar.LENGTH_SHORT).show()
+        val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
+        TransitionManager.beginDelayedTransition(rootLayout, Slide(Gravity.END))
+        
+        if (activity is MainActivity) activity.updateCurrentScreen("Kurs")
+        activity.setContentView(com.axoloth.calculator.by.sky.screen.renderKursScreen(activity))
     }
 
     // Tombol Weight

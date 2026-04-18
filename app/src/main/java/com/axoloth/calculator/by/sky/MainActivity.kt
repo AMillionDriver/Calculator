@@ -20,11 +20,15 @@ import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.initialize
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 
 class MainActivity : AppCompatActivity() {
 
     private var backPressedOnce = false
     private var currentScreen = "Kalkulator" // Lacak screen aktif
+    private var currencyApiKey = "" // Untuk simpan API Key dari Firebase
 
     companion object {
         private const val TAG = "MainActivity"
@@ -47,6 +51,9 @@ class MainActivity : AppCompatActivity() {
                 Firebase.appCheck.installAppCheckProviderFactory(
                     PlayIntegrityAppCheckProviderFactory.getInstance(),
                 )
+                
+                // Inisialisasi Remote Config (Ambil API_KEY)
+                setupRemoteConfig()
                 
                 // Proses lainnya yang tidak butuh UI segera
                 fetchFCMToken()
@@ -114,6 +121,26 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun setupRemoteConfig() {
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600 // Ambil update setiap 1 jam
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                currencyApiKey = remoteConfig.getString("API_KEY")
+                Log.d(TAG, "Remote Config Success. API_KEY Loaded.")
+            } else {
+                Log.e(TAG, "Remote Config Fetch Failed")
+            }
+        }
+    }
+
+    // Helper untuk ambil API Key dari mana saja
+    fun getCurrencyApiKey(): String = currencyApiKey
 
     // Fungsi helper untuk mengubah screen (dipanggil dari logic)
     fun updateCurrentScreen(screenName: String) {

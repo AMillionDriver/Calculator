@@ -7,12 +7,15 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 /**
- * Interface untuk mendefinisikan endpoint API Kurs
+ * Interface untuk mendefinisikan endpoint API Kurs dengan API Key dinamis.
  */
 interface KursApiService {
-    // Kita gunakan API Key "69b59e3341b31a316982404e" sebagai contoh (Atau ganti dengan milikmu)
-    @GET("v6/69b59e3341b31a316982404e/latest/{base}")
-    fun getLatestRates(@Path("base") baseCurrency: String): Call<ExchangeRateResponse>
+    
+    @GET("v6/{apiKey}/latest/{base}")
+    fun getLatestRates(
+        @Path("apiKey") apiKey: String,
+        @Path("base") baseCurrency: String
+    ): Call<ExchangeRateResponse>
 
     companion object {
         private const val BASE_URL = "https://v6.exchangerate-api.com/"

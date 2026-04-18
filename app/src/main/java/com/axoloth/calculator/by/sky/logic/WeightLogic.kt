@@ -40,7 +40,10 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
         "Panjang" to listOf("Kilometer (km)" to 1000.0, "Meter (m)" to 1.0, "Centimeter (cm)" to 0.01, "Millimeter (mm)" to 0.001, "Inch (in)" to 0.0254, "Foot (ft)" to 0.3048),
         "Area" to listOf("Square Meter (m²)" to 1.0, "Square KM (km²)" to 1000000.0, "Hectare (ha)" to 10000.0, "Acre" to 4046.86),
         "Volume" to listOf("Liter (L)" to 1.0, "Milliliter (ml)" to 0.001, "Cubic Meter (m³)" to 1000.0, "Gallon" to 3.78541),
-        "Suhu" to listOf("Celsius (°C)" to 1.0, "Fahrenheit (°F)" to 0.0, "Kelvin (K)" to 0.0)
+        "Suhu" to listOf("Celsius (°C)" to 1.0, "Fahrenheit (°F)" to 0.0, "Kelvin (K)" to 0.0),
+        "Speed" to listOf("m/s" to 1.0, "km/h" to 0.277778, "mph" to 0.44704, "Knot" to 0.514444),
+        "Pressure" to listOf("Pascal (Pa)" to 1.0, "Bar" to 100000.0, "PSI" to 6894.76, "Atmosphere (atm)" to 101325.0),
+        "Power" to listOf("Watt (W)" to 1.0, "Kilowatt (kW)" to 1000.0, "Horsepower (hp)" to 745.7)
     )
 
     var fromUnit = unitsData["Berat"]!![0]
@@ -141,7 +144,8 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
     // --- Category Switch ---
     val categories = mapOf(
         R.id.btnBerat to "Berat", R.id.btnPanjang to "Panjang",
-        R.id.btnArea to "Area", R.id.btnVolume to "Volume", R.id.btnSuhu to "Suhu"
+        R.id.btnArea to "Area", R.id.btnVolume to "Volume", R.id.btnSuhu to "Suhu",
+        R.id.btnSpeed to "Speed", R.id.btnPressure to "Pressure", R.id.btnPower to "Power"
     )
 
     categories.forEach { (id, name) ->
