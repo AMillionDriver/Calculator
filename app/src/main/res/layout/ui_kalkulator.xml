@@ -115,7 +115,9 @@
                     android:text="@string/Zero"
                     android:textColor="#FFFFFF"
                     android:textSize="72sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
 
             <!-- Scientific Keypad -->

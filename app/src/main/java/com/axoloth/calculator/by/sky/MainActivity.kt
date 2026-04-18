@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.Firebase
 import com.google.firebase.appcheck.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -48,6 +49,11 @@ class MainActivity : AppCompatActivity() {
                 Firebase.appCheck.installAppCheckProviderFactory(
                     PlayIntegrityAppCheckProviderFactory.getInstance(),
                 )
+
+                // Inisialisasi AdMob
+                MobileAds.initialize(this) { status ->
+                    Log.d(TAG, "AdMob Initialized: $status")
+                }
                 
                 // Inisialisasi Remote Config (Ambil API_KEY)
                 setupRemoteConfig()

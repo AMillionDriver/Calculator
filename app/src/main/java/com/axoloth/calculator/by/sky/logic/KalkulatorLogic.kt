@@ -129,15 +129,6 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditT
         }
     }
 
-    // Tombol Tahan Hasil (Untuk Lihat Cara Hitung / Explanation)
-    tvResult.setOnLongClickListener {
-        val input = tvInput.text.toString()
-        if (input.isNotEmpty() && input.any { it.isDigit() }) {
-            showCalculationSteps(activity, input)
-        }
-        true
-    }
-
     // Tombol Mode Switcher (Scientific Menu)
     val scientificGrid = view.findViewById<ConstraintLayout>(R.id.scientificGridLayout)
     view.findViewById<Button>(R.id.btn_mode_switcher).setOnClickListener {
@@ -213,7 +204,8 @@ private fun setupOperatorLogic(activity: AppCompatActivity, view: View, tvInput:
         }
     }
 
-    view.findViewById<Button>(R.id.btn_equal).setOnClickListener {
+    val btnEqual = view.findViewById<Button>(R.id.btn_equal)
+    btnEqual.setOnClickListener {
         playAnim(activity, it)
         val input = tvInput.text.toString()
         if (input.isNotEmpty()) {
@@ -230,6 +222,16 @@ private fun setupOperatorLogic(activity: AppCompatActivity, view: View, tvInput:
                 pref.edit().putString("last_input", res).apply()
             }
         }
+    }
+
+    // Long click pada "=" untuk memunculkan penjelasan cara hitung
+    btnEqual.setOnLongClickListener {
+        val input = tvInput.text.toString()
+        if (input.isNotEmpty()) {
+            it.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
+            showCalculationSteps(activity, input)
+        }
+        true
     }
 }
 
@@ -370,10 +372,6 @@ private fun navigateToFragment(activity: AppCompatActivity, fragment: Fragment) 
         .replace(R.id.fragment_container, fragment)
         .addToBackStack(null)
         .commit()
-}
-
-private fun showCalculationSteps(activity: AppCompatActivity, input: String) {
-    // Implementasi BottomSheet untuk penjelasan langkah hitung (TODO)
 }
 
 private fun playAnim(activity: AppCompatActivity, view: View) {
