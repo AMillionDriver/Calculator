@@ -17,8 +17,8 @@ android {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 23
-        versionName = "4.09.23"
+        versionCode = 24
+        versionName = "4.10.24"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,7 +29,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

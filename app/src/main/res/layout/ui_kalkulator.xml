@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
     android:fitsSystemWindows="true">
 
-    <!-- Header / Top Navigation -->
+    <!-- Header / Top Navigation (Tetap di atas) -->
     <LinearLayout
         android:id="@+id/linearLayout"
         style="?android:attr/buttonBarStyle"
@@ -60,314 +59,150 @@
             app:cornerRadius="20dp" />
     </LinearLayout>
 
-    <!-- Display Area (Input & Result) -->
-
-    <!-- Scientific Keypad Area (Hidden by Default) -->
-    <GridLayout
-        android:id="@+id/scientificGridLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:padding="8dp"
-        android:rowCount="3"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/mode_switcher_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Baris S1 -->
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_kurung_buka" android:layout_width="0dp" android:layout_columnWeight="1" android:text="(" android:textColor="#4DB6AC" android:textSize="20sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_kurung_tutup" android:layout_width="0dp" android:layout_columnWeight="1" android:text=")" android:textColor="#4DB6AC" android:textSize="20sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_akar" android:layout_width="0dp" android:layout_columnWeight="1" android:text="√" android:textColor="#4DB6AC" android:textSize="20sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_pangkat" android:layout_width="0dp" android:layout_columnWeight="1" android:text="^" android:textColor="#4DB6AC" android:textSize="20sp" />
-
-        <!-- Baris S2 -->
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_sin" android:layout_width="0dp" android:layout_columnWeight="1" android:text="sin" android:textColor="#4DB6AC" android:textSize="18sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_cos" android:layout_width="0dp" android:layout_columnWeight="1" android:text="cos" android:textColor="#4DB6AC" android:textSize="18sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_tan" android:layout_width="0dp" android:layout_columnWeight="1" android:text="tan" android:textColor="#4DB6AC" android:textSize="18sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_log" android:layout_width="0dp" android:layout_columnWeight="1" android:text="log" android:textColor="#4DB6AC" android:textSize="18sp" />
-
-        <!-- Baris S3 -->
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_ln" android:layout_width="0dp" android:layout_columnWeight="1" android:text="ln" android:textColor="#4DB6AC" android:textSize="18sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_pi" android:layout_width="0dp" android:layout_columnWeight="1" android:text="π" android:textColor="#4DB6AC" android:textSize="20sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_e" android:layout_width="0dp" android:layout_columnWeight="1" android:text="e" android:textColor="#4DB6AC" android:textSize="20sp" />
-        <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_inv" android:layout_width="0dp" android:layout_columnWeight="1" android:text="±" android:textColor="#4DB6AC" android:textSize="20sp" />
-    </GridLayout>
-
-    <!-- Keypad Area -->
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
+    <!-- Konten Utama dalam ScrollView agar Aman saat di-Resize (Multi-window) -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="bottom|end"
-        android:orientation="vertical"
-        android:padding="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/scientificGridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <EditText
-            android:id="@+id/tv_input"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:cursorVisible="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="end"
-            android:inputType="textNoSuggestions"
-            android:text=""
-            android:textColor="#B3FFFFFF"
-            android:textSize="30sp"
-            android:textStyle="normal" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:autoSizeMaxTextSize="60sp"
-            android:autoSizeMinTextSize="24sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="end"
-            android:maxLines="1"
-            android:text="@string/Zero"
-            android:textColor="#FFFFFF"
-            android:textSize="60sp"
-            android:textStyle="bold" />
+            <!-- Display Area -->
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|end"
+                android:minHeight="180dp"
+                android:orientation="vertical"
+                android:padding="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/tv_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="end"
+                    android:inputType="textNoSuggestions"
+                    android:text=""
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="30sp" />
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:padding="8dp"
-        android:rowCount="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+                <TextView
+                    android:id="@+id/tv_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:autoSizeMaxTextSize="60sp"
+                    android:autoSizeMinTextSize="24sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="@string/Zero"
+                    android:textColor="#FFFFFF"
+                    android:textSize="60sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        <!-- Baris 1 -->
-        <Button
-            android:id="@+id/btn_c"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/c"
-            android:textColor="#FF5252"
-            android:textSize="28sp" />
+            <!-- Scientific Keypad -->
+            <GridLayout
+                android:id="@+id/scientificGridLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:padding="8dp"
+                android:rowCount="3"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_kurung_buka" android:layout_width="0dp" android:layout_columnWeight="1" android:text="(" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_kurung_tutup" android:layout_width="0dp" android:layout_columnWeight="1" android:text=")" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_akar" android:layout_width="0dp" android:layout_columnWeight="1" android:text="√" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_pangkat" android:layout_width="0dp" android:layout_columnWeight="1" android:text="^" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_sin" android:layout_width="0dp" android:layout_columnWeight="1" android:text="sin" android:textColor="#4DB6AC" android:textSize="18sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_cos" android:layout_width="0dp" android:layout_columnWeight="1" android:text="cos" android:textColor="#4DB6AC" android:textSize="18sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_tan" android:layout_width="0dp" android:layout_columnWeight="1" android:text="tan" android:textColor="#4DB6AC" android:textSize="18sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_log" android:layout_width="0dp" android:layout_columnWeight="1" android:text="log" android:textColor="#4DB6AC" android:textSize="18sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_ln" android:layout_width="0dp" android:layout_columnWeight="1" android:text="ln" android:textColor="#4DB6AC" android:textSize="18sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_pi" android:layout_width="0dp" android:layout_columnWeight="1" android:text="π" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_e" android:layout_width="0dp" android:layout_columnWeight="1" android:text="e" android:textColor="#4DB6AC" android:textSize="20sp" />
+                <Button style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_inv" android:layout_width="0dp" android:layout_columnWeight="1" android:text="±" android:textColor="#4DB6AC" android:textSize="20sp" />
+            </GridLayout>
 
-        <Button
-            android:id="@+id/btn_persen"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Percent"
-            android:textColor="#4DB6AC"
-            android:textSize="28sp" />
+            <!-- Mode Switcher -->
+            <FrameLayout
+                android:id="@+id/mode_switcher_container"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scientificGridLayout">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="#33FFFFFF" />
+                <Button
+                    android:id="@+id/btn_mode_switcher"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="80dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="#1A4DB6AC"
+                    android:text="⌃"
+                    android:textColor="#4DB6AC"
+                    android:textSize="24sp"
+                    app:cornerRadius="16dp" />
+            </FrameLayout>
 
-        <Button
-            android:id="@+id/btn_backspace"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Backspace"
-            android:textColor="#4DB6AC"
-            android:textSize="28sp" />
+            <!-- Main Keypad -->
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:padding="8dp"
+                android:rowCount="5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mode_switcher_container">
+                <Button android:id="@+id/btn_c" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/c" android:textColor="#FF5252" android:textSize="28sp" />
+                <Button android:id="@+id/btn_persen" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Percent" android:textColor="#4DB6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_backspace" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Backspace" android:textColor="#4DB6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_bagi" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/perbagian" android:textColor="#4DB6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_7" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number7" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_8" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number8" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_9" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number9" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_kali" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/perkalian" android:textColor="#4DB6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_4" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number4" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_5" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number5" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_6" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number6" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_kurang" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/perkurangan" android:textColor="#4DB6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_1" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number1" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_2" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number2" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_3" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Number3" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_tambah" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/pertambahan" android:textColor="#56B6AC" android:textSize="28sp" />
+                <Button android:id="@+id/btn_nolnol" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/DoubleZero" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_0" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Zero" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_koma" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Coma" android:textColor="#FFFFFF" android:textSize="28sp" />
+                <Button android:id="@+id/btn_equal" style="@style/Widget.AppCompat.Button.Borderless" android:layout_width="0dp" android:layout_columnWeight="1" android:text="@string/Equal" android:textColor="@android:color/holo_orange_dark" android:textSize="35sp" android:textStyle="bold" />
+            </GridLayout>
 
-        <Button
-            android:id="@+id/btn_bagi"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/perbagian"
-            android:textColor="#4DB6AC"
-            android:textSize="28sp" />
-
-        <!-- Baris 2 -->
-        <Button
-            android:id="@+id/btn_7"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number7"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_8"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number8"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_9"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number9"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_kali"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/perkalian"
-            android:textColor="#4DB6AC"
-            android:textSize="28sp" />
-
-        <!-- Baris 3 -->
-        <Button
-            android:id="@+id/btn_4"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number4"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_5"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number5"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_6"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number6"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_kurang"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/perkurangan"
-            android:textColor="#4DB6AC"
-            android:textSize="28sp" />
-
-        <!-- Baris 4 -->
-        <Button
-            android:id="@+id/btn_1"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number1"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_2"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number2"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_3"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Number3"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_tambah"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/pertambahan"
-            android:textColor="#56B6AC"
-            android:textSize="28sp" />
-
-        <!-- Baris 5 -->
-        <Button
-            android:id="@+id/btn_nolnol"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/DoubleZero"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_0"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Zero"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_koma"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Coma"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp" />
-
-        <Button
-            android:id="@+id/btn_equal"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:text="@string/Equal"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-    </GridLayout>
-
-    <!-- Mode Switcher Area -->
-    <FrameLayout
-        android:id="@+id/mode_switcher_container"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Garis pemisah visual tipis -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="#33FFFFFF" />
-
-        <Button
-            android:id="@+id/btn_mode_switcher"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:backgroundTint="#1A4DB6AC"
-            android:text="⌃"
-            android:textColor="#4DB6AC"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:cornerRadius="16dp" />
-    </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
