@@ -12,7 +12,9 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import androidx.appcompat.app.AlertDialog
 import com.axoloth.calculator.by.sky.R
+import com.axoloth.calculator.by.sky.logic.LocaleHelper
 import com.google.android.datatransport.BuildConfig
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -27,6 +29,7 @@ fun setupSettingsLogic(activity: AppCompatActivity, view: View) {
     val btnPrivacy: Button = view.findViewById(R.id.btnPrivacy)
     val btnGithub: Button = view.findViewById(R.id.btnGithub)
     val btnApkPure: Button = view.findViewById(R.id.btnApkPure)
+    val btnLanguage: Button = view.findViewById(R.id.btnLangguage)
 
     // Logika Tombol Kembali
     btnBacks.setOnClickListener {
@@ -43,6 +46,12 @@ fun setupSettingsLogic(activity: AppCompatActivity, view: View) {
     }
     btnApkPure.setOnClickListener { 
         openUrl(activity, it, "https://apkpure.com/developer?id=30778344") 
+    }
+
+    // Logika Pilihan Bahasa
+    btnLanguage.setOnClickListener {
+        playAnim(activity, it)
+        showLanguageDialog(activity)
     }
 
     // Inisialisasi Banner Ads
@@ -75,6 +84,44 @@ private fun openUrl(activity: AppCompatActivity, view: View, url: String) {
     } catch (e: Exception) {
         Log.e(TAG, "Failed to open URL: $url", e)
     }
+}
+
+private fun showLanguageDialog(activity: AppCompatActivity) {
+    val languages = arrayOf(
+        "English (US)",
+        "English (UK)",
+        "Bahasa Indonesia",
+        "العربية (Arabic - UAE)",
+        "Deutsch (German)",
+        "Español (Spanish)",
+        "Français (French)",
+        "Français (Swiss)",
+        "Italiano (Italian)",
+        "Italiano (Swiss)",
+        "日本語 (Japanese)",
+        "한국어 (Korean)",
+        "Português (Brazil)",
+        "Русский (Russian)",
+        "中文 (Chinese)"
+    )
+
+    // Sesuai dengan nama folder values-xx-rXX
+    val languageCodes = arrayOf(
+        "en-US", "en-GB", "in-ID", "ar-AE", "de-DE", 
+        "es-ES", "fr-FR", "fr-CH", "it-IT", "it-CH", 
+        "ja-JP", "ko-KR", "pt-BR", "ru-RU", "zh-CN"
+    )
+
+    AlertDialog.Builder(activity, R.style.Theme_Kalkulator)
+        .setTitle(activity.getString(R.string.langguage))
+        .setItems(languages) { _, which ->
+            val selectedTag = languageCodes[which]
+            LocaleHelper.setLocale(activity, selectedTag)
+            
+            // Restart Activity untuk menerapkan bahasa
+            activity.recreate() 
+        }
+        .show()
 }
 
 private fun playAnim(activity: AppCompatActivity, view: View) {

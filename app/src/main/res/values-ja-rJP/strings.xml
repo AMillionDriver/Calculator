@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">電卓</string>
+    <string name="settings">設定</string>
+    <string name="privacy">プライバシーポリシー</string>
+    <string name="eula">利用規約 (EULA)</string>
+    <string name="langguage">言語切替</string>
+    <string name="github">Github</string>
+    <string name="apkpure">その他</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">計算分析</string>
+    <string name="expl_desc">システムが数値をどのようにロジック解析するかを学びます</string>
+    <string name="btn_done">学習完了</string>
+</resources>

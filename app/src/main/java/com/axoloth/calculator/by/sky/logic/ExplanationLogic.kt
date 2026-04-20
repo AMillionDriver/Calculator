@@ -24,7 +24,7 @@ fun showCalculationSteps(context: Context, expression: String) {
     val toggleGroup = view.findViewById<MaterialButtonToggleGroup>(R.id.toggle_mode)
     val btnClose = view.findViewById<Button>(R.id.btn_close_expl)
 
-    tvTitle.text = "Cara Menghitung: $expression"
+    tvTitle.text = "${context.getString(R.string.expl_title)}: $expression"
 
     btnClose.setOnClickListener {
         dialog.dismiss()
@@ -33,21 +33,34 @@ fun showCalculationSteps(context: Context, expression: String) {
     fun renderSteps(mode: String) {
         container.removeAllViews()
         val steps = generateSteps(expression, mode)
-        steps.forEach { step ->
+        steps.forEachIndexed { index, step ->
             val textView = TextView(context).apply {
                 text = step
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-                setPadding(0, 16, 0, 16)
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                setPadding(0, 12, 0, 12)
                 setTextColor(context.getColor(android.R.color.white))
-                if (step.startsWith("✓") || step.startsWith("Hasil") || step.startsWith("Step")) {
+                
+                // Styling khusus untuk step utama
+                if (step.startsWith("Step") || step.startsWith("Hasil") || step.startsWith("Penyelesaian")) {
                     setTypeface(null, android.graphics.Typeface.BOLD)
+                    setTextColor(context.getColor(android.R.color.holo_blue_light))
                 }
             }
             container.addView(textView)
+            
+            // Tambahkan garis pemisah antar langkah jika bukan langkah terakhir
+            if (index < steps.size - 1) {
+                val divider = View(context).apply {
+                    layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
+                    setBackgroundColor(context.getColor(android.R.color.darker_gray))
+                    alpha = 0.2f
+                }
+                container.addView(divider)
+            }
         }
     }
 
-    renderSteps("Simple")
+    renderSteps("Complex") // Default ke mode Complex agar step-by-step terlihat
 
     toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
         if (isChecked) {
@@ -66,101 +79,77 @@ private fun generateSteps(expression: String, mode: String): List<String> {
     val steps = mutableListOf<String>()
     val PI_VAL = "3.1415926535897932384626433832795028841971"
     
-    // Tampilkan Informasi Konstanta jika ada
-    if (expression.contains("π") && mode == "Complex") {
-        steps.add("Catatan: π yang digunakan adalah High Precision (40 digit):\n$PI_VAL\n")
+    // Normalisasi awal
+    var currentExpr = expression.replace("×", "*").replace("÷", "/")
+    steps.add("Soal Asli:\n$expression")
+
+    if (mode == "Shortway") {
+        steps.add("Trik Cepat:")
+        steps.add("• Selesaikan perkalian besar dulu.")
+        steps.add("• Gabungkan sisa unit di akhir.")
+        val res = evaluateTerm(currentExpr)
+        steps.add("\n✓ Hasil Akhir: ${formatNum(res)}")
+        return steps
     }
 
-    // Pembersihan Dasar
-    val cleaned = expression.replace("×", "*").replace("÷", "/")
-    
-    if (mode == "Complex") {
-        steps.add("Aturan BODMAS/PEMDAS:")
-        steps.add("1. Kurung ()\n2. Pangkat ^\n3. Perkalian/Pembagian\n4. Penjumlahan/Pengurangan\n")
+    // --- LANGKAH 1: HANDLING PI & CONSTANTS ---
+    if (currentExpr.contains("π")) {
+        steps.add("Step 1) Substitusi nilai π (40 digit):")
+        currentExpr = currentExpr.replace("π", "($PI_VAL)")
+        steps.add("= $currentExpr")
     }
 
-    // Step 1: Handling Parentheses (Langkah di dalam kurung)
-    var currentExpr = cleaned
-    if (currentExpr.contains("(") && mode == "Complex") {
-        steps.add("Step 1) Selesaikan di dalam kurung:")
+    // --- LANGKAH 2: PARENTHESES (KURUNG) ---
+    if (currentExpr.contains("(")) {
+        steps.add("Step 2) Hitung bagian di dalam kurung:")
         val parenthesesRegex = Regex("\\(([^()]+)\\)")
         var match = parenthesesRegex.find(currentExpr)
         while (match != null) {
             val inside = match.groupValues[1]
             val result = evaluateTerm(inside)
-            steps.add("   ($inside) = ${formatNum(result)}")
-            currentExpr = currentExpr.replace("($inside)", formatNum(result))
+            val oldExpr = "($inside)"
+            currentExpr = currentExpr.replace(oldExpr, formatNum(result))
+            steps.add("→ $oldExpr menjadi ${formatNum(result)}")
+            steps.add("= $currentExpr")
             match = parenthesesRegex.find(currentExpr)
         }
-        steps.add("Ekspresi sekarang: $currentExpr\n")
     }
 
-    // Step 2: Split by Terms (Penjumlahan/Pengurangan)
-    val tokens = currentExpr.split(Regex("(?=[+-])|(?<=[+-])")).filter { it.isNotBlank() }
-    val results = mutableListOf<Double>()
-    val processedTerms = mutableListOf<String>()
-
-    var stepIdx = if (mode == "Complex") 2 else 1
-    tokens.forEach { token ->
-        if (token == "+" || token == "-") {
-            processedTerms.add(token)
-        } else {
-            val termResult = evaluateTerm(token)
-            
-            if (mode == "Complex" && (token.contains("*") || token.contains("/") || token.contains("%") || token.contains("^"))) {
-                steps.add("Step $stepIdx) Hitung Blok: $token")
-                
-                // Penjelasan Khusus Persen
-                if (token.contains("%")) {
-                    steps.add("   Ingat: % berarti dibagi 100")
-                }
-                
-                steps.add("   Hasil = ${formatNum(termResult)}")
-                stepIdx++
-            }
-            
-            results.add(if (processedTerms.lastOrNull() == "-") -termResult else termResult)
-            processedTerms.add(formatNum(termResult))
-        }
-    }
-
-    // Final Assembly
-    if (mode == "Complex") {
-        steps.add("\nStep $stepIdx) Gabungkan hasil akhir:")
-        steps.add(processedTerms.joinToString(" "))
-        
-        if (results.size > 1) {
-            var runningTotal = results[0]
-            for (i in 1 until results.size) {
-                val nextVal = results[i]
-                val op = if (nextVal >= 0) "+" else "-"
-                val oldTotal = runningTotal
-                runningTotal += nextVal
-                steps.add("   ${formatNum(oldTotal)} $op ${formatNum(Math.abs(nextVal))} = ${formatNum(runningTotal)}")
+    // --- LANGKAH 3: MULTIPLICATION / DIVISION (KALI / BAGI) ---
+    if (currentExpr.contains("*") || currentExpr.contains("/")) {
+        steps.add("Step 3) Hitung Perkalian dan Pembagian:")
+        // Kita gunakan pendekatan blok untuk menyederhanakan visual
+        val tokens = currentExpr.split(Regex("(?=[+-])|(?<=[+-])")).filter { it.isNotBlank() }
+        val sb = StringBuilder()
+        tokens.forEach { token ->
+            if (token.contains("*") || token.contains("/")) {
+                val res = evaluateTerm(token)
+                sb.append(formatNum(res))
+                steps.add("→ $token = ${formatNum(res)}")
+            } else {
+                sb.append(token)
             }
         }
-    } else if (mode == "Simple") {
-        steps.add("Penyelesaian Sederhana:")
-        steps.add("= " + processedTerms.joinToString(" "))
-        steps.add("= ${formatNum(results.sum())}")
+        currentExpr = sb.toString()
+        steps.add("= $currentExpr")
     }
 
-    // Shortway Strategy
-    if (mode == "Shortway") {
-        steps.add("Trik Cepat (Mental Math):")
-        val finalRes = results.sum()
-        
-        if (expression.contains("9")) {
-            steps.add("• Gunakan pembulatan (misal 99 jadi 100-1)")
-        }
-        steps.add("• Hitung angka besar terlebih dahulu")
-        steps.add("• Gabungkan sisa angka kecil di akhir")
-        steps.add("\n✓ Hasil Akhir: ${formatNum(finalRes)}")
-        return steps
+    // --- LANGKAH 4: ADDITION / SUBTRACTION (TAMBAH / KURANG) ---
+    if (currentExpr.contains("+") || (currentExpr.contains("-") && currentExpr.indexOf("-") > 0)) {
+        steps.add("Step 4) Selesaikan Penjumlahan dan Pengurangan:")
+        val finalResult = evaluateTerm(currentExpr)
+        steps.add("= ${formatNum(finalResult)}")
     }
 
-    steps.add("\nHasil Akhir:\n${formatNum(results.sum())}")
-    return steps
+    // --- FINAL RESULT ---
+    val finalRes = evaluateTerm(expression.replace("×", "*").replace("÷", "/"))
+    steps.add("\nHasil Akhir:\n${formatNum(finalRes)}")
+
+    return if (mode == "Simple") {
+        listOf("Penyelesaian Sederhana:", expression, "= ${formatNum(finalRes)}")
+    } else {
+        steps
+    }
 }
 
 private fun evaluateTerm(term: String): Double {
@@ -169,6 +158,7 @@ private fun evaluateTerm(term: String): Double {
         var expr = term.replace("π", "($PI_VAL)")
             .replace("e", "(2.7182818284)")
             .replace("%", "/100")
+            .replace(",", ".") // Pastikan titik untuk engine
         
         // Implicit Multiply
         expr = expr.replace(Regex("(\\d)([a-zA-Z(])"), "$1*$2")
@@ -178,5 +168,10 @@ private fun evaluateTerm(term: String): Double {
 }
 
 private fun formatNum(num: Double): String {
-    return if (num % 1 == 0.0) num.toLong().toString() else "%.8f".format(Locale.US, num).trimEnd('0').trimEnd('.')
+    val locale = Locale.getDefault()
+    return if (num % 1 == 0.0) {
+        String.format(locale, "%d", num.toLong())
+    } else {
+        String.format(locale, "%.8f", num).trimEnd('0').trimEnd { it == '.' || it == ',' }
+    }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kalkulator</string>
+    <string name="settings">Pengaturan</string>
+    <string name="privacy">Kebijakan Privasi</string>
+    <string name="eula">Ketentuan Pengguna (EULA)</string>
+    <string name="langguage">Ganti Bahasa</string>
+    <string name="github">Github</string>
+    <string name="apkpure">Lainnya</string>
+    <string name="BackButton">←</string>
+
+    <!-- Penjelasan (Explanation) -->
+    <string name="expl_title">Analisis Perhitungan</string>
+    <string name="expl_desc">Pelajari bagaimana sistem memecah logika angka Anda</string>
+    <string name="btn_done">Selesai Belajar</string>
+</resources>

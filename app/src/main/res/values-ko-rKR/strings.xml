@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">계산기</string>
+    <string name="settings">설정</string>
+    <string name="privacy">개인정보 처리방침</string>
+    <string name="eula">사용자 약관 (EULA)</string>
+    <string name="langguage">언어 변경</string>
+    <string name="github">Github</string>
+    <string name="apkpure">기타</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">계산 분석</string>
+    <string name="expl_desc">시스템이 수치를 어떻게 논리적으로 분석하는지 확인하세요</string>
+    <string name="btn_done">학습 완료</string>
+</resources>

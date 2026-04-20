@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">حاسبة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="privacy">سياسة الخصوصية</string>
+    <string name="eula">اتفاقية المستخدم (EULA)</string>
+    <string name="langguage">تغيير اللغة</string>
+    <string name="github">GitHub</string>
+    <string name="apkpure">آخر</string>
+    <string name="BackButton">→</string> <string name="expl_title">تحليل الحساب</string>
+    <string name="expl_desc">تعرف على كيفية قيام النظام بتحليل منطق أرقامك</string>
+    <string name="btn_done">إنهاء التعلم</string>
+</resources>

@@ -40,4 +40,9 @@
     <string name="perkurangan">-</string>
     <string name="pertambahan">+</string>
     <string name="menu_switcher">∴</string>
+    <string name="langguage">Language</string>
+    <string name="eula">User Terms (EULA)</string>
+    <string name="expl_title">Calculation Analysis</string>
+    <string name="expl_desc">Learn how the system breaks down your number logic</string>
+    <string name="btn_done">Finish Learning</string>
 </resources>

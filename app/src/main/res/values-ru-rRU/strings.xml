@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Калькулятор</string>
+    <string name="settings">Настройки</string>
+    <string name="privacy">Политика конфиденциальности</string>
+    <string name="eula">Пользовательское соглашение (EULA)</string>
+    <string name="langguage">Сменить язык</string>
+    <string name="github">GitHub</string>
+    <string name="apkpure">Другое</string>
+    <string name="BackButton">←</string>
+    <string name="expl_title">Анализ вычислений</string>
+    <string name="expl_desc">Узнайте, как система разбирает логику ваших чисел</string>
+    <string name="btn_done">Завершить обучение</string>
+</resources>

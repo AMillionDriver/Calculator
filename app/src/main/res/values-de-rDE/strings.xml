@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rechner</string>
+    <string name="settings">Einstellungen</string>
+    <string name="privacy">Datenschutzrichtlinie</string>
+    <string name="eula">Endbenutzer-Lizenzvertrag (EULA)</string>
+    <string name="langguage">Sprache ändern</string>
+    <string name="github">Github</string>
+    <string name="apkpure">Sonstiges</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">Berechnungsanalyse</string>
+    <string name="expl_desc">Erfahren Sie, wie das System die Logik Ihrer Zahlen aufschlüsselt</string>
+    <string name="btn_done">Lernen beenden</string>
+</resources>

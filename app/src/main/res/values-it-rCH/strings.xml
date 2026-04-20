@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calcolatrice</string>
+    <string name="settings">Impostazioni</string>
+    <string name="privacy">Direttiva sulla privacy</string>
+    <string name="eula">Accordo per l\'utente (EULA)</string>
+    <string name="langguage">Cambia lingua</string>
+    <string name="github">GitHub</string>
+    <string name="apkpure">ApkPure</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">Analisi del calcolo</string>
+    <string name="expl_desc">Scopri come il sistema analizza la logica dei tuoi numeri</string>
+    <string name="btn_done">Termina apprendimento</string>
+</resources>

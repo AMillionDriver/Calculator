@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculatrice</string>
+    <string name="settings">Paramètres</string>
+    <string name="privacy">Politique de confidentialité</string>
+    <string name="eula">Contrat de licence utilisateur (CLUF)</string>
+    <string name="langguage">Changer de langue</string>
+    <string name="github">GitHub</string>
+    <string name="apkpure">ApkPure</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">Analyse du calcul</string>
+    <string name="expl_desc">Découvrez comment le système analyse la logique de vos chiffres</string>
+    <string name="btn_done">Terminer l\'apprentissage</string>
+</resources>

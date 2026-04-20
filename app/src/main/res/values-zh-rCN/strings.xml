@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">计算器</string>
+    <string name="settings">设置</string>
+    <string name="privacy">隐私政策</string>
+    <string name="eula">用户协议 (EULA)</string>
+    <string name="langguage">切换语言</string>
+    <string name="github">GitHub</string>
+    <string name="apkpure">其他</string>
+    <string name="BackButton">←</string>
+
+    <string name="expl_title">计算分析</string>
+    <string name="expl_desc">了解系统如何拆解您的数字逻辑</string>
+    <string name="btn_done">学习完成</string>
+</resources>
