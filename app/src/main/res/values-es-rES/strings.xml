@@ -2,14 +2,48 @@
 <resources>
     <string name="app_name">Calculadora</string>
     <string name="settings">Ajustes</string>
-    <string name="privacy">Política de privacidad</string>
-    <string name="eula">Acuerdo de usuario (EULA)</string>
-    <string name="langguage">Cambiar idioma</string>
+    <string name="privacy">Privacidad</string>
+    <string name="c">C</string>
+    <string name="Percent">%</string>
+    <string name="Backspace">⌫</string>
+    <string name="Plus">÷</string>
+    <string name="Number7">7</string>
+    <string name="Number8">8</string>
+    <string name="Number9">9</string>
+    <string name="Multiple">×</string>
+    <string name="Number4">4</string>
+    <string name="Number5">5</string>
+    <string name="Number6">6</string>
+    <string name="Minus">-</string>
+    <string name="Number1">1</string>
+    <string name="Number2">2</string>
+    <string name="Number3">3</string>
+    <string name="Divided">+</string>
+    <string name="DoubleZero">00</string>
+    <string name="Zero">0</string>
+    <string name="Coma">,</string>
+    <string name="Equal">=</string>
+    <string name="Kurs">Divisa</string>
+    <string name="Weight">Peso</string>
+    <string name="BackButton"><![CDATA[<]]></string>
+    <string name="apkpure">APKPure</string>
     <string name="github">Github</string>
-    <string name="apkpure">Otros</string>
-    <string name="BackButton">←</string>
-
-    <string name="expl_title">Análisis del cálculo</string>
-    <string name="expl_desc">Aprenda cómo el sistema desglosa la lógica de sus números</string>
-    <string name="btn_done">Finalizar aprendizaje</string>
+    <string name="panjang">Longitud</string>
+    <string name="area">Área</string>
+    <string name="volume">Volumen</string>
+    <string name="kecepatan">Velocidad</string>
+    <string name="berat">Peso</string>
+    <string name="suhu">Temperatura</string>
+    <string name="daya">Potencia</string>
+    <string name="tekanan">Presión</string>
+    <string name="perbagian">÷</string>
+    <string name="perkalian">×</string>
+    <string name="perkurangan">-</string>
+    <string name="pertambahan">+</string>
+    <string name="menu_switcher">∴</string>
+    <string name="langguage">Idioma</string>
+    <string name="eula">EULA</string>
+    <string name="expl_title">Análisis de Cálculo</string>
+    <string name="expl_desc">Aprenda cómo el sistema desglosa su lógica numérica</string>
+    <string name="btn_done">Terminar Aprendizaje</string>
 </resources>

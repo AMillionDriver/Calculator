@@ -3,14 +3,47 @@
     <string name="app_name">Kalkulator</string>
     <string name="settings">Pengaturan</string>
     <string name="privacy">Kebijakan Privasi</string>
+    <string name="c">C</string>
+    <string name="Percent">%</string>
+    <string name="Backspace">⌫</string>
+    <string name="Plus">÷</string>
+    <string name="Number7">7</string>
+    <string name="Number8">8</string>
+    <string name="Number9">9</string>
+    <string name="Multiple">×</string>
+    <string name="Number4">4</string>
+    <string name="Number5">5</string>
+    <string name="Number6">6</string>
+    <string name="Minus">-</string>
+    <string name="Number1">1</string>
+    <string name="Number2">2</string>
+    <string name="Number3">3</string>
+    <string name="Divided">+</string>
+    <string name="DoubleZero">00</string>
+    <string name="Zero">0</string>
+    <string name="Coma">,</string>
+    <string name="Equal">=</string>
+    <string name="Kurs">Nilai Tukar</string>
+    <string name="Weight">Berat</string>
+    <string name="BackButton"><![CDATA[<]]></string>
+    <string name="apkpure">APKPure</string>
+    <string name="github">GitHub</string>
+    <string name="panjang">Panjang</string>
+    <string name="area">Luas</string>
+    <string name="volume">Volume</string>
+    <string name="kecepatan">Kecepatan</string>
+    <string name="berat">Massa</string>
+    <string name="suhu">Suhu</string>
+    <string name="daya">Daya</string>
+    <string name="tekanan">Tekanan</string>
+    <string name="perbagian">÷</string>
+    <string name="perkalian">×</string>
+    <string name="perkurangan">-</string>
+    <string name="pertambahan">+</string>
+    <string name="menu_switcher">∴</string>
+    <string name="langguage">Bahasa</string>
     <string name="eula">Ketentuan Pengguna (EULA)</string>
-    <string name="langguage">Ganti Bahasa</string>
-    <string name="github">Github</string>
-    <string name="apkpure">Lainnya</string>
-    <string name="BackButton">←</string>
-
-    <!-- Penjelasan (Explanation) -->
     <string name="expl_title">Analisis Perhitungan</string>
-    <string name="expl_desc">Pelajari bagaimana sistem memecah logika angka Anda</string>
-    <string name="btn_done">Selesai Belajar</string>
+    <string name="expl_desc">Pelajari bagaimana sistem memproses logika angka Anda</string>
+    <string name="btn_done">Selesai</string>
 </resources>

@@ -3,11 +3,45 @@
     <string name="app_name">حاسبة</string>
     <string name="settings">الإعدادات</string>
     <string name="privacy">سياسة الخصوصية</string>
-    <string name="eula">اتفاقية المستخدم (EULA)</string>
-    <string name="langguage">تغيير اللغة</string>
+    <string name="c">C</string>
+    <string name="Percent">%</string>
+    <string name="Backspace">⌫</string>
+    <string name="Plus">÷</string>
+    <string name="Number7">٧</string>
+    <string name="Number8">٨</string>
+    <string name="Number9">٩</string>
+    <string name="Multiple">×</string>
+    <string name="Number4">٤</string>
+    <string name="Number5">٥</string>
+    <string name="Number6">٦</string>
+    <string name="Minus">-</string>
+    <string name="Number1">١</string>
+    <string name="Number2">٢</string>
+    <string name="Number3">٣</string>
+    <string name="Divided">+</string>
+    <string name="DoubleZero">٠٠</string>
+    <string name="Zero">٠</string>
+    <string name="Coma">،</string> <string name="Equal">=</string>
+    <string name="Kurs">العملة</string>
+    <string name="Weight">الوزن</string>
+    <string name="BackButton"><![CDATA[>]]></string> <string name="apkpure">APKPure</string>
     <string name="github">GitHub</string>
-    <string name="apkpure">آخر</string>
-    <string name="BackButton">→</string> <string name="expl_title">تحليل الحساب</string>
-    <string name="expl_desc">تعرف على كيفية قيام النظام بتحليل منطق أرقامك</string>
-    <string name="btn_done">إنهاء التعلم</string>
+    <string name="panjang">الطول</string>
+    <string name="area">المساحة</string>
+    <string name="volume">الحجم</string>
+    <string name="kecepatan">السرعة</string>
+    <string name="berat">الكتلة</string>
+    <string name="suhu">درجة الحرارة</string>
+    <string name="daya">الطاقة</string>
+    <string name="tekanan">الضغط</string>
+    <string name="perbagian">÷</string>
+    <string name="perkalian">×</string>
+    <string name="perkurangan">-</string>
+    <string name="pertambahan">+</string>
+    <string name="menu_switcher">∴</string>
+    <string name="langguage">اللغة</string>
+    <string name="eula">اتفاقية المستخدم (EULA)</string>
+    <string name="expl_title">تحليل الحساب</string>
+    <string name="expl_desc">اكتشف كيف يفكك النظام المنطق الرقمي الخاص بك</string>
+    <string name="btn_done">تم</string>
 </resources>

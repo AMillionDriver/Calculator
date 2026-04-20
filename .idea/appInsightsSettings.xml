@@ -9,10 +9,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.axoloth.calculator.by.sky" />
+                  <option name="mobileSdkAppId" value="1:207437685884:android:f94403399e60a6fefd55f9" />
+                  <option name="projectId" value="studio-3744861515-befd0" />
+                  <option name="projectNumber" value="207437685884" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
