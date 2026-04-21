@@ -14,9 +14,10 @@ android {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 27
-        versionName = "4.16.27"
+        versionCode = 29
+        versionName = "4.18.29"
 
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.multidex:multidex:2.0.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

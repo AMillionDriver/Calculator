@@ -29,8 +29,18 @@
 # --- Exp4j (Mesin Kalkulator) ---
 -keep class net.objecthunter.exp4j.** { *; }
 
-# --- Lottie Animation ---
+# --- Lottie Animation (Recommended) ---
 -keep class com.airbnb.lottie.** { *; }
+-keep interface com.airbnb.lottie.** { *; }
+
+# Menjaga metadata penting agar Lottie bisa baca file JSON dengan benar
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes InnerClasses
+-keepattributes EnclosingMethod
+
+# Mencegah peringatan yang nggak perlu pas build
+-dontwarn com.airbnb.lottie.**
 
 # --- Umum ---
 -keepattributes *Annotation*

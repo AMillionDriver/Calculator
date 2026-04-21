@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.axoloth.calculator.by.sky.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButtonToggleGroup
+import kotlinx.coroutines.*
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.math.BigDecimal
 import java.util.*
@@ -23,8 +24,13 @@ fun showCalculationSteps(context: Context, expression: String) {
     val container = view.findViewById<LinearLayout>(R.id.steps_container)
     val toggleGroup = view.findViewById<MaterialButtonToggleGroup>(R.id.toggle_mode)
     val btnClose = view.findViewById<Button>(R.id.btn_close_expl)
+    val btnAi = view.findViewById<Button>(R.id.btnAi)
 
     tvTitle.text = "${context.getString(R.string.expl_title)}: $expression"
+
+    btnAi.setOnClickListener {
+        showAiTutorDialog(context, expression)
+    }
 
     btnClose.setOnClickListener {
         dialog.dismiss()
@@ -78,6 +84,65 @@ fun showCalculationSteps(context: Context, expression: String) {
     }
 
     dialog.show()
+}
+
+private var tts: android.speech.tts.TextToSpeech? = null
+
+private fun showAiTutorDialog(context: Context, expression: String) {
+    val aiDialog = BottomSheetDialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+    val view = LayoutInflater.from(context).inflate(R.layout.layout_ai_tutor, null)
+    aiDialog.setContentView(view)
+
+    val tvContent = view.findViewById<TextView>(R.id.tv_ai_content)
+    val btnClose = view.findViewById<View>(R.id.btn_close_ai)
+    val btnDone = view.findViewById<Button>(R.id.btn_done_ai)
+    val btnCopy = view.findViewById<Button>(R.id.btn_copy_ai)
+    val btnSpeak = view.findViewById<android.widget.ImageButton>(R.id.btn_speak_ai)
+
+    // Inisialisasi TTS
+    tts = android.speech.tts.TextToSpeech(context) { status ->
+        if (status == android.speech.tts.TextToSpeech.SUCCESS) {
+            tts?.language = Locale.getDefault()
+        }
+    }
+
+    btnSpeak.setOnClickListener {
+        val text = tvContent.text.toString()
+        if (text.isNotEmpty() && !text.startsWith("🤖")) {
+            tts?.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, null)
+        }
+    }
+
+    btnClose.setOnClickListener {
+        tts?.stop()
+        aiDialog.dismiss()
+    }
+    btnDone.setOnClickListener {
+        tts?.stop()
+        aiDialog.dismiss()
+    }
+
+    btnCopy.setOnClickListener {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clip = android.content.ClipData.newPlainText("AI Explanation", tvContent.text)
+        clipboard.setPrimaryClip(clip)
+        android.widget.Toast.makeText(context, "Copied to clipboard!", android.widget.Toast.LENGTH_SHORT).show()
+    }
+
+    // Panggil API Gemini
+    GlobalScope.launch(Dispatchers.Main) {
+        tvContent.text = "🤖 AI sedang memikirkan logika matematika Anda..."
+        val response = com.axoloth.calculator.by.sky.ai.logic.GeminiLogic.getAiExplanation(context, expression)
+
+        // Efek mengetik sederhana
+        tvContent.text = ""
+        response.split(" ").forEach { word ->
+            tvContent.append("$word ")
+            delay(30)
+        }
+    }
+
+    aiDialog.show()
 }
 
 private fun generateSteps(context: Context, expression: String, mode: String): List<String> {
