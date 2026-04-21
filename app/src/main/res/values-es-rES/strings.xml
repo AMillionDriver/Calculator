@@ -46,4 +46,15 @@
     <string name="expl_title">Análisis de Cálculo</string>
     <string name="expl_desc">Aprenda cómo el sistema desglosa su lógica numérica</string>
     <string name="btn_done">Terminar Aprendizaje</string>
+    <string name="expl_original_problem">Problema Original</string>
+    <string name="expl_quick_trick">Truco Rápido</string>
+    <string name="expl_trick_1">• Resolver multiplicaciones grandes primero.</string>
+    <string name="expl_trick_2">• Combinar las unidades restantes al final.</string>
+    <string name="expl_final_result_label">Resultado Final</string>
+    <string name="expl_step_1">Paso 1) Sustituir el valor de π (40 dígitos):</string>
+    <string name="expl_step_2">Paso 2) Calcular dentro de los paréntesis:</string>
+    <string name="expl_become">pasa a ser</string>
+    <string name="expl_step_3">Paso 3) Calcular Multiplicación y División:</string>
+    <string name="expl_step_4">Paso 4) Resolver Suma y Resta:</string>
+    <string name="expl_simple_solution">Solución Simple</string>
 </resources>

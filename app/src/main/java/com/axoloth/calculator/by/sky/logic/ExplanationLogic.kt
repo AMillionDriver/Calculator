@@ -32,7 +32,7 @@ fun showCalculationSteps(context: Context, expression: String) {
 
     fun renderSteps(mode: String) {
         container.removeAllViews()
-        val steps = generateSteps(expression, mode)
+        val steps = generateSteps(context, expression, mode)
         steps.forEachIndexed { index, step ->
             val textView = TextView(context).apply {
                 text = step
@@ -40,8 +40,13 @@ fun showCalculationSteps(context: Context, expression: String) {
                 setPadding(0, 12, 0, 12)
                 setTextColor(context.getColor(android.R.color.white))
                 
-                // Styling khusus untuk step utama
-                if (step.startsWith("Step") || step.startsWith("Hasil") || step.startsWith("Penyelesaian")) {
+                // Logic styling berdasarkan prefix bahasa
+                val isHeader = step.startsWith(context.getString(R.string.expl_step_1).substring(0, 4)) || 
+                               step.startsWith(context.getString(R.string.expl_final_result_label)) || 
+                               step.startsWith(context.getString(R.string.expl_simple_solution)) ||
+                               step.startsWith(context.getString(R.string.expl_original_problem))
+                
+                if (isHeader) {
                     setTypeface(null, android.graphics.Typeface.BOLD)
                     setTextColor(context.getColor(android.R.color.holo_blue_light))
                 }
@@ -75,33 +80,33 @@ fun showCalculationSteps(context: Context, expression: String) {
     dialog.show()
 }
 
-private fun generateSteps(expression: String, mode: String): List<String> {
+private fun generateSteps(context: Context, expression: String, mode: String): List<String> {
     val steps = mutableListOf<String>()
     val PI_VAL = "3.1415926535897932384626433832795028841971"
     
     // Normalisasi awal
     var currentExpr = expression.replace("×", "*").replace("÷", "/")
-    steps.add("Soal Asli:\n$expression")
+    steps.add("${context.getString(R.string.expl_original_problem)}:\n$expression")
 
     if (mode == "Shortway") {
-        steps.add("Trik Cepat:")
-        steps.add("• Selesaikan perkalian besar dulu.")
-        steps.add("• Gabungkan sisa unit di akhir.")
+        steps.add("${context.getString(R.string.expl_quick_trick)}:")
+        steps.add(context.getString(R.string.expl_trick_1))
+        steps.add(context.getString(R.string.expl_trick_2))
         val res = evaluateTerm(currentExpr)
-        steps.add("\n✓ Hasil Akhir: ${formatNum(res)}")
+        steps.add("\n✓ ${context.getString(R.string.expl_final_result_label)}: ${formatNum(res)}")
         return steps
     }
 
     // --- LANGKAH 1: HANDLING PI & CONSTANTS ---
     if (currentExpr.contains("π")) {
-        steps.add("Step 1) Substitusi nilai π (40 digit):")
+        steps.add(context.getString(R.string.expl_step_1))
         currentExpr = currentExpr.replace("π", "($PI_VAL)")
         steps.add("= $currentExpr")
     }
 
     // --- LANGKAH 2: PARENTHESES (KURUNG) ---
     if (currentExpr.contains("(")) {
-        steps.add("Step 2) Hitung bagian di dalam kurung:")
+        steps.add(context.getString(R.string.expl_step_2))
         val parenthesesRegex = Regex("\\(([^()]+)\\)")
         var match = parenthesesRegex.find(currentExpr)
         while (match != null) {
@@ -109,7 +114,7 @@ private fun generateSteps(expression: String, mode: String): List<String> {
             val result = evaluateTerm(inside)
             val oldExpr = "($inside)"
             currentExpr = currentExpr.replace(oldExpr, formatNum(result))
-            steps.add("→ $oldExpr menjadi ${formatNum(result)}")
+            steps.add("→ $oldExpr ${context.getString(R.string.expl_become)} ${formatNum(result)}")
             steps.add("= $currentExpr")
             match = parenthesesRegex.find(currentExpr)
         }
@@ -117,7 +122,7 @@ private fun generateSteps(expression: String, mode: String): List<String> {
 
     // --- LANGKAH 3: MULTIPLICATION / DIVISION (KALI / BAGI) ---
     if (currentExpr.contains("*") || currentExpr.contains("/")) {
-        steps.add("Step 3) Hitung Perkalian dan Pembagian:")
+        steps.add(context.getString(R.string.expl_step_3))
         // Kita gunakan pendekatan blok untuk menyederhanakan visual
         val tokens = currentExpr.split(Regex("(?=[+-])|(?<=[+-])")).filter { it.isNotBlank() }
         val sb = StringBuilder()
@@ -136,17 +141,17 @@ private fun generateSteps(expression: String, mode: String): List<String> {
 
     // --- LANGKAH 4: ADDITION / SUBTRACTION (TAMBAH / KURANG) ---
     if (currentExpr.contains("+") || (currentExpr.contains("-") && currentExpr.indexOf("-") > 0)) {
-        steps.add("Step 4) Selesaikan Penjumlahan dan Pengurangan:")
+        steps.add(context.getString(R.string.expl_step_4))
         val finalResult = evaluateTerm(currentExpr)
         steps.add("= ${formatNum(finalResult)}")
     }
 
     // --- FINAL RESULT ---
     val finalRes = evaluateTerm(expression.replace("×", "*").replace("÷", "/"))
-    steps.add("\nHasil Akhir:\n${formatNum(finalRes)}")
+    steps.add("\n${context.getString(R.string.expl_final_result_label)}:\n${formatNum(finalRes)}")
 
     return if (mode == "Simple") {
-        listOf("Penyelesaian Sederhana:", expression, "= ${formatNum(finalRes)}")
+        listOf("${context.getString(R.string.expl_simple_solution)}:", expression, "= ${formatNum(finalRes)}")
     } else {
         steps
     }

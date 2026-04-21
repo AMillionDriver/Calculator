@@ -45,4 +45,15 @@
     <string name="expl_title">Calculation Analysis</string>
     <string name="expl_desc">See how the system breaks down your math logic</string>
     <string name="btn_done">Done</string>
+    <string name="expl_original_problem">Original Problem</string>
+    <string name="expl_quick_trick">Quick Trick</string>
+    <string name="expl_trick_1">• Solve large multiplications first.</string>
+    <string name="expl_trick_2">• Combine remaining units at the end.</string>
+    <string name="expl_final_result_label">Final Result</string>
+    <string name="expl_step_1">Step 1) Substitute π value (40 digits):</string>
+    <string name="expl_step_2">Step 2) Calculate inside parentheses:</string>
+    <string name="expl_become">becomes</string>
+    <string name="expl_step_3">Step 3) Calculate Multiplication and Division:</string>
+    <string name="expl_step_4">Step 4) Solve Addition and Subtraction:</string>
+    <string name="expl_simple_solution">Simple Solution</string>
 </resources>

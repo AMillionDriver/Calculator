@@ -46,4 +46,15 @@
     <string name="expl_title">Analisis Perhitungan</string>
     <string name="expl_desc">Pelajari bagaimana sistem memproses logika angka Anda</string>
     <string name="btn_done">Selesai</string>
+    <string name="expl_original_problem">Masalah Asli</string>
+    <string name="expl_quick_trick">Trik Cepat</string>
+    <string name="expl_trick_1">• Selesaikan perkalian besar terlebih dahulu.</string>
+    <string name="expl_trick_2">• Gabungkan unit yang tersisa di akhir.</string>
+    <string name="expl_final_result_label">Hasil Akhir</string>
+    <string name="expl_step_1">Langkah 1) Masukkan nilai π (40 digit):</string>
+    <string name="expl_step_2">Langkah 2) Hitung di dalam kurung:</string>
+    <string name="expl_become">menjadi</string>
+    <string name="expl_step_3">Langkah 3) Hitung Perkalian dan Pembagian:</string>
+    <string name="expl_step_4">Langkah 4) Selesaikan Penjumlahan dan Pengurangan:</string>
+    <string name="expl_simple_solution">Solusi Sederhana</string>
 </resources>

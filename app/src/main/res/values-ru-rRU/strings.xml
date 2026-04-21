@@ -46,4 +46,15 @@
     <string name="expl_title">Анализ расчета</string>
     <string name="expl_desc">Узнайте, как система разбирает вашу числовую логику</string>
     <string name="btn_done">Завершить обучение</string>
+    <string name="expl_original_problem">Исходная задача</string>
+    <string name="expl_quick_trick">Быстрый прием</string>
+    <string name="expl_trick_1">• Сначала решите большие умножения.</string>
+    <string name="expl_trick_2">• В конце объедините оставшиеся единицы.</string>
+    <string name="expl_final_result_label">Итоговый результат</string>
+    <string name="expl_step_1">Шаг 1) Подставьте значение π (40 знаков):</string>
+    <string name="expl_step_2">Шаг 2) Вычислите значение в скобках:</string>
+    <string name="expl_become">становится</string>
+    <string name="expl_step_3">Шаг 3) Выполните умножение и деление:</string>
+    <string name="expl_step_4">Шаг 4) Решите сложение и вычитание:</string>
+    <string name="expl_simple_solution">Простое решение</string>
 </resources>

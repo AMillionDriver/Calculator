@@ -46,4 +46,15 @@
     <string name="expl_title">Berechnungsanalyse</string>
     <string name="expl_desc">Erfahren Sie, wie das System Ihre Zahlenlogik aufschlüsselt</string>
     <string name="btn_done">Lernen beenden</string>
+    <string name="expl_original_problem">Ursprüngliches Problem</string>
+    <string name="expl_quick_trick">Schneller Trick</string>
+    <string name="expl_trick_1">• Große Multiplikationen zuerst lösen.</string>
+    <string name="expl_trick_2">• Verbleibende Einheiten am Ende kombinieren.</string>
+    <string name="expl_final_result_label">Endergebnis</string>
+    <string name="expl_step_1">Schritt 1) π-Wert einsetzen (40 Stellen):</string>
+    <string name="expl_step_2">Schritt 2) Innerhalb der Klammern berechnen:</string>
+    <string name="expl_become">wird zu</string>
+    <string name="expl_step_3">Schritt 3) Multiplikation und Division berechnen:</string>
+    <string name="expl_step_4">Schritt 4) Addition und Subtraktion lösen:</string>
+    <string name="expl_simple_solution">Einfache Lösung</string>
 </resources>

@@ -46,4 +46,15 @@
     <string name="expl_title">计算分析</string>
     <string name="expl_desc">了解系统如何分解您的数字逻辑</string>
     <string name="btn_done">完成学习</string>
+    <string name="expl_original_problem">原始问题</string>
+    <string name="expl_quick_trick">快速技巧</string>
+    <string name="expl_trick_1">• 先解决大数乘法。</string>
+    <string name="expl_trick_2">• 最后合并剩余的单位。</string>
+    <string name="expl_final_result_label">最终结果</string>
+    <string name="expl_step_1">第 1 步) 代入 π 值 (40 位):</string>
+    <string name="expl_step_2">第 2 步) 计算括号内的内容:</string>
+    <string name="expl_become">变为</string>
+    <string name="expl_step_3">第 3 步) 计算乘法和除法:</string>
+    <string name="expl_step_4">第 4 步) 解决加法和减法:</string>
+    <string name="expl_simple_solution">简单解法</string>
 </resources>

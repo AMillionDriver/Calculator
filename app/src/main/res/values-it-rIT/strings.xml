@@ -46,4 +46,15 @@
     <string name="expl_title">Analisi del calcolo</string>
     <string name="expl_desc">Scopri come il sistema scompone la tua logica numerica</string>
     <string name="btn_done">Fine Apprendimento</string>
+    <string name="expl_original_problem">Problema Originale</string>
+    <string name="expl_quick_trick">Trucco Rapido</string>
+    <string name="expl_trick_1">• Risolvi prima le grandi moltiplicazioni.</string>
+    <string name="expl_trick_2">• Combina le unità rimanenti alla fine.</string>
+    <string name="expl_final_result_label">Risultato Finale</string>
+    <string name="expl_step_1">Passaggio 1) Sostituisci il valore di π (40 cifre):</string>
+    <string name="expl_step_2">Passaggio 2) Calcola all\'interno delle parentesi:</string>
+    <string name="expl_become">diventa</string>
+    <string name="expl_step_3">Passaggio 3) Calcola Moltiplicazione e Divisione:</string>
+    <string name="expl_step_4">Passaggio 4) Risolvi Addizione e Sottrazione:</string>
+    <string name="expl_simple_solution">Soluzione Semplice</string>
 </resources>

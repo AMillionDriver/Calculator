@@ -44,4 +44,15 @@
     <string name="expl_title">تحليل الحساب</string>
     <string name="expl_desc">اكتشف كيف يفكك النظام المنطق الرقمي الخاص بك</string>
     <string name="btn_done">تم</string>
+    <string name="expl_original_problem">المسألة الأصلية</string>
+    <string name="expl_quick_trick">خدعة سريعة</string>
+    <string name="expl_trick_1">• حل عمليات الضرب الكبيرة أولاً.</string>
+    <string name="expl_trick_2">• دمج الوحدات المتبقية في النهاية.</string>
+    <string name="expl_final_result_label">النتيجة النهائية</string>
+    <string name="expl_step_1">الخطوة 1) عوض قيمة π (40 رقمًا):</string>
+    <string name="expl_step_2">الخطوة 2) احسب ما داخل الأقواس:</string>
+    <string name="expl_become">تصبح</string>
+    <string name="expl_step_3">الخطوة 3) احسب الضرب والقسمة:</string>
+    <string name="expl_step_4">الخطوة 4) حل الجمع والطرح:</string>
+    <string name="expl_simple_solution">حل بسيط</string>
 </resources>

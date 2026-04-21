@@ -46,4 +46,15 @@
     <string name="expl_title">計算分析</string>
     <string name="expl_desc">システムが数値ロジックをどのように分解するかを学びます</string>
     <string name="btn_done">学習を終了</string>
+    <string name="expl_original_problem">元の問題</string>
+    <string name="expl_quick_trick">クイックトリック</string>
+    <string name="expl_trick_1">• 最初に大きな掛け算を解きます。</string>
+    <string name="expl_trick_2">• 最後に残りの単位を組み合わせます。</string>
+    <string name="expl_final_result_label">最終結果</string>
+    <string name="expl_step_1">ステップ 1) πの値を代入 (40桁):</string>
+    <string name="expl_step_2">ステップ 2) 括弧内を計算します:</string>
+    <string name="expl_become">になります</string>
+    <string name="expl_step_3">ステップ 3) 掛け算と割り算を計算します:</string>
+    <string name="expl_step_4">ステップ 4) 足し算と引き算を解きます:</string>
+    <string name="expl_simple_solution">簡単な解決策</string>
 </resources>

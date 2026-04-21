@@ -46,4 +46,15 @@
     <string name="expl_title">Analyse du calcul</string>
     <string name="expl_desc">Découvrez comment le système décompose votre logique numérique</string>
     <string name="btn_done">Terminé</string>
+    <string name="expl_original_problem">Problème Original</string>
+    <string name="expl_quick_trick">Astuce Rapide</string>
+    <string name="expl_trick_1">• Résoudre d\'abord les grandes multiplications.</string>
+    <string name="expl_trick_2">• Combiner les unités restantes à la fin.</string>
+    <string name="expl_final_result_label">Résultat Final</string>
+    <string name="expl_step_1">Étape 1) Remplacer la valeur de π (40 chiffres) :</string>
+    <string name="expl_step_2">Étape 2) Calculer à l\'intérieur des parenthèses :</string>
+    <string name="expl_become">devient</string>
+    <string name="expl_step_3">Étape 3) Calculer la Multiplication et la Division :</string>
+    <string name="expl_step_4">Étape 4) Résoudre l\'Addition et la Soustraction :</string>
+    <string name="expl_simple_solution">Solution Simple</string>
 </resources>

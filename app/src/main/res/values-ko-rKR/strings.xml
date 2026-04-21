@@ -46,4 +46,15 @@
     <string name="expl_title">계산 분석</string>
     <string name="expl_desc">시스템이 숫자 논리를 어떻게 분해하는지 알아보세요</string>
     <string name="btn_done">학습 종료</string>
+    <string name="expl_original_problem">원래 문제</string>
+    <string name="expl_quick_trick">빠른 팁</string>
+    <string name="expl_trick_1">• 큰 곱셈을 먼저 해결하세요.</string>
+    <string name="expl_trick_2">• 마지막에 남은 단위를 결합하세요.</string>
+    <string name="expl_final_result_label">최종 결과</string>
+    <string name="expl_step_1">1단계) π 값 대입 (40자리):</string>
+    <string name="expl_step_2">2단계) 괄호 안의 내용을 계산하세요:</string>
+    <string name="expl_become">이(가) 됩니다</string>
+    <string name="expl_step_3">3단계) 곱셈과 나눗셈을 계산하세요:</string>
+    <string name="expl_step_4">4단계) 덧셈과 뺄셈을 해결하세요:</string>
+    <string name="expl_simple_solution">간단한 솔루션</string>
 </resources>
