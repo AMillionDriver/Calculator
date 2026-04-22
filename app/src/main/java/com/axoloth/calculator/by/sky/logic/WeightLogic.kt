@@ -25,6 +25,10 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
     val tvUnitFrom: TextView = view.findViewById(R.id.tvUnitFrom)
     val tvUnitTo: TextView = view.findViewById(R.id.tvUnitTo)
     val txtTitle: TextView = view.findViewById(R.id.txtConverterTitle)
+    val adContainer: android.widget.FrameLayout = view.findViewById(R.id.native_ad_container)
+
+    // Load Native Ads
+    com.axoloth.calculator.by.sky.ads.NativeAdsLogic.loadAndShowNativeAd(activity, adContainer)
 
     // Matikan keyboard sistem tapi tetap aktifkan kursor
     etValueFrom.showSoftInputOnFocus = false
@@ -168,6 +172,7 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
 
     btnBack.setOnClickListener {
         playAnim(activity, it)
+        com.axoloth.calculator.by.sky.ads.NativeAdsLogic.destroyAd()
         activity.onBackPressedDispatcher.onBackPressed()
     }
 

@@ -191,6 +191,16 @@
             <Button android:id="@+id/btn0" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="0" android:textColor="@color/white" android:textSize="24sp" />
             <Button android:id="@+id/btnDel" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="64dp" android:text="⌫" android:textColor="@android:color/holo_red_light" android:textSize="24sp" />
 
+            <!-- Native Ads Container (Di bawah Keypad, hanya muncul jika di-load) -->
+            <FrameLayout
+                android:id="@+id/native_ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/flowKeypad"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

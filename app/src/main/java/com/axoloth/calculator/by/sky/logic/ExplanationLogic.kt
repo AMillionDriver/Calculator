@@ -25,11 +25,58 @@ fun showCalculationSteps(context: Context, expression: String) {
     val toggleGroup = view.findViewById<MaterialButtonToggleGroup>(R.id.toggle_mode)
     val btnClose = view.findViewById<Button>(R.id.btn_close_expl)
     val btnAi = view.findViewById<Button>(R.id.btnAi)
+    val tvQuotaInfo = view.findViewById<TextView>(R.id.tv_quota_info)
+    val btnRefill = view.findViewById<Button>(R.id.btn_refill_quota)
 
-    tvTitle.text = "${context.getString(R.string.expl_title)}: $expression"
+    fun updateQuotaUI() {
+        val remaining = QuotaManager.getRemainingQuota(context)
+        tvQuotaInfo.text = "Sisa Kuota AI: $remaining"
+        
+        if (remaining <= 0) {
+            btnAi.isEnabled = false
+            btnAi.alpha = 0.5f
+            btnAi.text = "Kuota Habis! Silakan Refill"
+        } else {
+            btnAi.isEnabled = true
+            btnAi.alpha = 1.0f
+            btnAi.text = context.getString(R.string.jelaskan_dengan_ai)
+        }
+
+        if (QuotaManager.isCoolDown(context)) {
+            val mins = QuotaManager.getRemainingCooldownMinutes(context)
+            btnRefill.isEnabled = false
+            btnRefill.text = "Pending ($mins m)"
+        } else {
+            btnRefill.isEnabled = true
+            btnRefill.text = "+ Gratis Kuota"
+        }
+    }
+
+    updateQuotaUI()
+    com.axoloth.calculator.by.sky.ads.RewardedAdsLogic.loadRewardedAd(context as android.app.Activity)
+
+    btnRefill.setOnClickListener {
+        if (!com.axoloth.calculator.by.sky.ads.RewardedAdsLogic.isAdReady()) {
+            android.widget.Toast.makeText(context, "Menyiapkan iklan...", android.widget.Toast.LENGTH_SHORT).show()
+            com.axoloth.calculator.by.sky.ads.RewardedAdsLogic.loadRewardedAd(context as android.app.Activity)
+            return@setOnClickListener
+        }
+
+        com.axoloth.calculator.by.sky.ads.RewardedAdsLogic.showRewardedAd(context as android.app.Activity) {
+            updateQuotaUI()
+            android.widget.Toast.makeText(context, "Kuota AI +5!", android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
 
     btnAi.setOnClickListener {
+        if (QuotaManager.getRemainingQuota(context) <= 0) {
+            android.widget.Toast.makeText(context, "Kuota habis!", android.widget.Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+        }
         showAiTutorDialog(context, expression)
+        // Kurangi kuota saat AI dialog dibuka
+        QuotaManager.decrementQuota(context)
+        updateQuotaUI()
     }
 
     btnClose.setOnClickListener {
@@ -129,19 +176,45 @@ private fun showAiTutorDialog(context: Context, expression: String) {
         android.widget.Toast.makeText(context, "Copied to clipboard!", android.widget.Toast.LENGTH_SHORT).show()
     }
 
-    // Panggil API Gemini
-    GlobalScope.launch(Dispatchers.Main) {
-        tvContent.text = "🤖 AI sedang memikirkan logika matematika Anda..."
-        val response = com.axoloth.calculator.by.sky.ai.logic.GeminiLogic.getAiExplanation(context, expression)
+    // Panggil API Gemini Streaming
+    fun startAiStreaming(isResume: Boolean = false) {
+        GlobalScope.launch(Dispatchers.Main) {
+            if (!isResume) {
+                tvContent.text = "🤖 AI sedang memikirkan logika..."
+            } else {
+                // Sembunyikan alert error jika sedang resume
+                view.findViewById<View>(R.id.error_layout)?.visibility = View.GONE
+            }
 
-        // Efek mengetik sederhana
-        tvContent.text = ""
-        response.split(" ").forEach { word ->
-            tvContent.append("$word ")
-            delay(30)
+            com.axoloth.calculator.by.sky.ai.logic.GeminiLogic.getAiExplanationStream(
+                context, 
+                expression,
+                isResume = isResume,
+                partialText = tvContent.text.toString(),
+                onChunk = { chunk ->
+                    if (tvContent.text.startsWith("🤖")) tvContent.text = ""
+                    tvContent.append(chunk)
+                },
+                onError = { msg, code ->
+                    view.findViewById<View>(R.id.error_layout)?.visibility = View.VISIBLE
+                    val tvError = view.findViewById<TextView>(R.id.tv_error_msg)
+                    tvError?.text = "Koneksi internet tidak stabil ($msg)"
+                },
+                onComplete = { isTruncated ->
+                    if (isTruncated) {
+                        view.findViewById<View>(R.id.resume_layout)?.visibility = View.VISIBLE
+                    }
+                }
+            )
         }
     }
 
+    view.findViewById<Button>(R.id.btn_resume_ai)?.setOnClickListener {
+        view.findViewById<View>(R.id.resume_layout)?.visibility = View.GONE
+        startAiStreaming(isResume = true)
+    }
+
+    startAiStreaming()
     aiDialog.show()
 }
 

@@ -53,24 +53,22 @@ class MainActivity : AppCompatActivity() {
         Thread {
             try {
                 Firebase.initialize(context = this)
+                
                 Firebase.appCheck.installAppCheckProviderFactory(
                     PlayIntegrityAppCheckProviderFactory.getInstance(),
                 )
 
-                // Inisialisasi AdMob
-                MobileAds.initialize(this) { status ->
-                    Log.d(TAG, "AdMob Initialized: $status")
-                }
-
-                // Tambahkan Test Device ID agar iklan tes muncul lebih stabil
-                val testDeviceIds = listOf("DB5BC68681E7E6BFA8D4001F02B07CEA")
-                val configuration = RequestConfiguration.Builder()
-                    .setTestDeviceIds(testDeviceIds)
-                    .build()
-                MobileAds.setRequestConfiguration(configuration)
-                
                 // Inisialisasi Remote Config (Ambil API_KEY)
                 setupRemoteConfig()
+
+                // Inisialisasi AdMob setelah Remote Config siap/default diatur
+                runOnUiThread {
+                    MobileAds.initialize(this) { status ->
+                        Log.d(TAG, "AdMob Initialized: $status")
+                        // Load Rewarded Ad diawal setelah init
+                        com.axoloth.calculator.by.sky.ads.RewardedAdsLogic.loadRewardedAd(this)
+                    }
+                }
                 
                 // Proses lainnya yang tidak butuh UI segera
                 fetchFCMToken()
@@ -131,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupRemoteConfig() {
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600 // Ambil update setiap 1 jam
+            minimumFetchIntervalInSeconds = 0 // Ubah ke 0 agar update langsung terasa saat testing
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
 

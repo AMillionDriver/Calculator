@@ -18,9 +18,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:background="#2E3243"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:backgroundTint="#4DB6AC"
             android:alpha="0.5" />
 
@@ -100,27 +97,56 @@
 
         <!-- Container Langkah-langkah -->
         <androidx.core.widget.NestedScrollView
-            android:layout_width="352dp"
-            android:layout_height="323dp"
-            android:layout_marginTop="16dp"
-            android:scrollbarThumbVertical="@android:color/transparent">
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp">
 
             <LinearLayout
                 android:id="@+id/steps_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="?android:attr/dividerVertical"
-                android:orientation="vertical"
-                android:showDividers="middle" />
+                android:orientation="vertical" />
         </androidx.core.widget.NestedScrollView>
 
-        <!-- Footer / Action -->
+        <!-- Info Kuota AI & Refill Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:background="#1A1D2D"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tv_quota_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sisa Kuota AI: 5"
+                android:textColor="#00E5FF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_refill_quota"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Gratis Kuota"
+                android:textColor="#FFD600"
+                android:textSize="12sp"
+                app:icon="@android:drawable/ic_menu_slideshow"
+                app:iconTint="#FFD600" />
+        </LinearLayout>
+
+        <!-- Action Buttons -->
         <Button
             android:id="@+id/btnAi"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/jelaskan_dengan_ai"
+            android:layout_marginTop="12dp"
+            android:text="Jelaskan dengan AI"
             android:backgroundTint="#00E5FF"
             android:textColor="#000000"
             android:fontFamily="sans-serif-black"
@@ -130,10 +156,10 @@
             android:id="@+id/btn_close_expl"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="Selesai Belajar"
-            android:backgroundTint="#00E5FF"
-            android:textColor="#000000"
+            android:backgroundTint="#2E3243"
+            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-black"
             app:cornerRadius="16dp" />
 

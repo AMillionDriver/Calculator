@@ -39,6 +39,10 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
     val tvUnitTo: TextView = view.findViewById(R.id.tvUnitTo)
     val tvLastUpdated: TextView = view.findViewById(R.id.tvLastUpdated)
     val nestedScroll: NestedScrollView? = view.findViewById(R.id.nestedScrollKurs)
+    val adContainer: android.widget.FrameLayout = view.findViewById(R.id.native_ad_container)
+
+    // Load Native Ads
+    com.axoloth.calculator.by.sky.ads.NativeAdsLogic.loadAndShowNativeAd(activity, adContainer)
 
     val pref = activity.getSharedPreferences("kurs_cache", Context.MODE_PRIVATE)
     val gson = Gson()
@@ -241,6 +245,7 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
 
     view.findViewById<Button>(R.id.btnBack).setOnClickListener {
         playAnim(activity, it)
+        com.axoloth.calculator.by.sky.ads.NativeAdsLogic.destroyAd()
         activity.onBackPressedDispatcher.onBackPressed()
     }
 

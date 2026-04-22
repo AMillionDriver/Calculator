@@ -11,87 +11,96 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
+import okio.BufferedSource
 
 object GeminiLogic {
     private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
         .build()
 
-    suspend fun getAiExplanation(context: Context, expression: String): String = withContext(Dispatchers.IO) {
+    suspend fun getAiExplanationStream(
+        context: Context,
+        expression: String,
+        isResume: Boolean = false,
+        partialText: String = "",
+        onChunk: (String) -> Unit,
+        onError: (String, Int) -> Unit,
+        onComplete: (Boolean) -> Unit
+    ) = withContext(Dispatchers.IO) {
         try {
-            // 1. Safety Check (Client-side)
-            if (!com.axoloth.calculator.by.sky.ai.system.prompt.SafetyPrompt.isSafe(expression)) {
-                return@withContext com.axoloth.calculator.by.sky.ai.system.prompt.SafetyPrompt.REJECTION_MESSAGE
-            }
-
             val remoteConfig = FirebaseRemoteConfig.getInstance()
             val encryptedKey = remoteConfig.getString("Gemini_AI")
-            
-            if (encryptedKey.isEmpty()) return@withContext "Konfigurasi AI belum siap."
-            
             val apiKey = SimpleEncryption.decrypt(encryptedKey).trim()
 
-            // Menggunakan Gemini 2.0 Flash (Model terbaru & tercepat) lewat endpoint v1beta
-            val url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey"
+            // Kembali ke 2.5-flash karena terbukti lebih lancar di sisi user
+            val url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=$apiKey"
             
             val systemRules = com.axoloth.calculator.by.sky.ai.system.rules.ResponseRules.getSystemRules(java.util.Locale.getDefault().language)
-            val promptText = "$systemRules\n\nQuestion: $expression"
+            val promptText = if (isResume) {
+                "Lanjutkan jawaban ini: '$partialText'. Langsung sambung tanpa salam."
+            } else {
+                "$systemRules\n\nQuestion: $expression"
+            }
 
-            // Format JSON untuk Gemini 2.0
+            android.util.Log.d("GeminiLogic", "Sending request to: $url")
+
             val jsonBody = JSONObject().apply {
                 put("contents", org.json.JSONArray().put(JSONObject().apply {
                     put("parts", org.json.JSONArray().put(JSONObject().apply {
                         put("text", promptText)
                     }))
                 }))
+                // Tambahkan config agar output tidak terpotong terlalu pendek
                 put("generationConfig", JSONObject().apply {
-                    put("temperature", 0.2) // Rendah agar akurat tapi tetap natural
-                    put("maxOutputTokens", 4096) // Kasih ruang sangat besar agar tidak terpotong
-                    put("topP", 0.95)
+                    put("temperature", 0.1)
+                    put("maxOutputTokens", 500)
                 })
             }
 
             val request = Request.Builder()
                 .url(url)
-                .header("Content-Type", "application/json")
                 .post(jsonBody.toString().toRequestBody("application/json".toMediaType()))
                 .build()
 
-            val response = client.newCall(request).execute()
-            val responseCode = response.code
-            val responseBody = response.body?.string() ?: ""
-            
-            if (responseCode != 200) {
-                // Mencoba mengambil pesan error detil dari JSON Google
-                val errorMsg = try {
-                    val errorJson = JSONObject(responseBody)
-                    errorJson.getJSONObject("error").getString("message")
-                } catch (e: Exception) {
-                    "Unknown Error"
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    val errorBody = response.body?.string()
+                    android.util.Log.e("GeminiLogic", "Response Failed: ${response.code} - $errorBody")
+                    withContext(Dispatchers.Main) { onError("API Error: ${response.code}", response.code) }
+                    return@withContext
                 }
-                return@withContext "API Error ($responseCode): $errorMsg"
-            }
 
-            val jsonResponse = JSONObject(responseBody)
-            
-            if (jsonResponse.has("candidates")) {
-                val candidates = jsonResponse.getJSONArray("candidates")
-                if (candidates.length() > 0) {
-                    val firstCandidate = candidates.getJSONObject(0)
-                    val content = firstCandidate.optJSONObject("content")
-                    if (content != null) {
-                        val parts = content.getJSONArray("parts")
-                        return@withContext parts.getJSONObject(0).getString("text")
+                val source: BufferedSource? = response.body?.source()
+                var isTruncated = false
+
+                source?.let { s ->
+                    while (!s.exhausted()) {
+                        val line = s.readUtf8Line() ?: continue
+                        android.util.Log.d("GeminiLogic", "Raw Chunk: $line") // Intip data asli
+                        
+                        if (line.contains("\"text\": \"")) {
+                            val chunk = line.substringAfter("\"text\": \"").substringBeforeLast("\"")
+                            val cleanChunk = chunk
+                                .replace("\\n", "\n")
+                                .replace("\\\"", "\"")
+                                .replace("\\\\", "\\")
+                                .replace("\\t", "\t")
+                            
+                            withContext(Dispatchers.Main) { onChunk(cleanChunk) }
+                        }
+                        
+                        if (line.contains("\"finishReason\": \"MAX_TOKENS\"") || line.contains("\"finishReason\":\"MAX_TOKENS\"")) {
+                            isTruncated = true
+                        }
                     }
                 }
+                withContext(Dispatchers.Main) { onComplete(isTruncated) }
             }
-            
-            "Maaf, AI sedang tidak dapat memberikan jawaban. Silakan coba pertanyaan lain."
-
         } catch (e: Exception) {
-            "Error: ${e.message}"
+            android.util.Log.e("GeminiLogic", "Error: ${e.message}", e)
+            withContext(Dispatchers.Main) { onError(e.message ?: "Unknown Error", -1) }
         }
     }
 }

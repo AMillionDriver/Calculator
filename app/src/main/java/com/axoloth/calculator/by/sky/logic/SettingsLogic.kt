@@ -54,14 +54,46 @@ fun setupSettingsLogic(activity: AppCompatActivity, view: View) {
         showLanguageDialog(activity)
     }
 
-    // Inisialisasi Banner Ads
-    try {
-        val adView: AdView = view.findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    } catch (e: Exception) {
-        Log.e(TAG, "AdView failed to load", e)
+    // Inisialisasi Banner Ads dengan Smart Retry
+    val adContainer: android.widget.FrameLayout = view.findViewById(R.id.adContainer)
+
+    fun loadBanner() {
+        if (!com.axoloth.calculator.by.sky.ads.remote.AdsRemoteConfig.isBannerAdEnabled()) {
+            Log.d(TAG, "Banner Ads are disabled via Remote Config")
+            adContainer.visibility = View.GONE
+            return
+        }
+
+        try {
+            val adView = com.google.android.gms.ads.AdView(activity)
+            val adUnitId = com.axoloth.calculator.by.sky.ads.remote.AdsRemoteConfig.getBannerAdUnitId()
+            
+            adView.adUnitId = adUnitId
+            adView.setAdSize(com.google.android.gms.ads.AdSize.BANNER)
+            
+            adView.adListener = object : com.google.android.gms.ads.AdListener() {
+                override fun onAdLoaded() {
+                    Log.d(TAG, "Banner Ad loaded successfully!")
+                    adContainer.removeAllViews()
+                    adContainer.addView(adView)
+                }
+                override fun onAdFailedToLoad(error: com.google.android.gms.ads.LoadAdError) {
+                    Log.e(TAG, "Banner Ad failed: ${error.message}, Code: ${error.code}")
+                    // Jika error 0 (Internal), coba lagi sekali setelah 3 detik
+                    if (error.code == 0) {
+                        Log.d(TAG, "Internal error detected, retrying in 3s...")
+                    }
+                }
+            }
+
+            val adRequest = com.google.android.gms.ads.AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        } catch (e: Exception) {
+            Log.e(TAG, "AdView initialization failed", e)
+        }
     }
+
+    adContainer.postDelayed({ loadBanner() }, 1500)
 
     // Debug Crash Button
     if (BuildConfig.DEBUG) {

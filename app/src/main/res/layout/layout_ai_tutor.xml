@@ -70,14 +70,60 @@
         android:layout_weight="1"
         android:layout_marginTop="24dp">
 
-        <TextView
-            android:id="@+id/tv_ai_content"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:lineSpacingExtra="6dp"
-            android:text="Sedang menganalisis..." />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_ai_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:lineSpacingExtra="6dp"
+                android:text="Sedang menganalisis..." />
+
+            <!-- Error Layout -->
+            <LinearLayout
+                android:id="@+id/error_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_error_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚠️ Koneksi internet tidak stabil"
+                    android:textColor="#FF5252"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Resume Layout -->
+            <LinearLayout
+                android:id="@+id/resume_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btn_resume_ai"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="↻ Lanjutkan Jawaban"
+                    android:textColor="#00E5FF"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!-- Footer Actions -->
