@@ -38,13 +38,31 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gemini AI Tutor"
-            android:textColor="#00E5FF"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-black" />
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_ai_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AI Math Tutor"
+                android:textColor="#00E5FF"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black" />
+
+            <TextView
+                android:id="@+id/tv_model_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Powered by Phoenix AI"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btn_speak_ai"

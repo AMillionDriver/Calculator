@@ -100,18 +100,29 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditT
     }
 
     // Tombol Backspace
-    view.findViewById<Button>(R.id.btn_backspace).setOnClickListener {
-        playAnim(activity, it)
-        val start = tvInput.selectionStart
-        val end = tvInput.selectionEnd
-        if (start > 0 || start != end) {
-            if (start == end) {
-                tvInput.text.delete(start - 1, start)
-            } else {
-                tvInput.text.delete(start, end)
+    view.findViewById<Button>(R.id.btn_backspace).apply {
+        setOnClickListener {
+            playAnim(activity, it)
+            val start = tvInput.selectionStart
+            val end = tvInput.selectionEnd
+            if (start > 0 || start != end) {
+                if (start == end) {
+                    tvInput.text.delete(start - 1, start)
+                } else {
+                    tvInput.text.delete(start, end)
+                }
+                formatInputThousand(tvInput)
+                updatePreview(tvInput, tvResult)
+                saveInput(tvInput.text.toString())
             }
-            updatePreview(tvInput, tvResult)
-            saveInput(tvInput.text.toString())
+        }
+        setOnLongClickListener {
+            playAnim(activity, it)
+            tvInput.setText("")
+            tvResult.text = "0"
+            tvResult.alpha = 0.5f
+            saveInput("")
+            true
         }
     }
 
@@ -154,6 +165,13 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditT
     // Daftarkan Tombol Scientific
     setupScientificLogic(activity, view, tvInput, tvResult, insertText)
 
+    // Klik lama pada Mode Switcher untuk menu Advanced Math
+    view.findViewById<Button>(R.id.btn_mode_switcher).setOnLongClickListener {
+        playAnim(activity, it)
+        showAdvancedMathMenu(activity, insertText)
+        true
+    }
+
     // Tombol Operator & Hitung
     setupOperatorLogic(activity, view, tvInput, tvResult, insertText)
     
@@ -184,10 +202,49 @@ private fun setupNumericLogic(activity: AppCompatActivity, view: View, tvInput: 
                 }
             } else if (id == R.id.btn_nolnol) {
                 insertText("00")
+                formatInputThousand(tvInput)
             } else {
                 insertText(text)
+                formatInputThousand(tvInput)
             }
         }
+    }
+}
+
+private fun formatInputThousand(tvInput: EditText) {
+    val originalText = tvInput.text.toString()
+    if (originalText.isEmpty()) return
+    
+    val cursorPosition = tvInput.selectionStart
+    val cleanText = originalText.replace(".", "")
+    
+    val formatted = StringBuilder()
+    
+    // Regex untuk memisahkan angka dan non-angka
+    val parts = cleanText.split(Regex("(?=[+\\-*/%^()])|(?<=[+\\-*/%^()])"))
+    
+    for (part in parts) {
+        if (part.isEmpty()) continue
+        if (part.any { it.isDigit() }) {
+            val numParts = part.split(",")
+            val integerPart = numParts[0]
+            val decimalPart = if (numParts.size > 1) "," + numParts[1] else ""
+            
+            // Format ribuan dengan titik
+            val formattedInt = if (integerPart.isNotEmpty()) {
+                integerPart.reversed().chunked(3).joinToString(".").reversed()
+            } else ""
+            formatted.append(formattedInt).append(decimalPart)
+        } else {
+            formatted.append(part)
+        }
+    }
+    
+    if (formatted.toString() != originalText) {
+        tvInput.setText(formatted.toString())
+        // Sederhanakan kursor: taruh di akhir saja untuk menghindari bug loncat yang rumit
+        // Idealnya dihitung beda titiknya, tapi untuk stabilitas kita taruh di akhir
+        tvInput.setSelection(tvInput.text.length)
     }
 }
 
@@ -235,6 +292,30 @@ private fun setupOperatorLogic(activity: AppCompatActivity, view: View, tvInput:
     }
 }
 
+private fun showAdvancedMathMenu(activity: AppCompatActivity, insertText: (String) -> Unit) {
+    val dialog = BottomSheetDialog(activity)
+    val view = activity.layoutInflater.inflate(R.layout.layout_advanced_math, null)
+    dialog.setContentView(view)
+
+    val buttons = mapOf(
+        R.id.btn_gcd to "gcd(",
+        R.id.btn_lcm to "lcm(",
+        R.id.btn_max to "max(",
+        R.id.btn_min to "min(",
+        R.id.btn_logb to "logb(",
+        R.id.btn_mod to "mod("
+    )
+
+    buttons.forEach { (id, formula) ->
+        view.findViewById<Button>(id).setOnClickListener {
+            insertText(formula)
+            dialog.dismiss()
+        }
+    }
+
+    dialog.show()
+}
+
 private fun saveToHistory(activity: AppCompatActivity, expression: String, result: String) {
     activity.lifecycleScope.launch(Dispatchers.IO) {
         val database = AppDatabase.getDatabase(activity)
@@ -258,17 +339,12 @@ private fun setupScientificLogic(activity: AppCompatActivity, view: View, tvInpu
         }
     }
 
-    view.findViewById<Button>(R.id.btn_inv).setOnClickListener {
-        playAnim(activity, it)
-        val currentText = tvInput.text.toString()
-        if (currentText.isNotEmpty()) {
-            if (currentText.startsWith("-")) {
-                tvInput.setText(currentText.substring(1))
-            } else {
-                tvInput.setText("-$currentText")
-            }
-            tvInput.setSelection(tvInput.text.length)
-            updatePreview(tvInput, tvResult)
+    // Tombol INV diubah jadi Faktorial (!) karena lebih berguna
+    view.findViewById<Button>(R.id.btn_inv).apply {
+        text = "!"
+        setOnClickListener {
+            playAnim(activity, it)
+            insertText("!")
         }
     }
 }
@@ -290,31 +366,51 @@ private fun updatePreview(tvInput: EditText, tvResult: TextView) {
         tvResult.alpha = 0.5f
         return
     }
-    if (input.last() in "+-*/%^(") {
+    // Izinkan persen di akhir untuk preview
+    if (input.last() in "+-*/^(") {
         tvResult.alpha = 0.5f
         return
     }
     val res = calculate(input)
     if (res != "Error") {
-        tvResult.text = res
+        tvResult.text = formatDisplayResult(res)
         tvResult.alpha = 0.5f
+    }
+}
+
+private fun formatDisplayResult(value: String): String {
+    if (value == "Error") return value
+    return try {
+        val isNegative = value.startsWith("-")
+        val absValue = if (isNegative) value.substring(1) else value
+        
+        val parts = absValue.split(".")
+        val integerPart = parts[0]
+        val decimalPart = if (parts.size > 1) parts[1] else null
+
+        // Format ribuan dengan titik
+        val formattedInt = integerPart.reversed().chunked(3).joinToString(".").reversed()
+        
+        // Desimal dengan koma
+        val result = if (decimalPart != null) "$formattedInt,$decimalPart" else formattedInt
+        if (isNegative) "-$result" else result
+    } catch (e: Exception) {
+        value
     }
 }
 
 private fun calculate(expression: String): String {
     return try {
-        // Konstan Pi dengan 40 digit presisi sesuai permintaan
+        // Konstan Pi dengan 40 digit presisi
         val PI_VAL = "3.1415926535897932384626433832795028841971"
         
-        // 1. Normalisasi awal: Ubah koma ke titik untuk perhitungan
-        var input = expression.replace(",", ".")
+        // 1. Normalisasi: Hapus titik ribuan dan ubah koma desimal ke titik standar
+        var input = expression.replace(".", "").replace(",", ".")
 
-        // 2. High Precision Pi Handler (40 Digits)
-        // Menangani π saja, π[angka], atau [angka]π dengan BigDecimal agar presisi tetap 40 angka
+        // 2. High Precision Pi Handler
+        if (input == "π") return PI_VAL
         val piMultiplyRegex = Regex("^π(\\d+\\.?\\d*)$")
         val numberPiRegex = Regex("^(\\d+\\.?\\d*)π$")
-        
-        if (input == "π") return PI_VAL
         
         piMultiplyRegex.find(input)?.let {
             val num = it.groupValues[1]
@@ -325,17 +421,24 @@ private fun calculate(expression: String): String {
             return BigDecimal(PI_VAL).multiply(BigDecimal(num)).stripTrailingZeros().toPlainString()
         }
 
-        // 3. Persiapan untuk exp4j (Pembersihan simbol)
+        // 3. Persiapan untuk exp4j
         var cleaned = input.replace("π", "(PI)").replace("e", "(E)")
             
-        // 4. Advanced Percentage Handler
-        // Sekarang mendukung angka desimal (misal 5.5%) dan bisa berlapis (5%*5%)
-        cleaned = cleaned.replace(Regex("(\\d+\\.?\\d*)%"), "($1/100)")
+        // 4. Advanced Percentage Handler (Sangat Penting!)
+        // Handle: "100 + 10%" -> "100 + (100 * 10 / 100)"
+        cleaned = cleaned.replace(Regex("(\\d+\\.?\\d*)\\s*([+\\-])\\s*(\\d+\\.?\\d*)\\s*%")) {
+            val base = it.groupValues[1]
+            val op = it.groupValues[2]
+            val percent = it.groupValues[3]
+            "$base$op($base*$percent/100)"
+        }
+        // Handle: "5 * 5%" -> "5 * (5/100)"
+        cleaned = cleaned.replace(Regex("(\\d+\\.?\\d*)\\s*%"), "($1/100)")
 
         // 5. Implicit Multiplication (Perkalian Otomatis)
         cleaned = cleaned.replace(Regex("(\\d+)(\\()"), "$1*$2") // 3(2) -> 3*(2)
         cleaned = cleaned.replace(Regex("(\\))(\\d+)"), "$1*$2") // (2)3 -> (2)*3
-        cleaned = cleaned.replace(Regex("(\\d+)(PI|E)"), "$1*$2") // 3π -> 3*PI
+        cleaned = cleaned.replace(Regex("(\\d+)(PI|E|fact|gcd|lcm|max|min|logb)"), "$1*$2") // 3π -> 3*PI
         cleaned = cleaned.replace(Regex("(PI|E)(\\d+)"), "$1*$2") // π3 -> PI*3
         cleaned = cleaned.replace(Regex("(\\))(\\()"), "$1*$2")  // (2)(3) -> (2)*(3)
 
@@ -347,8 +450,83 @@ private fun calculate(expression: String): String {
         // Hapus operator gantung di akhir
         if (cleaned.isNotEmpty() && cleaned.last() in "+-*/^") cleaned = cleaned.dropLast(1)
         
-        // 6. Evaluasi menggunakan exp4j
-        val result = ExpressionBuilder(cleaned).build().evaluate()
+        // 6. Custom Functions Library
+        val customFunctions = mutableListOf<net.objecthunter.exp4j.function.Function>()
+
+        // 6a. Faktorial (fact)
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("fact", 1) {
+            override fun apply(vararg args: Double): Double {
+                val arg = args[0]
+                if (arg < 0 || arg > 170) return Double.NaN
+                if (arg % 1 != 0.0) return gamma(arg + 1)
+                var res = 1.0
+                for (i in 1..arg.toInt()) res *= i
+                return res
+            }
+            private fun gamma(x: Double): Double {
+                val p = doubleArrayOf(0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7)
+                var g = 7.0; var y = x
+                if (y < 0.5) return Math.PI / (Math.sin(Math.PI * y) * gamma(1.0 - y))
+                y -= 1.0; var a = p[0]; val t = y + g + 0.5
+                for (i in 1 until p.size) a += p[i] / (y + i)
+                return Math.sqrt(2.0 * Math.PI) * Math.pow(t, y + 0.5) * Math.exp(-t) * a
+            }
+        })
+
+        // 6b. GCD (FPB) & LCM (KPK)
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("gcd", 2) {
+            override fun apply(vararg args: Double): Double {
+                var a = Math.abs(args[0].toLong()); var b = Math.abs(args[1].toLong())
+                while (b > 0) { a %= b; val t = a; a = b; b = t }
+                return a.toDouble()
+            }
+        })
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("lcm", 2) {
+            override fun apply(vararg args: Double): Double {
+                if (args[0] == 0.0 || args[1] == 0.0) return 0.0
+                val a = Math.abs(args[0]); val b = Math.abs(args[1])
+                var x = a.toLong(); var y = b.toLong()
+                while (y > 0) { x %= y; val t = x; x = y; y = t }
+                return (a * b) / x
+            }
+        })
+
+        // 6c. Log Basis Bebas (logb(angka, basis))
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("logb", 2) {
+            override fun apply(vararg args: Double): Double = Math.log(args[0]) / Math.log(args[1])
+        })
+
+        // 6d. Max & Min
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("max", 2) {
+            override fun apply(vararg args: Double): Double = Math.max(args[0], args[1])
+        })
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("min", 2) {
+            override fun apply(vararg args: Double): Double = Math.min(args[0], args[1])
+        })
+
+        // 6e. Modulo (karena % sudah dipakai persen)
+        customFunctions.add(object : net.objecthunter.exp4j.function.Function("mod", 2) {
+            override fun apply(vararg args: Double): Double = args[0] % args[1]
+        })
+
+        // Ubah format 5! menjadi fact(5)
+        while (cleaned.contains("!")) {
+            val lastIdx = cleaned.indexOf("!")
+            var i = lastIdx - 1; var bc = 0
+            while (i >= 0) {
+                if (cleaned[i] == ')') bc++ else if (cleaned[i] == '(') bc--
+                if (bc == 0 && !cleaned[i].isDigit() && cleaned[i] != '.' && cleaned[i] != ')' && cleaned[i] != '(') break
+                i--
+            }
+            val target = cleaned.substring(i + 1, lastIdx)
+            cleaned = cleaned.replaceFirst("$target!", "fact($target)")
+        }
+
+        // 7. Evaluasi menggunakan exp4j dengan library kustom
+        val result = ExpressionBuilder(cleaned)
+            .functions(customFunctions)
+            .build()
+            .evaluate()
         if (result.isNaN() || result.isInfinite()) return "Error"
         
         val longResult = result.toLong()

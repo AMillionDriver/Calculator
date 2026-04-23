@@ -73,7 +73,7 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
     val apiKey = if (activity is MainActivity) activity.getCurrencyApiKey() else ""
 
     fun calculateConversion() {
-        val inputStr = etValueFrom.text.toString().replace(",", ".")
+        val inputStr = etValueFrom.text.toString().replace(".", "").replace(",", ".")
         if (inputStr.isEmpty() || ratesMap == null) {
             tvValueTo.text = "0"
             return
@@ -83,7 +83,11 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
             val inputNum = inputStr.toDouble()
             val rate = ratesMap!![toCode] ?: 1.0
             val result = inputNum * rate
-            tvValueTo.text = String.format(Locale.US, "%,.2f", result)
+            
+            // Format hasil dengan ribuan titik dan desimal koma
+            val parts = String.format(Locale.US, "%.2f", result).split(".")
+            val formattedInt = parts[0].reversed().chunked(3).joinToString(".").reversed()
+            tvValueTo.text = "$formattedInt,${parts[1]}"
         } catch (e: Exception) {
             tvValueTo.text = "0"
         }
@@ -140,75 +144,12 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
 
     // --- Cursor Input ---
     fun insertText(text: String) {
-        val scrollY = nestedScroll?.scrollY ?: 0
         val start = etValueFrom.selectionStart
         val end = etValueFrom.selectionEnd
         etValueFrom.text.replace(start, end, text)
+        formatInputThousand(etValueFrom)
         calculateConversion()
-        
-        nestedScroll?.post {
-            nestedScroll.scrollTo(0, scrollY)
-        }
     }
-
-    // --- Bottom Sheet Picker ---
-    fun showCurrencyPicker(isFrom: Boolean) {
-        val dialog = BottomSheetDialog(activity)
-        val dialogView = LayoutInflater.from(activity).inflate(R.layout.layout_currency_picker, null)
-        dialog.setContentView(dialogView)
-
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvCurrencies)
-        val searchView = dialogView.findViewById<SearchView>(R.id.searchView)
-        
-        val fullList = currencyData.toList()
-        var filteredList = fullList
-
-        class CurrencyAdapter(private var items: List<Pair<String, String>>) : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
-            inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-                val code: TextView = v.findViewById(R.id.tvCode)
-                val name: TextView = v.findViewById(R.id.tvFullName)
-            }
-            override fun onCreateViewHolder(p: ViewGroup, t: Int) = ViewHolder(LayoutInflater.from(p.context).inflate(R.layout.item_currency, p, false))
-            override fun onBindViewHolder(h: ViewHolder, p: Int) {
-                val item = items[p]
-                h.code.text = item.first
-                h.name.text = item.second
-                h.itemView.setOnClickListener {
-                    if (isFrom) {
-                        fromCode = item.first
-                        tvUnitFrom.text = fromCode
-                        fetchRates()
-                    } else {
-                        toCode = item.first
-                        tvUnitTo.text = toCode
-                        calculateConversion()
-                    }
-                    dialog.dismiss()
-                }
-            }
-            override fun getItemCount() = items.size
-            fun filter(list: List<Pair<String, String>>) { items = list; notifyDataSetChanged() }
-        }
-
-        val adapter = CurrencyAdapter(filteredList)
-        rv.layoutManager = LinearLayoutManager(activity)
-        rv.adapter = adapter
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(q: String?) = false
-            override fun onQueryTextChange(q: String?): Boolean {
-                filteredList = if (q.isNullOrBlank()) fullList 
-                else fullList.filter { it.first.contains(q, true) || it.second.contains(q, true) }
-                adapter.filter(filteredList)
-                return true
-            }
-        })
-
-        dialog.show()
-    }
-
-    tvUnitFrom.setOnClickListener { showCurrencyPicker(true) }
-    tvUnitTo.setOnClickListener { showCurrencyPicker(false) }
 
     // --- Keypad ---
     val numericButtons = mapOf(
@@ -229,18 +170,27 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
         if (!etValueFrom.text.contains(",")) insertText(",") 
     }
     
-    view.findViewById<Button>(R.id.btnDel).setOnClickListener {
-        playAnim(activity, it)
-        val start = etValueFrom.selectionStart
-        val end = etValueFrom.selectionEnd
-        if (start > 0 || start != end) {
-            if (start == end) {
-                etValueFrom.text.delete(start - 1, start)
-            } else {
-                etValueFrom.text.delete(start, end)
+    view.findViewById<Button>(R.id.btnDel).apply {
+        setOnClickListener {
+            playAnim(activity, it)
+            val start = etValueFrom.selectionStart
+            val end = etValueFrom.selectionEnd
+            if (start > 0 || start != end) {
+                if (start == end) {
+                    etValueFrom.text.delete(start - 1, start)
+                } else {
+                    etValueFrom.text.delete(start, end)
+                }
+                formatInputThousand(etValueFrom)
             }
+            calculateConversion()
         }
-        calculateConversion()
+        setOnLongClickListener {
+            playAnim(activity, it)
+            etValueFrom.setText("")
+            calculateConversion()
+            true
+        }
     }
 
     view.findViewById<Button>(R.id.btnBack).setOnClickListener {
@@ -250,6 +200,27 @@ fun setupKursLogic(activity: AppCompatActivity, view: View) {
     }
 
     fetchRates()
+}
+
+private fun formatInputThousand(etInput: EditText) {
+    val originalText = etInput.text.toString()
+    if (originalText.isEmpty()) return
+    
+    val cleanText = originalText.replace(".", "")
+    val numParts = cleanText.split(",")
+    val integerPart = numParts[0]
+    val decimalPart = if (numParts.size > 1) "," + numParts[1] else ""
+    
+    val formattedInt = if (integerPart.isNotEmpty()) {
+        integerPart.reversed().chunked(3).joinToString(".").reversed()
+    } else ""
+    
+    val formatted = formattedInt + decimalPart
+    
+    if (formatted != originalText) {
+        etInput.setText(formatted)
+        etInput.setSelection(etInput.text.length)
+    }
 }
 
 private fun playAnim(activity: AppCompatActivity, view: View) {

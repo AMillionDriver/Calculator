@@ -53,7 +53,7 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
     var toUnit = unitsData["Berat"]!![1]
 
     fun calculateConversion() {
-        val inputStr = etValueFrom.text.toString().replace(",", ".")
+        val inputStr = etValueFrom.text.toString().replace(".", "").replace(",", ".")
         if (inputStr.isEmpty()) {
             tvValueTo.text = "0"
             return
@@ -77,6 +77,7 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
         val start = etValueFrom.selectionStart
         val end = etValueFrom.selectionEnd
         etValueFrom.text.replace(start, end, text)
+        formatInputThousand(etValueFrom)
         calculateConversion()
     }
 
@@ -89,6 +90,7 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
             } else {
                 etValueFrom.text.delete(start, end)
             }
+            formatInputThousand(etValueFrom)
         }
         calculateConversion()
     }
@@ -139,9 +141,17 @@ fun setupWeightLogic(activity: AppCompatActivity, view: View) {
         if (!etValueFrom.text.contains(",")) insertText(",")
     }
 
-    view.findViewById<Button>(R.id.btnDel).setOnClickListener {
-        playAnim(activity, it)
-        deleteText()
+    view.findViewById<Button>(R.id.btnDel).apply {
+        setOnClickListener {
+            playAnim(activity, it)
+            deleteText()
+        }
+        setOnLongClickListener {
+            playAnim(activity, it)
+            etValueFrom.setText("")
+            calculateConversion()
+            true
+        }
     }
 
     // --- Category Switch ---
@@ -198,10 +208,28 @@ private fun convertTemperature(value: Double, from: String, to: String): Double 
 }
 
 private fun formatResult(value: Double): String {
-    return if (value == value.toLong().toDouble()) {
-        value.toLong().toString()
-    } else {
-        String.format(Locale.US, "%.4f", value).trimEnd('0').trimEnd('.')
+    val df = java.text.DecimalFormat("#,###.####", java.text.DecimalFormatSymbols(Locale("id", "ID")))
+    return df.format(value)
+}
+
+private fun formatInputThousand(etInput: EditText) {
+    val originalText = etInput.text.toString()
+    if (originalText.isEmpty()) return
+    
+    val cleanText = originalText.replace(".", "")
+    val numParts = cleanText.split(",")
+    val integerPart = numParts[0]
+    val decimalPart = if (numParts.size > 1) "," + numParts[1] else ""
+    
+    val formattedInt = if (integerPart.isNotEmpty()) {
+        integerPart.reversed().chunked(3).joinToString(".").reversed()
+    } else ""
+    
+    val formatted = formattedInt + decimalPart
+    
+    if (formatted != originalText) {
+        etInput.setText(formatted)
+        etInput.setSelection(etInput.text.length)
     }
 }
 

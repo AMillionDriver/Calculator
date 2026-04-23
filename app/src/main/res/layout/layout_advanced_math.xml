@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1A1D2D"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Advanced Math Functions"
+        android:textColor="#00E5FF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gunakan koma (,) untuk memisahkan angka. Contoh: gcd(12,18)"
+        android:textColor="#80FFFFFF"
+        android:textSize="12sp"
+        android:layout_marginBottom="16dp"/>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:columnCount="2"
+        app:alignmentMode="alignMargins"
+        app:columnOrderPreserved="false">
+
+        <Button
+            android:id="@+id/btn_gcd"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="GCD (FPB)"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_lcm"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="LCM (KPK)"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_max"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="MAX"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_min"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="MIN"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_logb"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="Log Base N"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_mod"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            android:text="Modulo"
+            android:textColor="#FFFFFF"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"/>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+</LinearLayout>

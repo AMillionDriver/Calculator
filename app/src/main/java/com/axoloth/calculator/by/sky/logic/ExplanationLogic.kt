@@ -176,29 +176,35 @@ private fun showAiTutorDialog(context: Context, expression: String) {
         android.widget.Toast.makeText(context, "Copied to clipboard!", android.widget.Toast.LENGTH_SHORT).show()
     }
 
-    // Panggil API Gemini Streaming
+    // Panggil API Switcher Otomatis
     fun startAiStreaming(isResume: Boolean = false) {
         GlobalScope.launch(Dispatchers.Main) {
+            val tvModel = view.findViewById<TextView>(R.id.tv_model_indicator)
             if (!isResume) {
                 tvContent.text = "🤖 AI sedang memikirkan logika..."
-            } else {
-                // Sembunyikan alert error jika sedang resume
-                view.findViewById<View>(R.id.error_layout)?.visibility = View.GONE
+                tvModel.visibility = View.GONE
             }
+            view.findViewById<View>(R.id.error_layout)?.visibility = View.GONE
+            view.findViewById<View>(R.id.resume_layout)?.visibility = View.GONE
 
-            com.axoloth.calculator.by.sky.ai.logic.GeminiLogic.getAiExplanationStream(
+            com.axoloth.calculator.by.sky.ai.logic.AiSwitcher.getAiExplanationStream(
                 context, 
                 expression,
                 isResume = isResume,
                 partialText = tvContent.text.toString(),
-                onChunk = { chunk ->
-                    if (tvContent.text.startsWith("🤖")) tvContent.text = ""
+                onChunk = { chunk, modelName ->
+                    if (tvContent.text.startsWith("🤖")) {
+                        tvContent.text = ""
+                        tvModel.text = "Dijelaskan oleh $modelName"
+                        tvModel.visibility = View.VISIBLE
+                        android.util.Log.d("ExplanationLogic", "Using Model: $modelName")
+                    }
                     tvContent.append(chunk)
                 },
-                onError = { msg, code ->
+                onError = { msg ->
                     view.findViewById<View>(R.id.error_layout)?.visibility = View.VISIBLE
                     val tvError = view.findViewById<TextView>(R.id.tv_error_msg)
-                    tvError?.text = "Koneksi internet tidak stabil ($msg)"
+                    tvError?.text = msg
                 },
                 onComplete = { isTruncated ->
                     if (isTruncated) {
