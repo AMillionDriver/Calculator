@@ -35,7 +35,7 @@ object GeminiLogic {
             val apiKey = SimpleEncryption.decrypt(encryptedKey).trim()
 
             // Kembali ke 2.5-flash karena terbukti lebih lancar di sisi user
-            val url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=$apiKey"
+            val url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:streamGenerateContent?key=$apiKey"
             
             val systemRules = com.axoloth.calculator.by.sky.ai.system.rules.ResponseRules.getSystemRules(java.util.Locale.getDefault().language)
             val promptText = if (isResume) {
