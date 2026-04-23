@@ -404,8 +404,17 @@ private fun calculate(expression: String): String {
         // Konstan Pi dengan 40 digit presisi
         val PI_VAL = "3.1415926535897932384626433832795028841971"
         
+        // 0. Normalisasi Angka Arab/Lokal ke Latin
+        val arabicDigits = charArrayOf('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩')
+        val latinDigits = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+        var normalizedInput = expression
+        for (i in 0..9) {
+            normalizedInput = normalizedInput.replace(arabicDigits[i], latinDigits[i])
+        }
+        normalizedInput = normalizedInput.replace('،', ',')
+
         // 1. Normalisasi: Hapus titik ribuan dan ubah koma desimal ke titik standar
-        var input = expression.replace(".", "").replace(",", ".")
+        var input = normalizedInput.replace(".", "").replace(",", ".")
 
         // 2. High Precision Pi Handler
         if (input == "π") return PI_VAL

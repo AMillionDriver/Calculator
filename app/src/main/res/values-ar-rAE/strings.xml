@@ -6,7 +6,7 @@
     <string name="c">C</string>
     <string name="Percent">%</string>
     <string name="Backspace">⌫</string>
-    <string name="Plus">÷</string>
+    <string name="Plus">+</string>
     <string name="Number7">٧</string>
     <string name="Number8">٨</string>
     <string name="Number9">٩</string>
@@ -18,7 +18,7 @@
     <string name="Number1">١</string>
     <string name="Number2">٢</string>
     <string name="Number3">٣</string>
-    <string name="Divided">+</string>
+    <string name="Divided">÷</string>
     <string name="DoubleZero">٠٠</string>
     <string name="Zero">٠</string>
     <string name="Coma">،</string> <string name="Equal">=</string>
