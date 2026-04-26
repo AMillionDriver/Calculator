@@ -90,6 +90,12 @@ fun setupKalkulatorLogic(activity: AppCompatActivity, view: View, tvInput: EditT
         navigateToFragment(activity, com.axoloth.calculator.by.sky.ui.fragments.WeightFragment())
     }
 
+    // Tombol Programmer
+    view.findViewById<Button>(R.id.btn_programmer).setOnClickListener {
+        playAnim(activity, it)
+        navigateToFragment(activity, com.axoloth.calculator.by.sky.ui.fragments.ProgrammerFragment())
+    }
+
     // Tombol Clear (AC/C)
     view.findViewById<Button>(R.id.btn_c).setOnClickListener {
         playAnim(activity, it)

@@ -47,6 +47,18 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btn_programmer"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Programmer"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/btn_settings"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
