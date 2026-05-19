@@ -39,72 +39,167 @@
         android:layout_marginBottom="16dp"
         android:inputType="textNoSuggestions" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="A,B \ C,D"
-        android:textColor="#00E5FF"
-        android:textSize="12sp"
-        android:layout_marginBottom="4dp"/>
-
-    <!-- K-Map Grid 4x4 -->
-    <GridLayout
-        android:id="@+id/kmapGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:columnCount="4"
-        android:rowCount="4"
-        android:background="#333333"
-        android:padding="2dp">
-        <!-- 16 Cells will be added programmatically -->
-    </GridLayout>
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Hasil Penyederhanaan (SOP):"
-            android:textColor="#B3FFFFFF"
-            android:textSize="14sp"/>
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnKMapStep"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="STEP"
-            android:textColor="#FFD600"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <!-- Dynamic Label for Variables (e.g., A,B \ C,D) -->
+            <TextView
+                android:id="@+id/tvKMapVars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A,B \\ C,D"
+                android:textColor="#00E5FF"
+                android:textSize="12sp"
+                android:layout_marginBottom="4dp"/>
 
-    <TextView
-        android:id="@+id/tvKMapResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1A00E5FF"
-        android:padding="16dp"
-        android:text="F = 0"
-        android:textColor="#00E5FF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+            <!-- K-Map Grid with Gray Code Labels -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:background="#1AFFFFFF"
+                android:padding="8dp">
 
-    <Button
-        android:id="@+id/btnResetKMap"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RESET TABLE"
-        android:textColor="#FF5252"
-        android:layout_gravity="end"
-        android:layout_marginTop="16dp"/>
+                <!-- Column Labels (e.g., CD conditions) -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="30dp">
+                    <TextView android:text="00" android:textColor="#B3FFFFFF" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center" android:textSize="10sp"/>
+                    <TextView android:text="01" android:textColor="#B3FFFFFF" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center" android:textSize="10sp"/>
+                    <TextView android:text="11" android:textColor="#B3FFFFFF" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center" android:textSize="10sp"/>
+                    <TextView android:text="10" android:textColor="#B3FFFFFF" android:layout_width="40dp" android:layout_height="wrap_content" android:gravity="center" android:textSize="10sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Row Labels (e.g., AB conditions) -->
+                    <LinearLayout
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView android:text="00" android:textColor="#B3FFFFFF" android:layout_width="match_parent" android:layout_height="40dp" android:gravity="center" android:textSize="10sp"/>
+                        <TextView android:text="01" android:textColor="#B3FFFFFF" android:layout_width="match_parent" android:layout_height="40dp" android:gravity="center" android:textSize="10sp"/>
+                        <TextView android:text="11" android:textColor="#B3FFFFFF" android:layout_width="match_parent" android:layout_height="40dp" android:gravity="center" android:textSize="10sp"/>
+                        <TextView android:text="10" android:textColor="#B3FFFFFF" android:layout_width="match_parent" android:layout_height="40dp" android:gravity="center" android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <!-- K-Map Grid 4x4 -->
+                    <GridLayout
+                        android:id="@+id/kmapGrid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:columnCount="4"
+                        android:rowCount="4"
+                        android:background="#333333"
+                        android:padding="2dp">
+                        <!-- 16 Cells will be added programmatically -->
+                    </GridLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hasil Penyederhanaan (SOP):"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="14sp"/>
+
+                <Button
+                    android:id="@+id/btnKMapStep"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STEP"
+                    android:textColor="#FFD600"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvKMapResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1A00E5FF"
+                android:padding="16dp"
+                android:text="F = 0"
+                android:textColor="#00E5FF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visualisasi Gerbang Logika:"
+                android:textColor="#B3FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"/>
+
+            <com.axoloth.calculator.by.sky.ui.views.LogicGateView
+                android:id="@+id/logicGateView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#1AFFFFFF"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Truth Table:"
+                android:textColor="#B3FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableLayout
+                    android:id="@+id/tlTruthTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#333333"
+                    android:padding="1dp">
+                    <!-- Headers -->
+                    <TableRow android:background="#444444">
+                        <TextView android:text=" A " android:textColor="#FFFFFF" android:padding="8dp" android:gravity="center"/>
+                        <TextView android:text=" B " android:textColor="#FFFFFF" android:padding="8dp" android:gravity="center"/>
+                        <TextView android:text=" C " android:textColor="#FFFFFF" android:padding="8dp" android:gravity="center"/>
+                        <TextView android:text=" D " android:textColor="#FFFFFF" android:padding="8dp" android:gravity="center"/>
+                        <TextView android:text=" F " android:textColor="#00E5FF" android:padding="8dp" android:gravity="center" android:textStyle="bold"/>
+                    </TableRow>
+                </TableLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/btnResetKMap"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RESET TABLE"
+                android:textColor="#FF5252"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

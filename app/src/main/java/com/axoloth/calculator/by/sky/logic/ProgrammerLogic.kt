@@ -156,11 +156,24 @@ private fun showKMapSolver(activity: AppCompatActivity) {
     val view = activity.layoutInflater.inflate(R.layout.layout_kmap_solver, null)
     dialog.setContentView(view)
 
+    // Fix for scroll stuck in BottomSheetDialog
+    dialog.setOnShowListener {
+        val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            val behavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(it)
+            behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+            behavior.skipCollapsed = true
+        }
+    }
+
     val grid = view.findViewById<android.widget.GridLayout>(R.id.kmapGrid)
     val tvResult = view.findViewById<TextView>(R.id.tvKMapResult)
     val btnReset = view.findViewById<Button>(R.id.btnResetKMap)
     val btnStep = view.findViewById<Button>(R.id.btnKMapStep)
     val etManual = view.findViewById<android.widget.EditText>(R.id.etManualInput)
+    val tvKMapVars = view.findViewById<TextView>(R.id.tvKMapVars)
+    val logicGateView = view.findViewById<com.axoloth.calculator.by.sky.ui.views.LogicGateView>(R.id.logicGateView)
+    val tlTruthTable = view.findViewById<android.widget.TableLayout>(R.id.tlTruthTable)
 
     val cellValues = IntArray(16) { 0 } // 0: False, 1: True, 2: Don't Care (X)
     var currentSteps = "Belum ada kalkulasi."
@@ -187,6 +200,56 @@ private fun showKMapSolver(activity: AppCompatActivity) {
         }
     }
 
+    fun updateTruthTable(table: List<Pair<Int, Boolean>>, vars: List<Char>) {
+        tlTruthTable.removeAllViews()
+
+        // Headers
+        val headerRow = android.widget.TableRow(activity)
+        headerRow.setBackgroundColor(0xFF444444.toInt())
+        
+        vars.forEach { char ->
+            val tv = TextView(activity)
+            tv.text = " $char "
+            tv.setTextColor(android.graphics.Color.WHITE)
+            tv.setPadding(24, 16, 24, 16)
+            tv.gravity = android.view.Gravity.CENTER
+            headerRow.addView(tv)
+        }
+        
+        val tvF = TextView(activity)
+        tvF.text = " F "
+        tvF.setTextColor(0xFF00E5FF.toInt())
+        tvF.setPadding(24, 16, 24, 16)
+        tvF.gravity = android.view.Gravity.CENTER
+        tvF.setTypeface(null, android.graphics.Typeface.BOLD)
+        headerRow.addView(tvF)
+        
+        tlTruthTable.addView(headerRow)
+
+        // Rows
+        for ((idx, value) in table) {
+            val row = android.widget.TableRow(activity)
+            for (i in vars.size - 1 downTo 0) {
+                val bit = (idx shr i) and 1
+                val tv = TextView(activity)
+                tv.text = bit.toString()
+                tv.setTextColor(android.graphics.Color.WHITE)
+                tv.setPadding(24, 8, 24, 8)
+                tv.gravity = android.view.Gravity.CENTER
+                row.addView(tv)
+            }
+            
+            val tvResult = TextView(activity)
+            tvResult.text = if (value) "1" else "0"
+            tvResult.setTextColor(0xFF00E5FF.toInt())
+            tvResult.setPadding(24, 8, 24, 8)
+            tvResult.gravity = android.view.Gravity.CENTER
+            row.addView(tvResult)
+            
+            tlTruthTable.addView(row)
+        }
+    }
+
     fun calculateKMap(updateManualField: Boolean = false) {
         val minterms = mutableListOf<Int>()
         val dontCares = mutableListOf<Int>()
@@ -204,6 +267,22 @@ private fun showKMapSolver(activity: AppCompatActivity) {
         currentSteps = resultObj.steps
         
         tvResult.text = "F = $result"
+        logicGateView.setLogicExpression(result)
+        
+        val (displayVars, displayTable) = if (etManual.text.isNotEmpty()) {
+            KMapLogic.generateTruthTableForExpression(etManual.text.toString())
+        } else {
+            resultObj.variableNames to resultObj.truthTable
+        }
+        
+        // Update Grid Labels (only if using standard 4 vars or less)
+        if (displayVars.size >= 4) {
+            tvKMapVars.text = "${displayVars[0]},${displayVars[1]} \\ ${displayVars[2]},${displayVars[3]}"
+        } else {
+            tvKMapVars.text = displayVars.joinToString(",")
+        }
+        
+        updateTruthTable(displayTable, displayVars)
         
         if (updateManualField) {
             isUpdatingFromGrid = true
