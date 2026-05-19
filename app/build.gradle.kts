@@ -14,8 +14,8 @@ android {
         applicationId = "com.axoloth.calculator.by.sky"
         minSdk = 24
         targetSdk = 36
-        versionCode = 29
-        versionName = "4.18.29"
+        versionCode = 30
+        versionName = "4.19.30"
 
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
