@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Kalkulator</string>
-    <string name="settings">Settings</string>
-    <string name="privacy">Privacy and Policy</string>
+    <string name="settings">Pengaturan</string>
+    <string name="privacy">Kebijakan Privasi</string>
     <string name="c">C</string>
     <string name="Percent">%</string>
     <string name="Backspace">⌫</string>
@@ -24,12 +24,12 @@
     <string name="Coma">,</string>
     <string name="Equal">=</string>
     <string name="Kurs">KURS</string>
-    <string name="Weight">WEIGHT</string>
+    <string name="Weight">BERAT</string>
     <string name="BackButton"><![CDATA[<]]></string>
     <string name="apkpure">APKPure</string>
     <string name="github">Github</string>
     <string name="panjang">Panjang</string>
-    <string name="area">Area</string>
+    <string name="area">Luas</string>
     <string name="volume">Volume</string>
     <string name="kecepatan">Kecepatan</string>
     <string name="berat">Berat</string>
@@ -41,23 +41,33 @@
     <string name="perkurangan">-</string>
     <string name="pertambahan">+</string>
     <string name="menu_switcher">∴</string>
-    <string name="langguage">Language</string>
-    <string name="eula">User Terms (EULA)</string>
-    <string name="expl_title">Calculation Analysis</string>
-    <string name="expl_desc">Learn how the system breaks down your number logic</string>
-    <string name="btn_done">Finish Learning</string>
+    <string name="langguage">Bahasa</string>
+    <string name="eula">Ketentuan Pengguna (EULA)</string>
+    <string name="expl_title">Analisis Perhitungan</string>
+    <string name="expl_desc">Pelajari bagaimana sistem memecah logika angka Anda</string>
+    <string name="btn_done">Selesai Belajar</string>
 
-    <!-- Explanation Logic Strings -->
-    <string name="expl_original_problem">Original Problem</string>
-    <string name="expl_quick_trick">Quick Trick</string>
-    <string name="expl_trick_1">• Solve large multiplications first.</string>
-    <string name="expl_trick_2">• Combine remaining units at the end.</string>
-    <string name="expl_final_result_label">Final Result</string>
-    <string name="expl_step_1">Step 1) Substitute π value (40 digits):</string>
-    <string name="expl_step_2">Step 2) Calculate inside parentheses:</string>
-    <string name="expl_become">becomes</string>
-    <string name="expl_step_3">Step 3) Calculate Multiplication and Division:</string>
-    <string name="expl_step_4">Step 4) Solve Addition and Subtraction:</string>
-    <string name="expl_simple_solution">Simple Solution</string>
-    <string name="jelaskan_dengan_ai">Jelaskan dengan AI?</string>
+    <string name="expl_original_problem">Soal Asli</string>
+    <string name="expl_quick_trick">Trik Cepat</string>
+    <string name="expl_trick_1">• Selesaikan perkalian besar terlebih dahulu.</string>
+    <string name="expl_trick_2">• Gabungkan sisa satuan di akhir.</string>
+    <string name="expl_final_result_label">Hasil Akhir</string>
+    <string name="expl_step_1">Langkah 1) Substitusikan nilai π (40 digit):</string>
+    <string name="expl_step_2">Langkah 2) Hitung di dalam tanda kurung:</string>
+    <string name="expl_become">menjadi</string>
+    <string name="expl_step_3">Langkah 3) Hitung Perkalian dan Pembagian:</string>
+    <string name="expl_step_4">Langkah 4) Selesaikan Pertambahan dan Pengurangan:</string>
+    <string name="expl_simple_solution">Solusi Sederhana</string>
+    <string name="jelaskan_dengan_ai">Jelaskan dengan AI\?</string>
+    <string name="aa" translatable="false">←</string>
+
+    <string name="kmap_solver_title">K-Map Solver (4 Variabel)</string>
+    <string name="kmap_manual_input_hint">Input Manual (Contoh: ABC + A\'B\'):</string>
+    <string name="kmap_edit_text_hint">Ketik ekspresi di sini...</string>
+    <string name="kmap_result_label">Hasil Penyederhanaan (SOP):</string>
+    <string name="kmap_step_btn">LANGKAH</string>
+    <string name="kmap_visual_label">Visualisasi Gerbang Logika:</string>
+    <string name="kmap_truth_table_label">Tabel Kebenaran (Truth Table):</string>
+    <string name="kmap_reset_btn">RESET TABEL</string>
+
 </resources>

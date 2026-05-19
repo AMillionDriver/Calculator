@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Calculator</string>
     <string name="settings">Settings</string>
     <string name="privacy">Privacy Policy</string>
@@ -21,10 +21,10 @@
     <string name="Divided">+</string>
     <string name="DoubleZero">00</string>
     <string name="Zero">0</string>
-    <string name="Coma">,</string>
+    <string name="Coma">.</string>
     <string name="Equal">=</string>
-    <string name="Kurs">Currency</string>
-    <string name="Weight">Weight</string>
+    <string name="Kurs">EXCHANGE RATE</string>
+    <string name="Weight">WEIGHT</string>
     <string name="BackButton"><![CDATA[<]]></string>
     <string name="apkpure">APKPure</string>
     <string name="github">GitHub</string>
@@ -32,7 +32,7 @@
     <string name="area">Area</string>
     <string name="volume">Volume</string>
     <string name="kecepatan">Speed</string>
-    <string name="berat">Mass</string>
+    <string name="berat">Weight</string>
     <string name="suhu">Temperature</string>
     <string name="daya">Power</string>
     <string name="tekanan">Pressure</string>
@@ -42,10 +42,11 @@
     <string name="pertambahan">+</string>
     <string name="menu_switcher">∴</string>
     <string name="langguage">Language</string>
-    <string name="eula">User Agreement (EULA)</string>
+    <string name="eula">End User Licence Agreement (EULA)</string>
     <string name="expl_title">Calculation Analysis</string>
-    <string name="expl_desc">Discover how the system breaks down your numerical logic</string>
+    <string name="expl_desc">Learn how the system breaks down your number logic</string>
     <string name="btn_done">Finish Learning</string>
+
     <string name="expl_original_problem">Original Problem</string>
     <string name="expl_quick_trick">Quick Trick</string>
     <string name="expl_trick_1">• Solve large multiplications first.</string>
@@ -57,4 +58,16 @@
     <string name="expl_step_3">Step 3) Calculate Multiplication and Division:</string>
     <string name="expl_step_4">Step 4) Solve Addition and Subtraction:</string>
     <string name="expl_simple_solution">Simple Solution</string>
+    <string name="jelaskan_with_ai">Explain with AI\?</string>
+    <string name="aa" translatable="false">←</string>
+
+    <string name="kmap_solver_title">K-Map Solver (4 Variables)</string>
+    <string name="kmap_manual_input_hint">Manual Input (e.g. ABC + A\'B\'):</string>
+    <string name="kmap_edit_text_hint">Type expression here...</string>
+    <string name="kmap_result_label">Simplified Result (SOP):</string>
+    <string name="kmap_step_btn">STEP</string>
+    <string name="kmap_visual_label">Logic Gate Visualisation:</string>
+    <string name="kmap_truth_table_label">Truth Table:</string>
+    <string name="kmap_reset_btn">RESET TABLE</string>
+
 </resources>

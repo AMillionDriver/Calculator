@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="K-Map Solver (4 Variables)"
+        android:text="@string/kmap_solver_title"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Input Manual (Contoh: ABC + A'B'):"
+        android:text="@string/kmap_manual_input_hint"
         android:textColor="#B3FFFFFF"
         android:textSize="12sp"
         android:layout_marginBottom="4dp"/>
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1AFFFFFF"
-        android:hint="Ketik ekspresi di sini..."
+        android:hint="@string/kmap_edit_text_hint"
         android:padding="12dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#4DFFFFFF"
@@ -120,7 +120,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hasil Penyederhanaan (SOP):"
+                    android:text="@string/kmap_result_label"
                     android:textColor="#B3FFFFFF"
                     android:textSize="14sp"/>
 
@@ -129,7 +129,7 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="STEP"
+                    android:text="@string/kmap_step_btn"
                     android:textColor="#FFD600"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -149,7 +149,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Visualisasi Gerbang Logika:"
+                android:text="@string/kmap_visual_label"
                 android:textColor="#B3FFFFFF"
                 android:textSize="14sp"
                 android:layout_marginTop="24dp"
@@ -164,7 +164,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Truth Table:"
+                android:text="@string/kmap_truth_table_label"
                 android:textColor="#B3FFFFFF"
                 android:textSize="14sp"
                 android:layout_marginTop="24dp"
@@ -195,7 +195,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RESET TABLE"
+                android:text="@string/kmap_reset_btn"
                 android:textColor="#FF5252"
                 android:layout_gravity="end"
                 android:layout_marginTop="16dp"/>
